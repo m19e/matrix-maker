@@ -1,11 +1,4 @@
-import { useTheme } from "next-themes"
-import {
-  VFC,
-  useState,
-  useEffect,
-  useLayoutEffect,
-  ChangeEventHandler,
-} from "react"
+import { VFC, useState, useEffect, ChangeEventHandler } from "react"
 
 import { Hamugo } from "@/types/Hamugo"
 
@@ -38,13 +31,8 @@ const NavBar: VFC<{ onChange: ChangeEventHandler<HTMLInputElement> }> = ({
 }
 
 export const HamugoPageView: VFC = () => {
-  const { setTheme } = useTheme()
   const [query, setQuery] = useState("")
   const [filteredHamugos, setFilteredHamugos] = useState<Hamugo[]>([])
-
-  useLayoutEffect(() => {
-    setTheme("bumblebee")
-  })
 
   useEffect(() => {
     const f = HAMUGO_LIST.filter(
