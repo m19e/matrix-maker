@@ -19,8 +19,9 @@ const HamugoListItem: VFC<HamugoProps> = ({ hamugo }) => {
               <h2>{hamugo.word}</h2>
             </div>
           </a>
-          <p className="hidden justify-end text-right sm:inline-flex text-responsive-sm text-accent">
-            ヒント：{hamugo.hint}
+          <p className="text-right text-responsive-sm text-accent">
+            <span className="hidden sm:inline-flex">ヒント：</span>
+            {hamugo.hint}
           </p>
         </div>
         <a href={hamugo.url} target="_blank" rel="noreferrer">
