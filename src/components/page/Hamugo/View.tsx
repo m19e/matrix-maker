@@ -21,7 +21,7 @@ const NavBar: VFC<{ onChange: ChangeEventHandler<HTMLInputElement> }> = ({
           <input
             type="text"
             placeholder="検索"
-            className="input input-bordered"
+            className="w-32 sm:w-full input input-bordered"
             onChange={onChange}
           />
         </div>
