@@ -1,2 +1,2 @@
-import TopPage from "@/components/page/Top/"
+import TopPage from "@/components/page/Hamugo/"
 export default TopPage
