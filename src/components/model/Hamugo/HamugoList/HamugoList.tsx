@@ -15,25 +15,25 @@ const HamugoListItem: VFC<HamugoProps> = ({ hamugo }) => {
             height={36}
           />
           <a href={hamugo.url} target="_blank" rel="noreferrer">
-            <div className="text-xl btn btn-primary btn-sm text-primary-content">
+            <div className="text-responsive-md btn btn-primary btn-sm text-primary-content">
               <h2>{hamugo.word}</h2>
             </div>
           </a>
-          <p className="text-sm text-right text-accent">
+          <p className="text-right text-responsive-sm text-accent">
             ヒント：{hamugo.hint}
           </p>
         </div>
         <a href={hamugo.url} target="_blank" rel="noreferrer">
           <div className="card-actions">
             <div className="w-full btn btn-secondary btn-sm">
-              <p className="text-base text-right text-secondary-content">
+              <p className="text-right text-responsive-base text-secondary-content">
                 {hamugo.meaning}
               </p>
             </div>
           </div>
         </a>
         <div className="mt-4">
-          <p>{hamugo.example}</p>
+          <p className="text-responsive-base">{hamugo.example}</p>
         </div>
       </div>
     </div>
