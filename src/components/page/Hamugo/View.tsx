@@ -1,74 +1,70 @@
 import { useTheme } from "next-themes"
-import { VFC } from "react"
+import {
+  VFC,
+  useState,
+  useEffect,
+  useLayoutEffect,
+  ChangeEventHandler,
+} from "react"
 
-import { UserTable } from "@/components/model/User/UserTable"
+import { Hamugo } from "@/types/Hamugo"
+
+import { HamugoList } from "@/components/model/Hamugo/HamugoList"
 
 import { Spacer } from "@/components/ui/Spacer"
 
-import { mockUserList } from "@/mocks/User"
+import { HAMUGO_LIST } from "@/consts"
 
-const THEMES = [
-  "light",
-  "dark",
-  "cupcake",
-  "bumblebee",
-  "emerald",
-  "corporate",
-  "synthwave",
-  "retro",
-  "cyberpunk",
-  "valentine",
-  "halloween",
-  "garden",
-  "forest",
-  "aqua",
-  "lofi",
-  "pastel",
-  "fantasy",
-  "wireframe",
-  "black",
-  "luxury",
-  "dracula",
-  "cmyk",
-  "autumn",
-  "business",
-  "acid",
-  "lemonade",
-  "night",
-  "coffee",
-  "winter",
-]
+const NavBar: VFC<{ onChange: ChangeEventHandler<HTMLInputElement> }> = ({
+  onChange,
+}) => {
+  return (
+    <div className="rounded-md shadow-xl navbar bg-base-200">
+      <div className="flex-1">
+        <a className="text-xl normal-case btn btn-ghost">ハムごまとめ</a>
+      </div>
+      <div className="flex-none gap-2">
+        <div className="form-control">
+          <input
+            type="text"
+            placeholder="検索"
+            className="input input-bordered"
+            onChange={onChange}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export const HamugoPageView: VFC = () => {
-  const { theme, setTheme } = useTheme()
+  const { setTheme } = useTheme()
+  const [query, setQuery] = useState("")
+  const [filteredHamugos, setFilteredHamugos] = useState<Hamugo[]>([])
 
-  const handleChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
-    setTheme(event.target.value)
+  useLayoutEffect(() => {
+    setTheme("bumblebee")
+  })
+
+  useEffect(() => {
+    const f = HAMUGO_LIST.filter(
+      (h) => h.word.includes(query) || h.meaning.includes(query)
+    )
+    setFilteredHamugos(f)
+  }, [query])
+
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setQuery(e.target.value)
   }
 
+  const hamugos = filteredHamugos.length ? filteredHamugos : HAMUGO_LIST
+
   return (
-    <main
-      className="flex flex-col justify-center items-center p-4 h-screen"
-      onChange={handleChange}
-    >
-      <select className="w-full max-w-xs select select-bordered">
-        <option disabled selected>
-          Pick your favorite theme
-        </option>
-        {THEMES.map((themeName) => (
-          <option key={themeName}>{themeName}</option>
-        ))}
-      </select>
+    <main className="flex flex-col items-center p-4 min-h-screen bg-hamugo">
+      <NavBar onChange={handleChange} />
       <Spacer size={8} />
-      <div className="text-center prose">
-        <h1>Play with daisyUI on Next.js!</h1>
-        <h2>
-          current theme is
-          <span className="pl-2 text-primary">{theme}</span>
-        </h2>
-      </div>
+      <HamugoList hamugos={hamugos} />
       <Spacer size={8} />
-      <UserTable users={mockUserList} />
     </main>
   )
 }
