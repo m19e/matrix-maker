@@ -28,7 +28,7 @@ const HamugoListItem: VFC<HamugoProps> = ({ hamugo }) => {
           <div className="card-actions">
             <div className="w-full btn btn-secondary btn-sm">
               <p className="font-black text-right text-responsive-base text-secondary-content">
-                {hamugo.meaning}
+                いみ：「{hamugo.meaning}」
               </p>
             </div>
           </div>
