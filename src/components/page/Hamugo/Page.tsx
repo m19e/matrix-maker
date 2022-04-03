@@ -8,10 +8,10 @@ export const HamugoPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Next & daisyUI</title>
+        <title>ハムごまとめ</title>
         <meta
           name="description"
-          content="A template for prototyping with Next.js and daisy UI"
+          content="ハムごを見やすくまとめて検索できるようにしたものです"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
