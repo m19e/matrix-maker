@@ -10,6 +10,12 @@
   font-family: "Zen Maru Gothic";
 }
 
+.text-shadow {
+  text-shadow: black 1px 1px 0, black -1px -1px 0, black -1px 1px 0,
+    black 1px -1px 0, black 0px 1px 0, black 0-1px 0, black -1px 0 0,
+    black 1px 0 0;
+}
+
 .text-responsive-sm {
   @apply text-xs sm:text-sm md:text-base;
 }
