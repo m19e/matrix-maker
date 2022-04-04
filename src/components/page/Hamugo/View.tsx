@@ -14,7 +14,7 @@ const NavBar: VFC<{ onChange: ChangeEventHandler<HTMLInputElement> }> = ({
   return (
     <div className="max-w-md rounded-md shadow-xl lg:max-w-4xl 2xl:max-w-7xl navbar bg-base-200">
       <div className="flex-1">
-        <a className="text-xl font-black normal-case btn btn-ghost">
+        <a className="text-2xl font-black normal-case text-primary zen-maru-gothic text-shadow btn btn-ghost">
           ハムごまとめ
         </a>
       </div>
