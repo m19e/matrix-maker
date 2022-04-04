@@ -15,7 +15,7 @@ const HamugoListItem: VFC<HamugoProps> = ({ hamugo }) => {
             height={36}
           />
           <a href={hamugo.url} target="_blank" rel="noreferrer">
-            <div className="font-black text-responsive-md btn btn-primary btn-sm text-primary-content">
+            <div className="font-black text-responsive-md zen-maru-gothic btn btn-primary btn-sm text-primary-content">
               <h2>{hamugo.word}</h2>
             </div>
           </a>
@@ -27,7 +27,7 @@ const HamugoListItem: VFC<HamugoProps> = ({ hamugo }) => {
         <a href={hamugo.url} target="_blank" rel="noreferrer">
           <div className="card-actions">
             <div className="w-full btn btn-secondary btn-sm">
-              <p className="font-black text-right text-responsive-base text-secondary-content">
+              <p className="font-black text-right zen-maru-gothic text-responsive-base text-secondary-content">
                 いみ：「{hamugo.meaning}」
               </p>
             </div>
