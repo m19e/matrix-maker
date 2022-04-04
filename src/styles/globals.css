@@ -16,6 +16,13 @@
     black 1px 0 0;
 }
 
+.text-shadow-2 {
+  text-shadow: black 2px 0px, black -2px 0px, black 0px -2px, black 0px 2px,
+    black 2px 2px, black -2px 2px, black 2px -2px, black -2px -2px,
+    black 1px 2px, black -1px 2px, black 1px -2px, black -1px -2px,
+    black 2px 1px, black -2px 1px, black 2px -1px, black -2px -1px;
+}
+
 .text-responsive-sm {
   @apply text-xs sm:text-sm md:text-base;
 }
