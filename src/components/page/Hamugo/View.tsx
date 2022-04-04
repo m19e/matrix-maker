@@ -12,7 +12,7 @@ const NavBar: VFC<{ onChange: ChangeEventHandler<HTMLInputElement> }> = ({
   onChange,
 }) => {
   return (
-    <div className="rounded-md shadow-xl navbar bg-base-200">
+    <div className="max-w-md rounded-md shadow-xl lg:max-w-4xl 2xl:max-w-7xl navbar bg-base-200">
       <div className="flex-1">
         <a className="text-xl font-black normal-case btn btn-ghost">
           ハムごまとめ
