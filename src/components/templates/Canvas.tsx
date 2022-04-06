@@ -69,7 +69,11 @@ const Canvas: VFC = () => {
           onMouseup={handleMouseUp}
         >
           <Layer>
-            <Text text="Just start drawing" x={5} y={5} />
+            {/* Matrix Base */}
+            <Line points={[30, 250, 470, 250]} stroke={"gray"} />
+            <Line points={[250, 30, 250, 470]} stroke={"gray"} />
+
+            {/* Martix Contents */}
             {lines.map((line, i) => (
               <Line
                 key={i}
@@ -83,6 +87,42 @@ const Canvas: VFC = () => {
                 }
               />
             ))}
+
+            {/* Matrix Label */}
+            <Text
+              text="縦軸上"
+              x={0}
+              y={8}
+              width={500}
+              align={"center"}
+              fontSize={16}
+            />
+            <Text
+              text="縦軸下"
+              x={0}
+              y={476}
+              width={500}
+              align={"center"}
+              fontSize={16}
+            />
+            <Text
+              text="横軸右"
+              x={476}
+              y={0}
+              height={500}
+              width={16}
+              verticalAlign={"middle"}
+              fontSize={16}
+            />
+            <Text
+              text="横軸左"
+              x={8}
+              y={0}
+              height={500}
+              width={16}
+              verticalAlign={"middle"}
+              fontSize={16}
+            />
           </Layer>
         </Stage>
       </div>
