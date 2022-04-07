@@ -10685,6 +10685,11 @@ use-composed-ref@^1.0.0:
   resolved "https://registry.yarnpkg.com/use-composed-ref/-/use-composed-ref-1.2.1.tgz#9bdcb5ccd894289105da2325e1210079f56bf849"
   integrity sha512-6+X1FLlIcjvFMAeAD/hcxDT8tmyrWnbSPMU0EnxQuDLIxokuFzWliXBiYZuGIx+mrAMLBw0WFfCkaPw8ebzAhw==
 
+use-image@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/use-image/-/use-image-1.0.10.tgz#75c338ca228244b9ba54f9ae1a24cfffdd6b2fb8"
+  integrity sha512-Q+YvP9s5OpYNwrbLFyi9L8LX4o+c59rF12tP2ggwf8RC2Jf+xChhuDVjYO3oZfWgSfdM42ilPIOldjOl+pmb+g==
+
 use-isomorphic-layout-effect@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/use-isomorphic-layout-effect/-/use-isomorphic-layout-effect-1.1.1.tgz#7bb6589170cd2987a152042f9084f9effb75c225"
