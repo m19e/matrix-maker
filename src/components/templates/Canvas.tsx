@@ -1,6 +1,6 @@
 import { useState, useRef } from "react"
 import type { VFC, ChangeEvent } from "react"
-import { Stage, Layer, Line, Text } from "react-konva"
+import { Stage, Layer, Line, Text, Star } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import type { Stage as KonvaStage } from "konva/lib/Stage"
 import type { Vector2d } from "konva/lib/types"
@@ -125,8 +125,79 @@ const Canvas: VFC = () => {
             />
           </Layer>
         </Stage>
+        <Stars />
       </div>
     </div>
+  )
+}
+
+function generateShapes() {
+  return [...Array(10)].map((_, i) => ({
+    id: i.toString(),
+    x: Math.random() * 500,
+    y: Math.random() * 500,
+    rotation: Math.random() * 180,
+    isDragging: false,
+  }))
+}
+
+const INITIAL_STATE = generateShapes()
+
+const Stars = () => {
+  const [stars, setStars] = useState(INITIAL_STATE)
+
+  const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
+    const id = e.target.id()
+    setStars(
+      stars.map((star) => {
+        return {
+          ...star,
+          isDragging: star.id === id,
+        }
+      })
+    )
+  }
+  const handleDragEnd: KonvaNodeEvents["onDragEnd"] = () => {
+    setStars(
+      stars.map((star) => {
+        return {
+          ...star,
+          isDragging: false,
+        }
+      })
+    )
+  }
+
+  return (
+    <Stage width={500} height={500}>
+      <Layer>
+        <Text text="Try to drag a star" />
+        {stars.map((star) => (
+          <Star
+            key={star.id}
+            id={star.id}
+            x={star.x}
+            y={star.y}
+            numPoints={5}
+            innerRadius={20}
+            outerRadius={40}
+            fill="#89b717"
+            opacity={0.8}
+            draggable
+            rotation={star.rotation}
+            shadowColor="black"
+            shadowBlur={10}
+            shadowOpacity={0.6}
+            shadowOffsetX={star.isDragging ? 10 : 5}
+            shadowOffsetY={star.isDragging ? 10 : 5}
+            scaleX={star.isDragging ? 1.2 : 1}
+            scaleY={star.isDragging ? 1.2 : 1}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          />
+        ))}
+      </Layer>
+    </Stage>
   )
 }
 
