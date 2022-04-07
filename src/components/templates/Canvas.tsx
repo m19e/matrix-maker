@@ -1,10 +1,9 @@
 import { useState, useRef } from "react"
 import type { VFC, ChangeEvent } from "react"
-import { Stage, Layer, Line, Text, Star, Image } from "react-konva"
+import { Stage, Layer, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import type { Stage as KonvaStage } from "konva/lib/Stage"
 import type { Vector2d } from "konva/lib/types"
-import useImage from "use-image"
 
 interface LineProps {
   tool: "pen" | "eraser"
@@ -89,10 +88,6 @@ const Canvas: VFC = () => {
               />
             ))}
 
-            {Array.from({ length: 5 }, (_, i) => "0" + i).map((id) => (
-              <LionImage key={id} id={id} />
-            ))}
-
             {/* Matrix Label */}
             <Text
               text="縦軸上"
@@ -130,103 +125,8 @@ const Canvas: VFC = () => {
             />
           </Layer>
         </Stage>
-        <Stars />
       </div>
     </div>
-  )
-}
-
-const LionImage = ({ id }: { id: string }) => {
-  const [image] = useImage("https://konvajs.org/assets/lion.png")
-  return (
-    <Image
-      id={id}
-      image={image}
-      alt="Lion"
-      draggable
-      onClick={(e) => {
-        console.log("clicked id:", e.target.id())
-      }}
-    />
-  )
-}
-
-function generateShapes() {
-  return [...Array(10)].map((_, i) => ({
-    id: i.toString(),
-    x: Math.random() * 500,
-    y: Math.random() * 500,
-    rotation: Math.random() * 180,
-    isDragging: false,
-  }))
-}
-
-const INITIAL_STATE = generateShapes()
-
-const Stars = () => {
-  const [stars, setStars] = useState(INITIAL_STATE)
-
-  const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
-    const id = e.target.id()
-    setStars(
-      stars.map((star) => {
-        return {
-          ...star,
-          isDragging: star.id === id,
-        }
-      })
-    )
-  }
-  const handleDragEnd: KonvaNodeEvents["onDragEnd"] = (e) => {
-    const id = e.target.id()
-    setStars(
-      stars.map((star) => {
-        if (star.id === id) {
-          return {
-            ...star,
-            x: e.target.x(),
-            y: e.target.y(),
-            isDragging: false,
-          }
-        }
-        return {
-          ...star,
-          isDragging: false,
-        }
-      })
-    )
-  }
-
-  return (
-    <Stage width={500} height={500}>
-      <Layer>
-        <Text text="Try to drag a star" />
-        {stars.map((star) => (
-          <Star
-            key={star.id}
-            id={star.id}
-            x={star.x}
-            y={star.y}
-            numPoints={5}
-            innerRadius={20}
-            outerRadius={40}
-            fill="#89b717"
-            opacity={0.8}
-            draggable
-            rotation={star.rotation}
-            shadowColor="black"
-            shadowBlur={10}
-            shadowOpacity={0.6}
-            shadowOffsetX={star.isDragging ? 10 : 5}
-            shadowOffsetY={star.isDragging ? 10 : 5}
-            scaleX={star.isDragging ? 1.2 : 1}
-            scaleY={star.isDragging ? 1.2 : 1}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
-          />
-        ))}
-      </Layer>
-    </Stage>
   )
 }
 
