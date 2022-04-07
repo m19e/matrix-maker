@@ -33,7 +33,6 @@ const Canvas: VFC = () => {
 
     setLines([...lines, { tool, color: "red", points: [pos.x, pos.y] }])
   }
-
   const handleMouseMove: KonvaNodeEvents["onMouseMove"] = (e) => {
     if (!isDrawing.current) return
 
@@ -45,7 +44,6 @@ const Canvas: VFC = () => {
     const newLastLine: LineProps = { ...lastLine, points: newPoints }
     setLines((prev) => [...prev.slice(0, -1), newLastLine])
   }
-
   const handleMouseUp = () => {
     isDrawing.current = false
   }
