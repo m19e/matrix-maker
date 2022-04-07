@@ -5,6 +5,7 @@ import type { KonvaNodeEvents } from "react-konva"
 import useImage from "use-image"
 
 interface ImageProps {
+  data: HTMLImageElement | undefined
   id: string
   x: number
   y: number
@@ -33,6 +34,7 @@ const LionImage: VFC<ImagePropsWithHandler> = (props) => {
 
 const generateShapes = (size: number): ImageProps[] => {
   return [...Array(5)].map((_, i) => ({
+    data: undefined,
     id: i.toString(),
     x: Math.random() * size,
     y: Math.random() * size,
@@ -81,10 +83,7 @@ export const Images = () => {
       <Layer>
         {images.map((image) => (
           <LionImage
-            id={image.id}
-            x={image.x}
-            y={image.y}
-            isDragged={image.isDragged}
+            {...image}
             key={image.id}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
