@@ -157,9 +157,18 @@ const Stars = () => {
       })
     )
   }
-  const handleDragEnd: KonvaNodeEvents["onDragEnd"] = () => {
+  const handleDragEnd: KonvaNodeEvents["onDragEnd"] = (e) => {
+    const id = e.target.id()
     setStars(
       stars.map((star) => {
+        if (star.id === id) {
+          return {
+            ...star,
+            x: e.target.x(),
+            y: e.target.y(),
+            isDragging: false,
+          }
+        }
         return {
           ...star,
           isDragging: false,
