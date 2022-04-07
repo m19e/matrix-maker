@@ -1,9 +1,10 @@
 import { useState, useRef } from "react"
 import type { VFC, ChangeEvent } from "react"
-import { Stage, Layer, Line, Text, Star } from "react-konva"
+import { Stage, Layer, Line, Text, Star, Image } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import type { Stage as KonvaStage } from "konva/lib/Stage"
 import type { Vector2d } from "konva/lib/types"
+import useImage from "use-image"
 
 interface LineProps {
   tool: "pen" | "eraser"
@@ -88,6 +89,10 @@ const Canvas: VFC = () => {
               />
             ))}
 
+            {Array.from({ length: 5 }, (_, i) => "0" + i).map((id) => (
+              <LionImage key={id} id={id} />
+            ))}
+
             {/* Matrix Label */}
             <Text
               text="縦軸上"
@@ -128,6 +133,21 @@ const Canvas: VFC = () => {
         <Stars />
       </div>
     </div>
+  )
+}
+
+const LionImage = ({ id }: { id: string }) => {
+  const [image] = useImage("https://konvajs.org/assets/lion.png")
+  return (
+    <Image
+      id={id}
+      image={image}
+      alt="Lion"
+      draggable
+      onClick={(e) => {
+        console.log("clicked id:", e.target.id())
+      }}
+    />
   )
 }
 
