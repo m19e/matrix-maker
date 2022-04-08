@@ -69,11 +69,9 @@ const Canvas: VFC = () => {
           onMouseup={handleMouseUp}
         >
           <Layer>
-            {/* Matrix Base */}
             <Line points={[30, 250, 470, 250]} stroke={"gray"} />
             <Line points={[250, 30, 250, 470]} stroke={"gray"} />
 
-            {/* Martix Contents */}
             {lines.map((line, i) => (
               <Line
                 key={i}
@@ -88,7 +86,6 @@ const Canvas: VFC = () => {
               />
             ))}
 
-            {/* Matrix Label */}
             <Text
               text="縦軸上"
               x={0}
