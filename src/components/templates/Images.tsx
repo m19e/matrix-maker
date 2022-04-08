@@ -44,16 +44,7 @@ const URLImage: VFC<ImagePropsWithHandler> = (props) => {
   })()
 
   return (
-    <Image
-      {...props}
-      draggable
-      image={image}
-      alt={props.id}
-      {...transformed}
-      onClick={(e) => {
-        console.log("clicked id:", e.target.id())
-      }}
-    />
+    <Image {...props} draggable image={image} alt={props.id} {...transformed} />
   )
 }
 
