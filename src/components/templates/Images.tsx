@@ -49,7 +49,8 @@ const URLImage: VFC<ImagePropsWithHandler> = (props) => {
 }
 
 const AxisLayer: VFC<{ rect: number }> = ({ rect }) => {
-  const start = 30
+  const fontSize = rect * 0.03
+  const start = fontSize * 1.5
   const end = rect - start
   const middle = rect / 2
 
@@ -61,42 +62,46 @@ const AxisLayer: VFC<{ rect: number }> = ({ rect }) => {
   )
 }
 
-const LabelLayer: VFC = () => {
+const LabelLayer: VFC<{ rect: number }> = ({ rect }) => {
+  const fontSize = rect * 0.03
+  const paddingTL = fontSize / 4
+  const paddingBR = rect - fontSize - paddingTL
+
   return (
     <Layer>
       <Text
         text="年上"
         x={0}
-        y={8}
-        width={800}
+        y={paddingTL}
+        width={rect}
         align={"center"}
-        fontSize={16}
+        fontSize={fontSize}
       />
       <Text
         text="年下"
         x={0}
-        y={776}
-        width={800}
+        y={paddingBR}
+        width={rect}
         align={"center"}
-        fontSize={16}
+        fontSize={fontSize}
       />
       <Text
         text="大きい"
-        x={776}
+        x={paddingBR}
         y={0}
-        height={800}
-        width={16}
+        height={rect}
+        width={fontSize}
         verticalAlign={"middle"}
-        fontSize={16}
+        fontSize={fontSize}
       />
       <Text
         text="小さい"
-        x={8}
+        x={paddingTL}
         y={0}
-        height={800}
-        width={16}
+        height={rect}
+        width={fontSize}
         verticalAlign={"middle"}
-        fontSize={16}
+        fontSize={fontSize}
       />
     </Layer>
   )
@@ -179,30 +184,33 @@ export const Images = () => {
             />
           ))}
         </Layer>
-        <LabelLayer />
+        <LabelLayer rect={rootRect} />
       </Stage>
       <div className="flex gap-2 justify-end">
-        <button className="btn" onClick={() => handleSelectRect(160)}>
+        <button
+          className="btn"
+          onClick={() => handleSelectRect(rootRect * 0.2 * 0.8)}
+        >
           S
         </button>
         <button
           className="btn btn-primary"
-          onClick={() => handleSelectRect(180)}
+          onClick={() => handleSelectRect(rootRect * 0.2)}
         >
           M
         </button>
         <button
           className="btn btn-secondary"
-          onClick={() => handleSelectRect(200)}
+          onClick={() => handleSelectRect(rootRect * 0.2 * 1.2)}
         >
           L
         </button>
-        <button
+        {/* <button
           className="btn btn-accent"
           onClick={() => handleSelectRect(240)}
         >
           LL
-        </button>
+        </button> */}
       </div>
     </div>
   )
