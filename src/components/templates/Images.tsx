@@ -21,7 +21,7 @@ interface ImagePropsWithHandler extends ImageProps {
 
 const STD_RECT = 240
 
-const LionImage: VFC<ImagePropsWithHandler> = (props) => {
+const URLImage: VFC<ImagePropsWithHandler> = (props) => {
   const [image] = useImage(props.url)
 
   const transformed: { width: number; height: number } = (() => {
@@ -125,7 +125,7 @@ export const Images = () => {
           <Line points={[30, 600, 1170, 600]} stroke={"gray"} />
           <Line points={[600, 30, 600, 1170]} stroke={"gray"} />
           {images.map((image) => (
-            <LionImage
+            <URLImage
               {...image}
               key={image.id}
               onDragStart={handleDragStart}
