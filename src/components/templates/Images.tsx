@@ -70,6 +70,47 @@ const AxisLayer: VFC<{ rect: number }> = ({ rect }) => {
   )
 }
 
+const LabelLayer: VFC = () => {
+  return (
+    <Layer>
+      <Text
+        text="年上"
+        x={0}
+        y={8}
+        width={800}
+        align={"center"}
+        fontSize={16}
+      />
+      <Text
+        text="年下"
+        x={0}
+        y={776}
+        width={800}
+        align={"center"}
+        fontSize={16}
+      />
+      <Text
+        text="大きい"
+        x={776}
+        y={0}
+        height={800}
+        width={16}
+        verticalAlign={"middle"}
+        fontSize={16}
+      />
+      <Text
+        text="小さい"
+        x={8}
+        y={0}
+        height={800}
+        width={16}
+        verticalAlign={"middle"}
+        fontSize={16}
+      />
+    </Layer>
+  )
+}
+
 const URLS = [
   "https://poplinks.idolmaster-official.jp/images/idol/y3xf3qyq/img_thumb.png",
   "https://poplinks.idolmaster-official.jp/images/idol/ahfrudkf/img_thumb.png",
@@ -131,7 +172,7 @@ export const Images = () => {
     setImages((prev) => prev.map((i) => ({ ...i, rect: r })))
   }
 
-  const rootRect = 1200
+  const rootRect = 800
 
   return (
     <div className="p-10 bg-base-100 text-base-content">
@@ -147,42 +188,7 @@ export const Images = () => {
             />
           ))}
         </Layer>
-        <Layer>
-          <Text
-            text="年上"
-            x={0}
-            y={8}
-            width={1200}
-            align={"center"}
-            fontSize={16}
-          />
-          <Text
-            text="年下"
-            x={0}
-            y={1176}
-            width={1200}
-            align={"center"}
-            fontSize={16}
-          />
-          <Text
-            text="大きい"
-            x={1176}
-            y={0}
-            height={1200}
-            width={16}
-            verticalAlign={"middle"}
-            fontSize={16}
-          />
-          <Text
-            text="小さい"
-            x={8}
-            y={0}
-            height={1200}
-            width={16}
-            verticalAlign={"middle"}
-            fontSize={16}
-          />
-        </Layer>
+        <LabelLayer />
       </Stage>
       <div className="flex gap-2 justify-end">
         <button className="btn" onClick={() => handleSelectRect(160)}>
