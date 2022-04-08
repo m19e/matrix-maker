@@ -57,6 +57,19 @@ const URLImage: VFC<ImagePropsWithHandler> = (props) => {
   )
 }
 
+const AxisLayer: VFC<{ rect: number }> = ({ rect }) => {
+  const start = 30
+  const end = rect - start
+  const middle = rect / 2
+
+  return (
+    <Layer>
+      <Line points={[start, middle, end, middle]} stroke={"gray"} />
+      <Line points={[middle, start, middle, end]} stroke={"gray"} />
+    </Layer>
+  )
+}
+
 const URLS = [
   "https://poplinks.idolmaster-official.jp/images/idol/y3xf3qyq/img_thumb.png",
   "https://poplinks.idolmaster-official.jp/images/idol/ahfrudkf/img_thumb.png",
@@ -118,13 +131,12 @@ export const Images = () => {
     setImages((prev) => prev.map((i) => ({ ...i, rect: r })))
   }
 
+  const rootRect = 1200
+
   return (
     <div className="p-10 bg-base-100 text-base-content">
-      <Stage width={1200} height={1200}>
-        <Layer>
-          <Line points={[30, 600, 1170, 600]} stroke={"gray"} />
-          <Line points={[600, 30, 600, 1170]} stroke={"gray"} />
-        </Layer>
+      <Stage width={rootRect} height={rootRect}>
+        <AxisLayer rect={rootRect} />
         <Layer>
           {images.map((image) => (
             <URLImage
