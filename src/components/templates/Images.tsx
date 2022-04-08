@@ -124,6 +124,8 @@ export const Images = () => {
         <Layer>
           <Line points={[30, 600, 1170, 600]} stroke={"gray"} />
           <Line points={[600, 30, 600, 1170]} stroke={"gray"} />
+        </Layer>
+        <Layer>
           {images.map((image) => (
             <URLImage
               {...image}
@@ -132,6 +134,8 @@ export const Images = () => {
               onDragEnd={handleDragEnd}
             />
           ))}
+        </Layer>
+        <Layer>
           <Text
             text="年上"
             x={0}
