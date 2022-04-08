@@ -6,9 +6,11 @@ import useImage from "use-image"
 
 interface ImageProps {
   data: HTMLImageElement | undefined
+  url: string
   id: string
   x: number
   y: number
+  rect: number
   isDragged: boolean
 }
 
@@ -16,6 +18,8 @@ interface ImagePropsWithHandler extends ImageProps {
   onDragStart: KonvaNodeEvents["onDragStart"]
   onDragEnd: KonvaNodeEvents["onDragEnd"]
 }
+
+const STD_RECT = 240
 
 const LionImage: VFC<ImagePropsWithHandler> = (props) => {
   const [image] = useImage("https://konvajs.org/assets/lion.png")
@@ -32,12 +36,22 @@ const LionImage: VFC<ImagePropsWithHandler> = (props) => {
   )
 }
 
+const URLS = [
+  "https://poplinks.idolmaster-official.jp/images/idol/y3xf3qyq/img_thumb.png",
+  "https://poplinks.idolmaster-official.jp/images/idol/ahfrudkf/img_thumb.png",
+  "https://poplinks.idolmaster-official.jp/images/idol/qq21osxs/img_thumb.png",
+  "https://poplinks.idolmaster-official.jp/images/idol/fjtgwau6/img_thumb.png",
+  "https://poplinks.idolmaster-official.jp/images/idol/s7mg8tvk/img_thumb.png",
+]
+
 const generateShapes = (size: number): ImageProps[] => {
-  return [...Array(5)].map((_, i) => ({
+  return URLS.map((url, i) => ({
+    url,
     data: undefined,
     id: i.toString(),
     x: Math.random() * size,
     y: Math.random() * size,
+    rect: STD_RECT,
     isDragged: false,
   }))
 }
