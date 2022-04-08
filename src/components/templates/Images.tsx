@@ -1,6 +1,6 @@
 import { useState } from "react"
 import type { VFC } from "react"
-import { Stage, Layer, Image } from "react-konva"
+import { Stage, Layer, Image, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import useImage from "use-image"
 
@@ -81,6 +81,7 @@ const INITIAL_STATE = generateShapes(500)
 
 export const Images = () => {
   const [images, setImages] = useState<ImageProps[]>(INITIAL_STATE)
+  const [rect, setRect] = useState(STD_RECT)
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
     const id = e.target.id()
@@ -112,19 +113,84 @@ export const Images = () => {
       })
     )
   }
+  const handleSelectRect = (r: number) => {
+    setRect(r)
+    setImages((prev) => prev.map((i) => ({ ...i, rect: r })))
+  }
 
   return (
-    <Stage width={500} height={500}>
-      <Layer>
-        {images.map((image) => (
-          <LionImage
-            {...image}
-            key={image.id}
-            onDragStart={handleDragStart}
-            onDragEnd={handleDragEnd}
+    <div className="p-10 bg-base-100 text-base-content">
+      <Stage width={1200} height={1200}>
+        <Layer>
+          <Line points={[30, 600, 1170, 600]} stroke={"gray"} />
+          <Line points={[600, 30, 600, 1170]} stroke={"gray"} />
+          {images.map((image) => (
+            <LionImage
+              {...image}
+              key={image.id}
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+            />
+          ))}
+          <Text
+            text="年上"
+            x={0}
+            y={8}
+            width={1200}
+            align={"center"}
+            fontSize={16}
           />
-        ))}
-      </Layer>
-    </Stage>
+          <Text
+            text="年下"
+            x={0}
+            y={1176}
+            width={1200}
+            align={"center"}
+            fontSize={16}
+          />
+          <Text
+            text="大きい"
+            x={1176}
+            y={0}
+            height={1200}
+            width={16}
+            verticalAlign={"middle"}
+            fontSize={16}
+          />
+          <Text
+            text="小さい"
+            x={8}
+            y={0}
+            height={1200}
+            width={16}
+            verticalAlign={"middle"}
+            fontSize={16}
+          />
+        </Layer>
+      </Stage>
+      <div className="flex gap-2 justify-end">
+        <button className="btn" onClick={() => handleSelectRect(160)}>
+          S
+        </button>
+        <button
+          className="btn btn-primary"
+          onClick={() => handleSelectRect(180)}
+        >
+          M
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => handleSelectRect(200)}
+        >
+          L
+        </button>
+        <button
+          className="btn btn-accent"
+          onClick={() => handleSelectRect(240)}
+        >
+          LL
+        </button>
+      </div>
+    </div>
   )
 }
