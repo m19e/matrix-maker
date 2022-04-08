@@ -131,7 +131,7 @@ const INITIAL_STATE = generateShapes(500)
 
 export const Images = () => {
   const [images, setImages] = useState<ImageProps[]>(INITIAL_STATE)
-  const [rect, setRect] = useState(STD_RECT)
+  const [imageRect, setImageRect] = useState(STD_RECT)
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
     const id = e.target.id()
@@ -164,7 +164,7 @@ export const Images = () => {
     )
   }
   const handleSelectRect = (r: number) => {
-    setRect(r)
+    setImageRect(r)
     setImages((prev) => prev.map((i) => ({ ...i, rect: r })))
   }
 
