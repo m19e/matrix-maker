@@ -22,13 +22,34 @@ interface ImagePropsWithHandler extends ImageProps {
 const STD_RECT = 240
 
 const LionImage: VFC<ImagePropsWithHandler> = (props) => {
-  const [image] = useImage("https://konvajs.org/assets/lion.png")
+  const [image] = useImage(props.url)
+
+  const transformed: { width: number; height: number } = (() => {
+    const { rect } = props
+    if (image) {
+      const { width, height } = image
+      if (width > height) {
+        const newHeight = height * (rect / width)
+        return { width: rect, height: newHeight }
+      }
+      if (height > width) {
+        const newWidth = width * (rect / height)
+        return { width: newWidth, height: rect }
+      }
+    }
+    return {
+      width: rect,
+      height: rect,
+    }
+  })()
+
   return (
     <Image
       {...props}
       draggable
       image={image}
       alt={props.id}
+      {...transformed}
       onClick={(e) => {
         console.log("clicked id:", e.target.id())
       }}
