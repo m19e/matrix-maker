@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import type { VFC } from "react"
 import { Stage, Layer, Image, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
@@ -16,6 +16,7 @@ interface ImageProps {
 
 interface ImagePropsWithHandler extends ImageProps {
   onDragStart: KonvaNodeEvents["onDragStart"]
+  onDragMove: KonvaNodeEvents["onDragMove"]
   onDragEnd: KonvaNodeEvents["onDragEnd"]
 }
 
@@ -44,7 +45,14 @@ const URLImage: VFC<ImagePropsWithHandler> = (props) => {
   })()
 
   return (
-    <Image {...props} draggable image={image} alt={props.id} {...transformed} />
+    <Image
+      {...props}
+      draggable
+      image={image}
+      alt={props.id}
+      {...transformed}
+      _useStrictMode
+    />
   )
 }
 
@@ -133,6 +141,8 @@ export const Images = () => {
   const [images, setImages] = useState<ImageProps[]>(INITIAL_STATE)
   const [imageRect, setImageRect] = useState(STD_RECT)
 
+  const rootRect = 800
+
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
     const id = e.target.id()
     setImages(
@@ -144,16 +154,61 @@ export const Images = () => {
       })
     )
   }
+  const handleDragMove: KonvaNodeEvents["onDragMove"] = useCallback(
+    (e) => {
+      const id = e.target.id()
+      const targetX = e.target.x()
+      const targetY = e.target.y()
+      const borderBR = rootRect - imageRect
+      if (
+        targetX < 0 ||
+        targetX > borderBR ||
+        targetY < 0 ||
+        targetY > borderBR
+      ) {
+        let newPos = { x: targetX, y: targetY }
+
+        if (targetX < 0) {
+          newPos = { ...newPos, x: 0 }
+        } else if (targetX > borderBR) {
+          newPos = { ...newPos, x: borderBR }
+        }
+        if (targetY < 0) {
+          newPos = { ...newPos, y: 0 }
+        } else if (targetY > borderBR) {
+          newPos = { ...newPos, y: borderBR }
+        }
+
+        setImages((prev) =>
+          prev.map((image) => {
+            if (image.id === id) {
+              return {
+                ...image,
+                x: newPos.x,
+                y: newPos.y,
+              }
+            }
+            return image
+          })
+        )
+      }
+    },
+    [rootRect, imageRect]
+  )
   const handleDragEnd: KonvaNodeEvents["onDragEnd"] = (e) => {
     const id = e.target.id()
     setImages(
       images.map((image) => {
         if (image.id === id) {
-          return {
-            ...image,
-            x: e.target.x(),
-            y: e.target.y(),
-            isDragged: false,
+          const targetX = e.target.x()
+          const targetY = e.target.y()
+          if (targetX > 0 && targetX < 800 && targetY > 0 && targetY < 800) {
+            return {
+              ...image,
+              x: targetX,
+              y: targetY,
+              isDragged: false,
+            }
           }
         }
         return {
@@ -168,8 +223,6 @@ export const Images = () => {
     setImages((prev) => prev.map((i) => ({ ...i, rect: r })))
   }
 
-  const rootRect = 800
-
   return (
     <div className="p-10 bg-base-100 text-base-content">
       <Stage width={rootRect} height={rootRect}>
@@ -180,6 +233,7 @@ export const Images = () => {
               {...image}
               key={image.id}
               onDragStart={handleDragStart}
+              onDragMove={handleDragMove}
               onDragEnd={handleDragEnd}
             />
           ))}
