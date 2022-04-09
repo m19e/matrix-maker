@@ -227,6 +227,7 @@ export const Images = () => {
     <div className="p-10 bg-base-100 text-base-content">
       <Stage width={rootRect} height={rootRect}>
         <AxisLayer rect={rootRect} />
+        <LabelLayer rect={rootRect} />
         <Layer>
           {images.map((image) => (
             <URLImage
@@ -238,7 +239,6 @@ export const Images = () => {
             />
           ))}
         </Layer>
-        <LabelLayer rect={rootRect} />
       </Stage>
       <div className="flex gap-2 justify-end">
         <button
