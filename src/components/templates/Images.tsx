@@ -202,7 +202,13 @@ export const Images = () => {
         if (image.id === id) {
           const targetX = e.target.x()
           const targetY = e.target.y()
-          if (targetX > 0 && targetX < 800 && targetY > 0 && targetY < 800) {
+          const borderBR = rootRect - imageRect
+          if (
+            targetX > 0 &&
+            targetX < borderBR &&
+            targetY > 0 &&
+            targetY < borderBR
+          ) {
             return {
               ...image,
               x: targetX,
