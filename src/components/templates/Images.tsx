@@ -38,7 +38,7 @@ const URLImage: VFC<ImagePropsWithHandler> = (props) => {
   )
 }
 
-const Demo = () => {
+const ImageCropper = () => {
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
   const onCropComplete = useCallback(
