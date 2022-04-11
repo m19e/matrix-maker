@@ -187,8 +187,8 @@ const Images = () => {
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
     const id = e.target.id()
-    setImages(
-      images.map((image) => {
+    setImages((prev) =>
+      prev.map((image) => {
         return {
           ...image,
           isDragged: image.id === id,
@@ -239,8 +239,8 @@ const Images = () => {
   )
   const handleDragEnd: KonvaNodeEvents["onDragEnd"] = (e) => {
     const id = e.target.id()
-    setImages(
-      images.map((image) => {
+    setImages((prev) =>
+      prev.map((image) => {
         if (image.id === id) {
           const targetX = e.target.x()
           const targetY = e.target.y()
