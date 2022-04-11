@@ -5,8 +5,6 @@ import type { KonvaNodeEvents } from "react-konva"
 import type { Stage as KonvaStage } from "konva/lib/Stage"
 import type { Vector2d } from "konva/lib/types"
 
-import Images from "./Images"
-
 interface LineProps {
   tool: "pen" | "eraser"
   points: number[]
@@ -122,7 +120,6 @@ const Canvas: VFC = () => {
             />
           </Layer>
         </Stage>
-        <Images />
       </div>
     </div>
   )
