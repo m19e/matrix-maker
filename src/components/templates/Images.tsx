@@ -237,35 +237,38 @@ const Images = () => {
     },
     [rootRect, imageRect]
   )
-  const handleDragEnd: KonvaNodeEvents["onDragEnd"] = (e) => {
-    const id = e.target.id()
-    setImages((prev) =>
-      prev.map((image) => {
-        if (image.id === id) {
-          const targetX = e.target.x()
-          const targetY = e.target.y()
-          const borderBR = rootRect - imageRect
-          if (
-            targetX > 0 &&
-            targetX < borderBR &&
-            targetY > 0 &&
-            targetY < borderBR
-          ) {
-            return {
-              ...image,
-              x: targetX,
-              y: targetY,
-              isDragged: false,
+  const handleDragEnd: KonvaNodeEvents["onDragEnd"] = useCallback(
+    (e) => {
+      const id = e.target.id()
+      setImages((prev) =>
+        prev.map((image) => {
+          if (image.id === id) {
+            const targetX = e.target.x()
+            const targetY = e.target.y()
+            const borderBR = rootRect - imageRect
+            if (
+              targetX > 0 &&
+              targetX < borderBR &&
+              targetY > 0 &&
+              targetY < borderBR
+            ) {
+              return {
+                ...image,
+                x: targetX,
+                y: targetY,
+                isDragged: false,
+              }
             }
           }
-        }
-        return {
-          ...image,
-          isDragged: false,
-        }
-      })
-    )
-  }
+          return {
+            ...image,
+            isDragged: false,
+          }
+        })
+      )
+    },
+    [rootRect, imageRect]
+  )
   const handleSelectRect = (r: number) => {
     setImageRect(r)
     setImages((prev) => prev.map((i) => ({ ...i, rect: r })))
