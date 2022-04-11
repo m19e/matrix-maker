@@ -137,7 +137,7 @@ const generateShapes = (size: number): ImageProps[] => {
 
 const INITIAL_STATE = generateShapes(500)
 
-export const Images = () => {
+const Images = () => {
   const [images, setImages] = useState<ImageProps[]>(INITIAL_STATE)
   const [imageRect, setImageRect] = useState(STD_RECT)
 
@@ -275,3 +275,5 @@ export const Images = () => {
     </div>
   )
 }
+
+export default Images
