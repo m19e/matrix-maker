@@ -4,6 +4,9 @@ import { Stage, Layer, Image, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import useImage from "use-image"
 
+import Cropper from "react-easy-crop"
+import { Point, Area } from "react-easy-crop/types"
+
 interface ImageProps {
   data: HTMLImageElement | undefined
   url: string
@@ -53,6 +56,45 @@ const URLImage: VFC<ImagePropsWithHandler> = (props) => {
       {...transformed}
       _useStrictMode
     />
+  )
+}
+
+const Demo = () => {
+  const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
+  const [zoom, setZoom] = useState(1)
+  const onCropComplete = useCallback(
+    (croppedArea: Area, croppedAreaPixels: Area) => {
+      console.log(croppedArea, croppedAreaPixels)
+    },
+    []
+  )
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="w-96 shadow-xl card bg-base-100">
+        <figure className="px-10 pt-10">
+          <div className="relative w-80 h-80">
+            <Cropper
+              image="https://poplinks.idolmaster-official.jp/images/idol/y3xf3qyq/img_thumb.png"
+              crop={crop}
+              zoom={zoom}
+              aspect={1 / 1}
+              onCropChange={setCrop}
+              onCropComplete={onCropComplete}
+              onZoomChange={setZoom}
+            />
+          </div>
+        </figure>
+
+        <div className="items-center text-center card-body">
+          <h2 className="card-title">Shoes!</h2>
+          <p>If a dog chews shoes whose shoes does he choose?</p>
+          <div className="card-actions">
+            <button className="btn btn-primary">Buy Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
