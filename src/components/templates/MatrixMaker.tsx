@@ -6,9 +6,5 @@ const Images = dynamic(import("./Images"), {
 })
 
 export const MatrixMaker: VFC = () => {
-  return (
-    <div className="flex flex-col items-center">
-      <Images />
-    </div>
-  )
+  return <Images />
 }
