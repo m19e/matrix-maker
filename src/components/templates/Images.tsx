@@ -21,7 +21,7 @@ interface ImagePropsWithHandler extends ImageProps {
 }
 
 const DEFAULT_CANVAS_SIZE = 800
-const DEFAULT_IMAGE_SIZE = 80
+const DEFAULT_IMAGE_SIZE = DEFAULT_CANVAS_SIZE * 0.1
 
 const URLImage: VFC<ImagePropsWithHandler> = (props) => {
   const [image] = useImage(props.url)
@@ -273,25 +273,25 @@ const Images = () => {
         <div className="flex gap-2 justify-end">
           <button
             className="btn"
-            onClick={() => handleSelectRect(DEFAULT_CANVAS_SIZE * 0.1)}
+            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE)}
           >
             S
           </button>
           <button
             className="btn btn-primary"
-            onClick={() => handleSelectRect(DEFAULT_CANVAS_SIZE * 0.1 * 1.2)}
+            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.2)}
           >
             M
           </button>
           <button
             className="btn btn-secondary"
-            onClick={() => handleSelectRect(DEFAULT_CANVAS_SIZE * 0.1 * 1.4)}
+            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.4)}
           >
             L
           </button>
           <button
             className="btn btn-accent"
-            onClick={() => handleSelectRect(DEFAULT_CANVAS_SIZE * 0.1 * 1.6)}
+            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.6)}
           >
             LL
           </button>
