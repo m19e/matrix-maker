@@ -23,7 +23,7 @@ interface ImagePropsWithHandler extends ImageProps {
   onDragEnd: KonvaNodeEvents["onDragEnd"]
 }
 
-const STD_RECT = 240
+const STD_RECT = 160
 
 const URLImage: VFC<ImagePropsWithHandler> = (props) => {
   const [image] = useImage(props.url)
