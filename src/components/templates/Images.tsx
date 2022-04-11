@@ -7,13 +7,10 @@ import useImage from "use-image"
 import Cropper from "react-easy-crop"
 import { Point, Area } from "react-easy-crop/types"
 
-interface ImageProps {
+interface ImageProps extends Area {
   data: HTMLImageElement | undefined
   url: string
   id: string
-  x: number
-  y: number
-  rect: number
   isDragged: boolean
 }
 
@@ -23,29 +20,11 @@ interface ImagePropsWithHandler extends ImageProps {
   onDragEnd: KonvaNodeEvents["onDragEnd"]
 }
 
-const STD_RECT = 160
+const DEFAULT_CANVAS_SIZE = 800
+const DEFAULT_IMAGE_SIZE = 80
 
 const URLImage: VFC<ImagePropsWithHandler> = (props) => {
   const [image] = useImage(props.url)
-
-  const transformed: { width: number; height: number } = (() => {
-    const { rect } = props
-    if (image) {
-      const { width, height } = image
-      if (width > height) {
-        const newHeight = height * (rect / width)
-        return { width: rect, height: newHeight }
-      }
-      if (height > width) {
-        const newWidth = width * (rect / height)
-        return { width: newWidth, height: rect }
-      }
-    }
-    return {
-      width: rect,
-      height: rect,
-    }
-  })()
 
   return (
     <Image
@@ -53,7 +32,7 @@ const URLImage: VFC<ImagePropsWithHandler> = (props) => {
       draggable
       image={image}
       alt={props.id}
-      {...transformed}
+      crop={{ height: 227, width: 227, x: 59, y: 16 }}
       _useStrictMode
     />
   )
@@ -172,7 +151,8 @@ const generateShapes = (size: number): ImageProps[] => {
     id: i.toString(),
     x: Math.random() * size,
     y: Math.random() * size,
-    rect: STD_RECT,
+    width: DEFAULT_IMAGE_SIZE,
+    height: DEFAULT_IMAGE_SIZE,
     isDragged: false,
   }))
 }
@@ -181,9 +161,7 @@ const INITIAL_STATE = generateShapes(500)
 
 const Images = () => {
   const [images, setImages] = useState<ImageProps[]>(INITIAL_STATE)
-  const [imageRect, setImageRect] = useState(STD_RECT)
-
-  const rootRect = 800
+  const [imageRect, setImageRect] = useState(DEFAULT_IMAGE_SIZE)
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
     const id = e.target.id()
@@ -201,7 +179,7 @@ const Images = () => {
       const id = e.target.id()
       const targetX = e.target.x()
       const targetY = e.target.y()
-      const borderBR = rootRect - imageRect
+      const borderBR = DEFAULT_CANVAS_SIZE - imageRect
       if (
         targetX < 0 ||
         targetX > borderBR ||
@@ -235,7 +213,7 @@ const Images = () => {
         )
       }
     },
-    [rootRect, imageRect]
+    [imageRect]
   )
   const handleDragEnd: KonvaNodeEvents["onDragEnd"] = useCallback(
     (e) => {
@@ -245,7 +223,7 @@ const Images = () => {
           if (image.id === id) {
             const targetX = e.target.x()
             const targetY = e.target.y()
-            const borderBR = rootRect - imageRect
+            const borderBR = DEFAULT_CANVAS_SIZE - imageRect
             if (
               targetX > 0 &&
               targetX < borderBR &&
@@ -267,57 +245,81 @@ const Images = () => {
         })
       )
     },
-    [rootRect, imageRect]
+    [imageRect]
   )
   const handleSelectRect = (r: number) => {
     setImageRect(r)
-    setImages((prev) => prev.map((i) => ({ ...i, rect: r })))
+    setImages((prev) => prev.map((i) => ({ ...i, width: r, height: r })))
   }
 
   return (
-    <div className="p-10 bg-base-100 text-base-content">
-      <Stage width={rootRect} height={rootRect}>
-        <AxisLayer rect={rootRect} />
-        <LabelLayer rect={rootRect} />
-        <Layer>
-          {images.map((image) => (
-            <URLImage
-              {...image}
-              key={image.id}
-              onDragStart={handleDragStart}
-              onDragMove={handleDragMove}
-              onDragEnd={handleDragEnd}
-            />
-          ))}
-        </Layer>
-      </Stage>
-      <div className="flex gap-2 justify-end">
-        <button
-          className="btn"
-          onClick={() => handleSelectRect(rootRect * 0.2 * 0.8)}
-        >
-          S
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() => handleSelectRect(rootRect * 0.2)}
-        >
-          M
-        </button>
-        <button
-          className="btn btn-secondary"
-          onClick={() => handleSelectRect(rootRect * 0.2 * 1.2)}
-        >
-          L
-        </button>
-        {/* <button
-          className="btn btn-accent"
-          onClick={() => handleSelectRect(240)}
-        >
-          LL
-        </button> */}
+    <>
+      <div className="p-10 bg-base-100 text-base-content">
+        <Stage width={DEFAULT_CANVAS_SIZE} height={DEFAULT_CANVAS_SIZE}>
+          <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
+          <LabelLayer rect={DEFAULT_CANVAS_SIZE} />
+          <Layer>
+            {images.map((image) => (
+              <URLImage
+                {...image}
+                key={image.id}
+                onDragStart={handleDragStart}
+                onDragMove={handleDragMove}
+                onDragEnd={handleDragEnd}
+              />
+            ))}
+          </Layer>
+        </Stage>
+        <div className="flex gap-2 justify-end">
+          <button
+            className="btn"
+            onClick={() => handleSelectRect(DEFAULT_CANVAS_SIZE * 0.1)}
+          >
+            S
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => handleSelectRect(DEFAULT_CANVAS_SIZE * 0.1 * 1.2)}
+          >
+            M
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => handleSelectRect(DEFAULT_CANVAS_SIZE * 0.1 * 1.4)}
+          >
+            L
+          </button>
+          <button
+            className="btn btn-accent"
+            onClick={() => handleSelectRect(DEFAULT_CANVAS_SIZE * 0.1 * 1.6)}
+          >
+            LL
+          </button>
+
+          <label htmlFor="my-modal" className="btn modal-button">
+            ADD IMAGE
+          </label>
+        </div>
       </div>
-    </div>
+
+      <input type="checkbox" id="my-modal" className="modal-toggle" />
+      <div className="modal">
+        <div className="modal-box">
+          <h3 className="text-lg font-bold">
+            Congratulations random Interner user!
+          </h3>
+          <p className="py-4">
+            You have been selected for a chance to get one year of subscription
+            to use Wikipedia for free!
+          </p>
+          <div className="modal-action">
+            <label htmlFor="my-modal" className="btn">
+              Yay!
+            </label>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
 
