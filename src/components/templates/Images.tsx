@@ -161,7 +161,7 @@ const INITIAL_STATE = generateShapes(500)
 
 const Images = () => {
   const [images, setImages] = useState<ImageProps[]>(INITIAL_STATE)
-  const [imageRect, setImageRect] = useState(DEFAULT_IMAGE_SIZE)
+  const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE)
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
     const id = e.target.id()
@@ -179,7 +179,7 @@ const Images = () => {
       const id = e.target.id()
       const targetX = e.target.x()
       const targetY = e.target.y()
-      const borderBR = DEFAULT_CANVAS_SIZE - imageRect
+      const borderBR = DEFAULT_CANVAS_SIZE - imageSize
       if (
         targetX < 0 ||
         targetX > borderBR ||
@@ -213,7 +213,7 @@ const Images = () => {
         )
       }
     },
-    [imageRect]
+    [imageSize]
   )
   const handleDragEnd: KonvaNodeEvents["onDragEnd"] = useCallback(
     (e) => {
@@ -223,7 +223,7 @@ const Images = () => {
           if (image.id === id) {
             const targetX = e.target.x()
             const targetY = e.target.y()
-            const borderBR = DEFAULT_CANVAS_SIZE - imageRect
+            const borderBR = DEFAULT_CANVAS_SIZE - imageSize
             if (
               targetX > 0 &&
               targetX < borderBR &&
@@ -245,10 +245,10 @@ const Images = () => {
         })
       )
     },
-    [imageRect]
+    [imageSize]
   )
   const handleSelectRect = (r: number) => {
-    setImageRect(r)
+    setImageSize(r)
     setImages((prev) => prev.map((i) => ({ ...i, width: r, height: r })))
   }
 
