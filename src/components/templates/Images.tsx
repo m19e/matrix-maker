@@ -60,6 +60,7 @@ function MyDropzone({ onDropFile }: { onDropFile: (url: string) => void }) {
 interface ImageProps extends Area {
   url: string
   id: string
+  alt: string
   crop: Area
   isDragged: boolean
 }
@@ -253,8 +254,8 @@ const URLS = [
 const generateShapes = (size: number): ImageProps[] => {
   return URLS.map((url, i) => ({
     url,
-    data: undefined,
     id: i.toString(),
+    alt: i.toString(),
     x: Math.random() * size,
     y: Math.random() * size,
     width: DEFAULT_IMAGE_SIZE,
@@ -360,11 +361,13 @@ const Images = () => {
   }
 
   const handleSubmitCrop = (cropped: { url: string; crop: Area }) => {
+    const xy = (DEFAULT_CANVAS_SIZE - imageSize) / 2
     const croppedImage: ImageProps = {
-      id: images.length.toString(),
+      id: Date.now().toString(16),
+      alt: cropped.url,
       isDragged: false,
-      x: 400 - imageSize / 2,
-      y: 400 - imageSize / 2,
+      x: xy,
+      y: xy,
       width: imageSize,
       height: imageSize,
       ...cropped,
