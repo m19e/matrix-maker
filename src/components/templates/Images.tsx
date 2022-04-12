@@ -7,6 +7,8 @@ import useImage from "use-image"
 import Cropper from "react-easy-crop"
 import { Point, Area } from "react-easy-crop/types"
 
+import { useDropzone } from "react-dropzone"
+
 export type Status = "valid" | "invalid" | "progress"
 
 const useValidateImageURL = (url: string): Status => {
@@ -27,6 +29,32 @@ const useValidateImageURL = (url: string): Status => {
     }
   }, [url])
   return status
+}
+
+function MyDropzone({ onDropFile }: { onDropFile: (url: string) => void }) {
+  const [files, setFiles] = useState<{ file: File; preview: string }[]>([])
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    // Do something with the files
+    const res = acceptedFiles.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }))
+    console.log(res)
+    setFiles(res)
+    onDropFile(res[0].preview)
+  }, [])
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
+  return (
+    <div {...getRootProps()}>
+      <input {...getInputProps()} />
+      {isDragActive ? (
+        <p>Drop the files here ...</p>
+      ) : (
+        <p>DnD some files here, or click to select files</p>
+      )}
+    </div>
+  )
 }
 
 interface ImageProps extends Area {
