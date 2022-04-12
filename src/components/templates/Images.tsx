@@ -42,7 +42,11 @@ const Dropzone = ({ onDropFile }: { onDropFile: (url: string) => void }) => {
     },
     [onDropFile]
   )
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: ["image/*"],
+    maxFiles: 1,
+  })
 
   return (
     <div {...getRootProps()}>
