@@ -159,6 +159,7 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
                         type="text"
                         placeholder="Image URL"
                         className="w-full max-w-xs input input-bordered"
+                        value={urlInput}
                         onChange={(e) => {
                           setUrlInput(e.currentTarget.value.trim())
                         }}
