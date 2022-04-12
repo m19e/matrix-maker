@@ -77,15 +77,7 @@ const DEFAULT_IMAGE_SIZE = DEFAULT_CANVAS_SIZE * 0.1
 const URLImage: VFC<ImagePropsWithHandler> = ({ url, ...props }) => {
   const [image] = useImage(url)
 
-  return (
-    <KonvaImage
-      {...props}
-      image={image}
-      alt={props.id}
-      draggable
-      _useStrictMode
-    />
-  )
+  return <KonvaImage {...props} image={image} draggable _useStrictMode />
 }
 
 interface ImageCropperProps {
