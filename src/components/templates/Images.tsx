@@ -58,7 +58,6 @@ function MyDropzone({ onDropFile }: { onDropFile: (url: string) => void }) {
 }
 
 interface ImageProps extends Area {
-  data: HTMLImageElement | undefined
   url: string
   id: string
   crop: Area
@@ -363,7 +362,6 @@ const Images = () => {
 
   const handleSubmitCrop = (cropped: { url: string; crop: Area }) => {
     const croppedImage: ImageProps = {
-      data: undefined,
       id: images.length.toString(),
       isDragged: false,
       x: 400 - imageSize / 2,
