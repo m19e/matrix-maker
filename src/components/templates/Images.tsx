@@ -1,16 +1,39 @@
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import type { VFC } from "react"
-import { Stage, Layer, Image, Line, Text } from "react-konva"
+import { Stage, Layer, Image as KonvaImage, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import useImage from "use-image"
 
 import Cropper from "react-easy-crop"
 import { Point, Area } from "react-easy-crop/types"
 
+export type Status = "valid" | "invalid" | "progress"
+
+const useValidateImageURL = (url: string): Status => {
+  const [status, setStatus] = useState<Status>("progress")
+  useEffect(() => {
+    setStatus("progress")
+    let hasChangedURL = false
+    const image = new Image()
+    image.src = url
+    image.addEventListener("load", () => {
+      if (!hasChangedURL) setStatus("valid")
+    })
+    image.addEventListener("error", () => {
+      if (!hasChangedURL) setStatus("invalid")
+    })
+    return () => {
+      hasChangedURL = false
+    }
+  }, [url])
+  return status
+}
+
 interface ImageProps extends Area {
   data: HTMLImageElement | undefined
   url: string
   id: string
+  crop: Area
   isDragged: boolean
 }
 
@@ -27,53 +50,120 @@ const URLImage: VFC<ImagePropsWithHandler> = (props) => {
   const [image] = useImage(props.url)
 
   return (
-    <Image
+    <KonvaImage
       {...props}
       draggable
       image={image}
       alt={props.id}
-      crop={{ height: 227, width: 227, x: 59, y: 16 }}
+      // crop={{ height: 227, width: 227, x: 59, y: 16 }}
       _useStrictMode
     />
   )
 }
 
-const ImageCropper = () => {
+interface ImageCropperProps {
+  onSubmit: ({ url, crop }: { url: string; crop: Area }) => void
+}
+
+const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
+  const [url, setUrl] = useState("")
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
+  const [area, setArea] = useState<Area>({ x: 0, y: 0, width: 0, height: 0 })
   const [zoom, setZoom] = useState(1)
+
+  const imageStatus = useValidateImageURL(url)
+
   const onCropComplete = useCallback(
     (croppedArea: Area, croppedAreaPixels: Area) => {
       console.log(croppedArea, croppedAreaPixels)
+      setArea(croppedAreaPixels)
     },
     []
   )
+  const initCropper = () => {
+    setUrl("")
+    setCrop({ x: 0, y: 0 })
+    setArea({ x: 0, y: 0, width: 0, height: 0 })
+    setZoom(1)
+  }
+  const submitCrop = () => {
+    onSubmit({ url, crop: area })
+  }
+
+  const validImage = imageStatus === "valid"
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="w-96 shadow-xl card bg-base-100">
-        <figure className="px-10 pt-10">
-          <div className="relative w-80 h-80">
-            <Cropper
-              image="https://poplinks.idolmaster-official.jp/images/idol/y3xf3qyq/img_thumb.png"
-              crop={crop}
-              zoom={zoom}
-              aspect={1 / 1}
-              onCropChange={setCrop}
-              onCropComplete={onCropComplete}
-              onZoomChange={setZoom}
-            />
+    <>
+      <label
+        htmlFor="my-modal"
+        className="btn modal-button"
+        onClick={initCropper}
+      >
+        ADD IMAGE
+      </label>
+      <input type="checkbox" id="my-modal" className="modal-toggle" />
+      <div className="modal">
+        <div>
+          <div className="flex flex-col items-center">
+            <div className="w-96 shadow-xl card bg-base-200">
+              {validImage ? (
+                <figure className="p-8">
+                  <div className="relative w-80 h-80">
+                    <Cropper
+                      image={url}
+                      crop={crop}
+                      zoom={zoom}
+                      aspect={1 / 1}
+                      onCropChange={setCrop}
+                      onCropComplete={onCropComplete}
+                      onZoomChange={setZoom}
+                    />
+                  </div>
+                </figure>
+              ) : (
+                <div className="flex flex-col items-center p-8">
+                  <div className="w-full max-w-xs form-control">
+                    <input
+                      type="text"
+                      placeholder="Image URL"
+                      className="w-full max-w-xs input input-bordered"
+                      onChange={(e) => {
+                        setUrl(e.currentTarget.value.trim())
+                      }}
+                    />
+                  </div>
+                  <div className="divider">OR</div>
+                  <div className="w-full max-w-xs form-control">
+                    <input
+                      type="text"
+                      placeholder="Image URL"
+                      className="w-full max-w-xs input input-bordered"
+                      onChange={(e) => {
+                        setUrl(e.currentTarget.value.trim())
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-        </figure>
-
-        <div className="items-center text-center card-body">
-          <h2 className="card-title">Shoes!</h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div className="card-actions">
-            <button className="btn btn-primary">Buy Now</button>
+          <div className="modal-action">
+            {validImage && (
+              <label
+                htmlFor="my-modal"
+                className="btn btn-primary"
+                onClick={submitCrop}
+              >
+                crop
+              </label>
+            )}
+            <label htmlFor="my-modal" className="btn">
+              cancel
+            </label>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
@@ -153,6 +243,7 @@ const generateShapes = (size: number): ImageProps[] => {
     y: Math.random() * size,
     width: DEFAULT_IMAGE_SIZE,
     height: DEFAULT_IMAGE_SIZE,
+    crop: { x: 0, y: 0, width: 0, height: 0 },
     isDragged: false,
   }))
 }
@@ -160,7 +251,7 @@ const generateShapes = (size: number): ImageProps[] => {
 const INITIAL_STATE = generateShapes(500)
 
 const Images = () => {
-  const [images, setImages] = useState<ImageProps[]>(INITIAL_STATE)
+  const [images, setImages] = useState<ImageProps[]>([])
   const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE)
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
@@ -252,6 +343,21 @@ const Images = () => {
     setImages((prev) => prev.map((i) => ({ ...i, width: r, height: r })))
   }
 
+  const handleSubmitCrop = (cropped: { url: string; crop: Area }) => {
+    const croppedImage: ImageProps = {
+      data: undefined,
+      id: images.length.toString(),
+      isDragged: false,
+      x: 400 - imageSize / 2,
+      y: 400 - imageSize / 2,
+      width: imageSize,
+      height: imageSize,
+      ...cropped,
+    }
+
+    setImages((prev) => [...prev, croppedImage])
+  }
+
   return (
     <>
       <div className="p-10 bg-base-100 text-base-content">
@@ -295,28 +401,7 @@ const Images = () => {
           >
             LL
           </button>
-
-          <label htmlFor="my-modal" className="btn modal-button">
-            ADD IMAGE
-          </label>
-        </div>
-      </div>
-
-      <input type="checkbox" id="my-modal" className="modal-toggle" />
-      <div className="modal">
-        <div className="modal-box">
-          <h3 className="text-lg font-bold">
-            Congratulations random Interner user!
-          </h3>
-          <p className="py-4">
-            You have been selected for a chance to get one year of subscription
-            to use Wikipedia for free!
-          </p>
-          <div className="modal-action">
-            <label htmlFor="my-modal" className="btn">
-              Yay!
-            </label>
-          </div>
+          <ImageCropper onSubmit={handleSubmitCrop} />
         </div>
       </div>
     </>
