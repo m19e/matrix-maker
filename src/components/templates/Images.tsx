@@ -90,12 +90,14 @@ interface ImageCropperProps {
 
 const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
   const [url, setUrl] = useState("")
+  const [urlInput, setUrlInput] = useState("")
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
   const [area, setArea] = useState<Area>({ x: 0, y: 0, width: 0, height: 0 })
   const [zoom, setZoom] = useState(1)
 
-  const imageStatus = useValidateImageURL(url)
+  const imageStatus = useValidateImageURL(urlInput)
   const validImage = imageStatus === "valid"
+  const invalidImage = urlInput.trim() !== "" && imageStatus === "invalid"
 
   const onCropComplete = useCallback(
     (croppedArea: Area, croppedAreaPixels: Area) => {
@@ -104,6 +106,7 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
     []
   )
   const initCropper = () => {
+    setUrlInput("")
     setUrl("")
     setCrop({ x: 0, y: 0 })
     setArea({ x: 0, y: 0, width: 0, height: 0 })
@@ -111,6 +114,11 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
   }
   const submitCrop = () => {
     onSubmit({ url, crop: area })
+  }
+
+  const handleSubmitUrlInput = () => {
+    if (!validImage) return
+    setUrl(urlInput)
   }
 
   return (
@@ -127,7 +135,7 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
         <div>
           <div className="flex flex-col items-center">
             <div className="w-96 shadow-xl card bg-base-200">
-              {validImage ? (
+              {url ? (
                 <figure className="p-8">
                   <div className="relative w-80 h-80">
                     <Cropper
@@ -142,25 +150,46 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
                   </div>
                 </figure>
               ) : (
-                <div className="flex flex-col items-center p-8">
+                <div className="flex flex-col items-center pt-8">
                   <Dropzone onDropFile={setUrl} />
                   <div className="divider">OR</div>
-                  <div className="w-full max-w-xs form-control">
-                    <input
-                      type="text"
-                      placeholder="Image URL"
-                      className="w-full max-w-xs input input-bordered"
-                      onChange={(e) => {
-                        setUrl(e.currentTarget.value.trim())
-                      }}
-                    />
+                  <div className="flex flex-row gap-2 w-full max-w-xs form-control">
+                    <div className="w-full max-w-xs">
+                      <input
+                        type="text"
+                        placeholder="Image URL"
+                        className="w-full max-w-xs input input-bordered"
+                        onChange={(e) => {
+                          setUrlInput(e.currentTarget.value.trim())
+                        }}
+                      />
+                      <label className="justify-end h-8 label">
+                        {validImage && (
+                          <span className="label-text-alt text-success">
+                            Valid URL
+                          </span>
+                        )}
+                        {invalidImage && (
+                          <span className="label-text-alt text-error">
+                            Invalid URL
+                          </span>
+                        )}
+                      </label>
+                    </div>
+
+                    <div
+                      className="btn btn-primary"
+                      onClick={handleSubmitUrlInput}
+                    >
+                      set
+                    </div>
                   </div>
                 </div>
               )}
             </div>
           </div>
           <div className="modal-action">
-            {validImage && (
+            {url && (
               <label
                 htmlFor="my-modal"
                 className="btn btn-primary"
