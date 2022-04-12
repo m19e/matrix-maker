@@ -100,6 +100,7 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
   const [zoom, setZoom] = useState(1)
 
   const imageStatus = useValidateImageURL(url)
+  const validImage = imageStatus === "valid"
 
   const onCropComplete = useCallback(
     (croppedArea: Area, croppedAreaPixels: Area) => {
@@ -117,8 +118,6 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
   const submitCrop = () => {
     onSubmit({ url, crop: area })
   }
-
-  const validImage = imageStatus === "valid"
 
   return (
     <>
@@ -150,16 +149,7 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
                 </figure>
               ) : (
                 <div className="flex flex-col items-center p-8">
-                  <div className="w-full max-w-xs form-control">
-                    <input
-                      type="text"
-                      placeholder="Image URL"
-                      className="w-full max-w-xs input input-bordered"
-                      onChange={(e) => {
-                        setUrl(e.currentTarget.value.trim())
-                      }}
-                    />
-                  </div>
+                  <MyDropzone onDropFile={setUrl} />
                   <div className="divider">OR</div>
                   <div className="w-full max-w-xs form-control">
                     <input
