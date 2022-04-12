@@ -31,18 +31,17 @@ const useValidateImageURL = (url: string): Status => {
   return status
 }
 
-function MyDropzone({ onDropFile }: { onDropFile: (url: string) => void }) {
-  const [files, setFiles] = useState<{ file: File; preview: string }[]>([])
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    // Do something with the files
-    const res = acceptedFiles.map((file) => ({
-      file,
-      preview: URL.createObjectURL(file),
-    }))
-    console.log(res)
-    setFiles(res)
-    onDropFile(res[0].preview)
-  }, [])
+const Dropzone = ({ onDropFile }: { onDropFile: (url: string) => void }) => {
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const files = acceptedFiles.map((file) => ({
+        file,
+        url: URL.createObjectURL(file),
+      }))
+      onDropFile(files[0].url)
+    },
+    [onDropFile]
+  )
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
   return (
@@ -140,7 +139,7 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
                 </figure>
               ) : (
                 <div className="flex flex-col items-center p-8">
-                  <MyDropzone onDropFile={setUrl} />
+                  <Dropzone onDropFile={setUrl} />
                   <div className="divider">OR</div>
                   <div className="w-full max-w-xs form-control">
                     <input
