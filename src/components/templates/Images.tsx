@@ -99,7 +99,6 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
 
   const onCropComplete = useCallback(
     (croppedArea: Area, croppedAreaPixels: Area) => {
-      console.log(croppedArea, croppedAreaPixels)
       setArea(croppedAreaPixels)
     },
     []
