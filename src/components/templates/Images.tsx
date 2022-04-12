@@ -34,6 +34,7 @@ const useValidateImageURL = (url: string): Status => {
 const Dropzone = ({ onDropFile }: { onDropFile: (url: string) => void }) => {
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
+      if (!acceptedFiles.length) return
       const files = acceptedFiles.map((file) => ({
         file,
         url: URL.createObjectURL(file),
