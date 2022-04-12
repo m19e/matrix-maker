@@ -73,16 +73,15 @@ interface ImagePropsWithHandler extends ImageProps {
 const DEFAULT_CANVAS_SIZE = 800
 const DEFAULT_IMAGE_SIZE = DEFAULT_CANVAS_SIZE * 0.1
 
-const URLImage: VFC<ImagePropsWithHandler> = (props) => {
-  const [image] = useImage(props.url)
+const URLImage: VFC<ImagePropsWithHandler> = ({ url, ...props }) => {
+  const [image] = useImage(url)
 
   return (
     <KonvaImage
       {...props}
-      draggable
       image={image}
       alt={props.id}
-      // crop={{ height: 227, width: 227, x: 59, y: 16 }}
+      draggable
       _useStrictMode
     />
   )
