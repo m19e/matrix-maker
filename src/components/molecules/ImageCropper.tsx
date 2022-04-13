@@ -6,11 +6,11 @@ import type { Area, Point } from "react-easy-crop/types"
 import { Dropzone } from "./Dropzone"
 import { useValidateImageURL } from "@/hooks/useValidateImageURL"
 
-interface ImageCropperProps {
+interface Props {
   onSubmit: ({ url, crop }: { url: string; crop: Area }) => void
 }
 
-export const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
+export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
   const [url, setUrl] = useState("")
   const [urlInput, setUrlInput] = useState("")
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
