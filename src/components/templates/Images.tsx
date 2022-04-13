@@ -107,12 +107,9 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
   const validImage = imageStatus === "valid"
   const invalidImage = urlInput.trim() !== "" && imageStatus === "invalid"
 
-  const handleCropComplete = useCallback(
-    (croppedArea: Area, croppedAreaPixels: Area) => {
-      setArea(croppedAreaPixels)
-    },
-    []
-  )
+  const handleCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
+    setArea(croppedAreaPixels)
+  }, [])
   const handleInitialize = () => {
     setUrl("")
     setUrlInput("")
