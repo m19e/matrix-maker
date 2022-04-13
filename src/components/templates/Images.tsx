@@ -131,13 +131,13 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
   return (
     <>
       <label
-        htmlFor="my-modal"
+        htmlFor="cropper-modal"
         className="btn modal-button"
         onClick={handleInitialize}
       >
         ADD IMAGE
       </label>
-      <input type="checkbox" id="my-modal" className="modal-toggle" />
+      <input type="checkbox" id="cropper-modal" className="modal-toggle" />
       <div className="items-center modal">
         <div>
           <div className="flex flex-col items-center">
@@ -196,17 +196,17 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
               )}
             </div>
           </div>
-          <div className="modal-action">
+          <div className="mt-2 modal-action">
             {url && (
               <label
-                htmlFor="my-modal"
+                htmlFor="cropper-modal"
                 className="btn btn-primary"
                 onClick={handleSubmitCrop}
               >
                 crop
               </label>
             )}
-            <label htmlFor="my-modal" className="btn">
+            <label htmlFor="cropper-modal" className="btn">
               cancel
             </label>
           </div>
