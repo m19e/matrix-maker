@@ -138,7 +138,7 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
         ADD IMAGE
       </label>
       <input type="checkbox" id="my-modal" className="modal-toggle" />
-      <div className="modal">
+      <div className="items-center modal">
         <div>
           <div className="flex flex-col items-center">
             <div className="w-96 shadow-xl card bg-base-200">
