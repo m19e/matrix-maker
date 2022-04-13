@@ -2,137 +2,14 @@ import { useState, useCallback } from "react"
 import type { VFC } from "react"
 import { Stage, Layer, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
-import Cropper from "react-easy-crop"
-import type { Point, Area } from "react-easy-crop/types"
+import type { Area } from "react-easy-crop/types"
 
 import { ImageProps } from "@/types"
-import { Dropzone } from "@/components/molecules/Dropzone"
+import { ImageCropper } from "@/components/molecules/ImageCropper"
 import { URLImage } from "@/components/atoms/URLImage"
-import { useValidateImageURL } from "@/hooks/useValidateImageURL"
 
 const DEFAULT_CANVAS_SIZE = 800
 const DEFAULT_IMAGE_SIZE = DEFAULT_CANVAS_SIZE * 0.1
-
-interface ImageCropperProps {
-  onSubmit: ({ url, crop }: { url: string; crop: Area }) => void
-}
-
-const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
-  const [url, setUrl] = useState("")
-  const [urlInput, setUrlInput] = useState("")
-  const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
-  const [area, setArea] = useState<Area>({ x: 0, y: 0, width: 0, height: 0 })
-  const [zoom, setZoom] = useState(1)
-
-  const imageStatus = useValidateImageURL(urlInput)
-  const validImage = imageStatus === "valid"
-  const invalidImage = urlInput.trim() !== "" && imageStatus === "invalid"
-
-  const handleCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
-    setArea(croppedAreaPixels)
-  }, [])
-  const handleInitialize = () => {
-    setUrl("")
-    setUrlInput("")
-    setCrop({ x: 0, y: 0 })
-    setArea({ x: 0, y: 0, width: 0, height: 0 })
-    setZoom(1)
-  }
-  const handleSubmitUrlInput = () => {
-    if (!validImage) return
-    setUrl(urlInput)
-  }
-  const handleSubmitCrop = () => {
-    onSubmit({ url, crop: area })
-  }
-
-  return (
-    <>
-      <label
-        htmlFor="cropper-modal"
-        className="btn modal-button"
-        onClick={handleInitialize}
-      >
-        ADD IMAGE
-      </label>
-      <input type="checkbox" id="cropper-modal" className="modal-toggle" />
-      <div className="items-center modal">
-        <div>
-          <div className="flex flex-col items-center">
-            <div className="w-96 shadow-xl card bg-base-200">
-              {url ? (
-                <figure className="p-8">
-                  <div className="relative w-80 h-80">
-                    <Cropper
-                      image={url}
-                      crop={crop}
-                      zoom={zoom}
-                      aspect={1 / 1}
-                      onCropChange={setCrop}
-                      onCropComplete={handleCropComplete}
-                      onZoomChange={setZoom}
-                    />
-                  </div>
-                </figure>
-              ) : (
-                <div className="flex flex-col items-center px-8 pt-8">
-                  <Dropzone onDrop={setUrl} />
-                  <div className="divider">OR</div>
-                  <div className="flex flex-col w-full max-w-xs form-control">
-                    <div className="w-full max-w-xs input-group">
-                      <input
-                        type="text"
-                        placeholder="Image URL"
-                        className="w-full max-w-xs input input-bordered"
-                        value={urlInput}
-                        onChange={(e) => {
-                          setUrlInput(e.currentTarget.value.trim())
-                        }}
-                      />
-
-                      <button
-                        className="btn btn-primary"
-                        onClick={handleSubmitUrlInput}
-                      >
-                        load
-                      </button>
-                    </div>
-                    <label className="h-8">
-                      {validImage && (
-                        <span className="label-text-alt text-success">
-                          Valid URL
-                        </span>
-                      )}
-                      {invalidImage && (
-                        <span className="label-text-alt text-error">
-                          Invalid URL
-                        </span>
-                      )}
-                    </label>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="mt-2 modal-action">
-            {url && (
-              <label
-                htmlFor="cropper-modal"
-                className="btn btn-primary"
-                onClick={handleSubmitCrop}
-              >
-                crop
-              </label>
-            )}
-            <label htmlFor="cropper-modal" className="btn">
-              cancel
-            </label>
-          </div>
-        </div>
-      </div>
-    </>
-  )
-}
 
 const AxisLayer: VFC<{ rect: number }> = ({ rect }) => {
   const fontSize = rect * 0.03
