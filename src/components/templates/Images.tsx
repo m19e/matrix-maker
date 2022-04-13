@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback } from "react"
 import type { VFC } from "react"
 import { Stage, Layer, Image as KonvaImage, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
@@ -9,27 +9,7 @@ import useImage from "use-image"
 
 import { Dropzone } from "@/components/molecules/Dropzone"
 
-export type Status = "valid" | "invalid" | "progress"
-
-const useValidateImageURL = (url: string): Status => {
-  const [status, setStatus] = useState<Status>("progress")
-  useEffect(() => {
-    setStatus("progress")
-    let hasChangedURL = false
-    const image = new Image()
-    image.src = url
-    image.addEventListener("load", () => {
-      if (!hasChangedURL) setStatus("valid")
-    })
-    image.addEventListener("error", () => {
-      if (!hasChangedURL) setStatus("invalid")
-    })
-    return () => {
-      hasChangedURL = false
-    }
-  }, [url])
-  return status
-}
+import { useValidateImageURL } from "@/hooks/useValidateImageURL"
 
 interface ImageProps extends Area {
   url: string
