@@ -404,52 +404,50 @@ const Images = () => {
   }
 
   return (
-    <>
-      <div className="p-10 bg-base-100 text-base-content">
-        <Stage width={DEFAULT_CANVAS_SIZE} height={DEFAULT_CANVAS_SIZE}>
-          <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
-          <LabelLayer rect={DEFAULT_CANVAS_SIZE} />
-          <Layer>
-            {images.map((image) => (
-              <URLImage
-                {...image}
-                key={image.id}
-                onDragStart={handleDragStart}
-                onDragMove={handleDragMove}
-                onDragEnd={handleDragEnd}
-              />
-            ))}
-          </Layer>
-        </Stage>
-        <div className="flex gap-2 justify-end">
-          <button
-            className="btn"
-            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE)}
-          >
-            S
-          </button>
-          <button
-            className="btn btn-primary"
-            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.2)}
-          >
-            M
-          </button>
-          <button
-            className="btn btn-secondary"
-            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.4)}
-          >
-            L
-          </button>
-          <button
-            className="btn btn-accent"
-            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.6)}
-          >
-            LL
-          </button>
-          <ImageCropper onSubmit={handleSubmitCrop} />
-        </div>
+    <div className="p-10 bg-base-100 text-base-content">
+      <Stage width={DEFAULT_CANVAS_SIZE} height={DEFAULT_CANVAS_SIZE}>
+        <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
+        <LabelLayer rect={DEFAULT_CANVAS_SIZE} />
+        <Layer>
+          {images.map((image) => (
+            <URLImage
+              {...image}
+              key={image.id}
+              onDragStart={handleDragStart}
+              onDragMove={handleDragMove}
+              onDragEnd={handleDragEnd}
+            />
+          ))}
+        </Layer>
+      </Stage>
+      <div className="flex gap-2 justify-end">
+        <button
+          className="btn"
+          onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE)}
+        >
+          S
+        </button>
+        <button
+          className="btn btn-primary"
+          onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.2)}
+        >
+          M
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.4)}
+        >
+          L
+        </button>
+        <button
+          className="btn btn-accent"
+          onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.6)}
+        >
+          LL
+        </button>
+        <ImageCropper onSubmit={handleSubmitCrop} />
       </div>
-    </>
+    </div>
   )
 }
 
