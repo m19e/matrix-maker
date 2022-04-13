@@ -3,10 +3,8 @@ import type { VFC } from "react"
 import { Stage, Layer, Image as KonvaImage, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import useImage from "use-image"
-
 import Cropper from "react-easy-crop"
-import { Point, Area } from "react-easy-crop/types"
-
+import type { Point, Area } from "react-easy-crop/types"
 
 import { Dropzone } from "@/components/molecules/Dropzone"
 
