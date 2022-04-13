@@ -107,26 +107,25 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
   const validImage = imageStatus === "valid"
   const invalidImage = urlInput.trim() !== "" && imageStatus === "invalid"
 
-  const onCropComplete = useCallback(
+  const handleCropComplete = useCallback(
     (croppedArea: Area, croppedAreaPixels: Area) => {
       setArea(croppedAreaPixels)
     },
     []
   )
-  const initCropper = () => {
-    setUrlInput("")
+  const handleInitialize = () => {
     setUrl("")
+    setUrlInput("")
     setCrop({ x: 0, y: 0 })
     setArea({ x: 0, y: 0, width: 0, height: 0 })
     setZoom(1)
   }
-  const submitCrop = () => {
-    onSubmit({ url, crop: area })
-  }
-
   const handleSubmitUrlInput = () => {
     if (!validImage) return
     setUrl(urlInput)
+  }
+  const handleSubmitCrop = () => {
+    onSubmit({ url, crop: area })
   }
 
   return (
@@ -134,7 +133,7 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
       <label
         htmlFor="my-modal"
         className="btn modal-button"
-        onClick={initCropper}
+        onClick={handleInitialize}
       >
         ADD IMAGE
       </label>
@@ -152,7 +151,7 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
                       zoom={zoom}
                       aspect={1 / 1}
                       onCropChange={setCrop}
-                      onCropComplete={onCropComplete}
+                      onCropComplete={handleCropComplete}
                       onZoomChange={setZoom}
                     />
                   </div>
@@ -202,7 +201,7 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
               <label
                 htmlFor="my-modal"
                 className="btn btn-primary"
-                onClick={submitCrop}
+                onClick={handleSubmitCrop}
               >
                 crop
               </label>
