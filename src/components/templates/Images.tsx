@@ -4,26 +4,11 @@ import { Stage, Layer, Image as KonvaImage, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import Cropper from "react-easy-crop"
 import type { Point, Area } from "react-easy-crop/types"
-
 import useImage from "use-image"
 
+import { ImageProps, ImagePropsWithHandler } from "@/types"
 import { Dropzone } from "@/components/molecules/Dropzone"
-
 import { useValidateImageURL } from "@/hooks/useValidateImageURL"
-
-interface ImageProps extends Area {
-  url: string
-  id: string
-  alt: string
-  crop: Area
-  isDragged: boolean
-}
-
-interface ImagePropsWithHandler extends ImageProps {
-  onDragStart: KonvaNodeEvents["onDragStart"]
-  onDragMove: KonvaNodeEvents["onDragMove"]
-  onDragEnd: KonvaNodeEvents["onDragEnd"]
-}
 
 const DEFAULT_CANVAS_SIZE = 800
 const DEFAULT_IMAGE_SIZE = DEFAULT_CANVAS_SIZE * 0.1
