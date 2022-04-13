@@ -1,23 +1,17 @@
 import { useState, useCallback } from "react"
 import type { VFC } from "react"
-import { Stage, Layer, Image as KonvaImage, Line, Text } from "react-konva"
+import { Stage, Layer, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import Cropper from "react-easy-crop"
 import type { Point, Area } from "react-easy-crop/types"
-import useImage from "use-image"
 
-import { ImageProps, ImagePropsWithHandler } from "@/types"
+import { ImageProps } from "@/types"
 import { Dropzone } from "@/components/molecules/Dropzone"
+import { URLImage } from "@/components/atoms/URLImage"
 import { useValidateImageURL } from "@/hooks/useValidateImageURL"
 
 const DEFAULT_CANVAS_SIZE = 800
 const DEFAULT_IMAGE_SIZE = DEFAULT_CANVAS_SIZE * 0.1
-
-const URLImage: VFC<ImagePropsWithHandler> = ({ url, ...props }) => {
-  const [image] = useImage(url)
-
-  return <KonvaImage {...props} image={image} draggable _useStrictMode />
-}
 
 interface ImageCropperProps {
   onSubmit: ({ url, crop }: { url: string; crop: Area }) => void
