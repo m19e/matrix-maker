@@ -294,8 +294,6 @@ const generateShapes = (size: number): ImageProps[] => {
   }))
 }
 
-const INITIAL_STATE = generateShapes(500)
-
 const Images = () => {
   const [images, setImages] = useState<ImageProps[]>([])
   const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE)
