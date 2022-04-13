@@ -160,8 +160,8 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
                 <div className="flex flex-col items-center px-8 pt-8">
                   <Dropzone onDrop={setUrl} />
                   <div className="divider">OR</div>
-                  <div className="flex flex-row gap-2 w-full max-w-xs form-control">
-                    <div className="w-full max-w-xs">
+                  <div className="flex flex-col w-full max-w-xs form-control">
+                    <div className="w-full max-w-xs input-group">
                       <input
                         type="text"
                         placeholder="Image URL"
@@ -171,26 +171,26 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
                           setUrlInput(e.currentTarget.value.trim())
                         }}
                       />
-                      <label className="justify-end h-8 label">
-                        {validImage && (
-                          <span className="label-text-alt text-success">
-                            Valid URL
-                          </span>
-                        )}
-                        {invalidImage && (
-                          <span className="label-text-alt text-error">
-                            Invalid URL
-                          </span>
-                        )}
-                      </label>
-                    </div>
 
-                    <div
-                      className="btn btn-primary"
-                      onClick={handleSubmitUrlInput}
-                    >
-                      set
+                      <button
+                        className="btn btn-primary"
+                        onClick={handleSubmitUrlInput}
+                      >
+                        load
+                      </button>
                     </div>
+                    <label className="h-8">
+                      {validImage && (
+                        <span className="label-text-alt text-success">
+                          Valid URL
+                        </span>
+                      )}
+                      {invalidImage && (
+                        <span className="label-text-alt text-error">
+                          Invalid URL
+                        </span>
+                      )}
+                    </label>
                   </div>
                 </div>
               )}
