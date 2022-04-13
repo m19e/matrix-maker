@@ -157,7 +157,7 @@ const ImageCropper: VFC<ImageCropperProps> = ({ onSubmit }) => {
                   </div>
                 </figure>
               ) : (
-                <div className="flex flex-col items-center pt-8">
+                <div className="flex flex-col items-center px-8 pt-8">
                   <Dropzone onDrop={setUrl} />
                   <div className="divider">OR</div>
                   <div className="flex flex-row gap-2 w-full max-w-xs form-control">
