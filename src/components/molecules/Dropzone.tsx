@@ -1,0 +1,40 @@
+import { useCallback } from "react"
+import { useDropzone } from "react-dropzone"
+
+export const Dropzone = ({ onDrop }: { onDrop: (url: string) => void }) => {
+  const handleDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      if (!acceptedFiles.length) return
+      const files = acceptedFiles.map((file) => ({
+        file,
+        url: URL.createObjectURL(file),
+      }))
+      onDrop(files[0].url)
+    },
+    [onDrop]
+  )
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: handleDrop,
+    accept: ["image/*"],
+    maxFiles: 1,
+  })
+
+  return (
+    <div
+      {...getRootProps()}
+      className="grid place-items-center p-2 w-full max-w-xs h-32 card bg-base-300 rounded-box"
+    >
+      <div className="flex flex-col justify-center items-center w-full h-full font-black text-center border-2 border-gray-400 border-dashed text-primary-content rounded-box">
+        <input {...getInputProps()} />
+        {isDragActive ? (
+          <p>Drop the file here ...</p>
+        ) : (
+          <>
+            <p>{"Drag 'n' Drop image file here,"}</p>
+            <p>or click to select file</p>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
