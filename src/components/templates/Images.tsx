@@ -8,6 +8,28 @@ import { ImageProps } from "@/types"
 import { ImageCropper } from "@/components/molecules/ImageCropper"
 import { URLImage } from "@/components/atoms/URLImage"
 
+const URLS = [
+  "https://poplinks.idolmaster-official.jp/images/idol/y3xf3qyq/img_thumb.png",
+  "https://poplinks.idolmaster-official.jp/images/idol/ahfrudkf/img_thumb.png",
+  "https://poplinks.idolmaster-official.jp/images/idol/qq21osxs/img_thumb.png",
+  "https://poplinks.idolmaster-official.jp/images/idol/fjtgwau6/img_thumb.png",
+  "https://poplinks.idolmaster-official.jp/images/idol/s7mg8tvk/img_thumb.png",
+]
+
+const generateShapes = (size: number): ImageProps[] => {
+  return URLS.map((url, i) => ({
+    url,
+    id: i.toString(),
+    alt: i.toString(),
+    x: Math.random() * size,
+    y: Math.random() * size,
+    width: DEFAULT_IMAGE_SIZE,
+    height: DEFAULT_IMAGE_SIZE,
+    crop: { x: 0, y: 0, width: 0, height: 0 },
+    isDragged: false,
+  }))
+}
+
 const DEFAULT_CANVAS_SIZE = 800
 const DEFAULT_IMAGE_SIZE = DEFAULT_CANVAS_SIZE * 0.1
 
@@ -68,28 +90,6 @@ const LabelLayer: VFC<{ rect: number }> = ({ rect }) => {
       />
     </Layer>
   )
-}
-
-const URLS = [
-  "https://poplinks.idolmaster-official.jp/images/idol/y3xf3qyq/img_thumb.png",
-  "https://poplinks.idolmaster-official.jp/images/idol/ahfrudkf/img_thumb.png",
-  "https://poplinks.idolmaster-official.jp/images/idol/qq21osxs/img_thumb.png",
-  "https://poplinks.idolmaster-official.jp/images/idol/fjtgwau6/img_thumb.png",
-  "https://poplinks.idolmaster-official.jp/images/idol/s7mg8tvk/img_thumb.png",
-]
-
-const generateShapes = (size: number): ImageProps[] => {
-  return URLS.map((url, i) => ({
-    url,
-    id: i.toString(),
-    alt: i.toString(),
-    x: Math.random() * size,
-    y: Math.random() * size,
-    width: DEFAULT_IMAGE_SIZE,
-    height: DEFAULT_IMAGE_SIZE,
-    crop: { x: 0, y: 0, width: 0, height: 0 },
-    isDragged: false,
-  }))
 }
 
 const Images = () => {
