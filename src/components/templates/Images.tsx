@@ -6,6 +6,7 @@ import type Konva from "konva"
 import type { Area } from "react-easy-crop/types"
 
 import { ImageProps } from "@/types"
+import { useElementSize } from "@/hooks/useElementSize"
 import { ImageCropper } from "@/components/molecules/ImageCropper"
 import { URLImage } from "@/components/atoms/URLImage"
 
@@ -121,6 +122,11 @@ const Images = () => {
   const [images, setImages] = useState<ImageProps[]>([])
   const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE)
 
+  const [containerRef, { width, height }] = useElementSize({
+    width: DEFAULT_CANVAS_SIZE,
+    height: DEFAULT_CANVAS_SIZE,
+  })
+
   const [canvasRef, canvasAction] = useCanvas()
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
@@ -228,56 +234,66 @@ const Images = () => {
     setImages((prev) => [...prev, croppedImage])
   }
 
+  const stageRect = Math.min(width, height)
+  const scale = stageRect / DEFAULT_CANVAS_SIZE
+
   return (
-    <div className="p-10 bg-base-100 text-base-content">
-      <Stage
-        width={DEFAULT_CANVAS_SIZE}
-        height={DEFAULT_CANVAS_SIZE}
-        ref={canvasRef}
+    <div className="flex flex-col items-center min-h-screen bg-base-300">
+      <div
+        className="w-11/12 sm:max-w-3xl bg-base-100 text-base-content"
+        ref={containerRef}
       >
-        <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
-        <LabelLayer rect={DEFAULT_CANVAS_SIZE} />
-        <Layer>
-          {images.map((image) => (
-            <URLImage
-              {...image}
-              key={image.id}
-              onDragStart={handleDragStart}
-              onDragMove={handleDragMove}
-              onDragEnd={handleDragEnd}
-            />
-          ))}
-        </Layer>
-      </Stage>
-      <div className="flex gap-2 justify-end">
-        <button
-          className="btn"
-          onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE)}
+        <Stage
+          ref={canvasRef}
+          width={stageRect}
+          height={stageRect}
+          scaleX={scale}
+          scaleY={scale}
         >
-          S
-        </button>
-        <button
-          className="btn btn-primary"
-          onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.2)}
-        >
-          M
-        </button>
-        <button
-          className="btn btn-secondary"
-          onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.4)}
-        >
-          L
-        </button>
-        <button
-          className="btn btn-accent"
-          onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.6)}
-        >
-          LL
-        </button>
-        <ImageCropper onSubmit={handleSubmitCrop} />
-        <button className="btn" onClick={canvasAction.save}>
-          download png
-        </button>
+          <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
+          <LabelLayer rect={DEFAULT_CANVAS_SIZE} />
+          <Layer>
+            {images.map((image) => (
+              <URLImage
+                {...image}
+                key={image.id}
+                onDragStart={handleDragStart}
+                onDragMove={handleDragMove}
+                onDragEnd={handleDragEnd}
+              />
+            ))}
+          </Layer>
+        </Stage>
+        <div className="flex gap-2 justify-end">
+          <button
+            className="btn"
+            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE)}
+          >
+            S
+          </button>
+          <button
+            className="btn btn-primary"
+            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.2)}
+          >
+            M
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.4)}
+          >
+            L
+          </button>
+          <button
+            className="btn btn-accent"
+            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.6)}
+          >
+            LL
+          </button>
+          <ImageCropper onSubmit={handleSubmitCrop} />
+          <button className="btn" onClick={canvasAction.save}>
+            download png
+          </button>
+        </div>
       </div>
     </div>
   )
