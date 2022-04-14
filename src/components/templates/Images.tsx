@@ -121,6 +121,8 @@ const Images = () => {
   const [images, setImages] = useState<ImageProps[]>([])
   const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE)
 
+  const [canvasRef, canvasAction] = useCanvas()
+
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
     const id = e.target.id()
     setImages((prev) =>
@@ -228,7 +230,11 @@ const Images = () => {
 
   return (
     <div className="p-10 bg-base-100 text-base-content">
-      <Stage width={DEFAULT_CANVAS_SIZE} height={DEFAULT_CANVAS_SIZE}>
+      <Stage
+        width={DEFAULT_CANVAS_SIZE}
+        height={DEFAULT_CANVAS_SIZE}
+        ref={canvasRef}
+      >
         <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
         <LabelLayer rect={DEFAULT_CANVAS_SIZE} />
         <Layer>
@@ -269,6 +275,9 @@ const Images = () => {
           LL
         </button>
         <ImageCropper onSubmit={handleSubmitCrop} />
+        <button className="btn" onClick={canvasAction.save}>
+          download png
+        </button>
       </div>
     </div>
   )
