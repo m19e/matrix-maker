@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from "react"
 import type { VFC, RefObject } from "react"
-import { Stage, Layer, Line, Text } from "react-konva"
+import { Stage, Layer, Rect, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import type Konva from "konva"
 import type { Area } from "react-easy-crop/types"
@@ -65,6 +65,7 @@ const AxisLayer: VFC<{ rect: number }> = ({ rect }) => {
 
   return (
     <Layer>
+      <Rect width={rect} height={rect} fill="white" />
       <Line points={[start, middle, end, middle]} stroke={"gray"} />
       <Line points={[middle, start, middle, end]} stroke={"gray"} />
     </Layer>
