@@ -1,7 +1,8 @@
-import { useState, useCallback } from "react"
-import type { VFC } from "react"
+import { useState, useCallback, useRef } from "react"
+import type { VFC, RefObject } from "react"
 import { Stage, Layer, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
+import type Konva from "konva"
 import type { Area } from "react-easy-crop/types"
 
 import { ImageProps } from "@/types"
@@ -32,6 +33,29 @@ const generateShapes = (size: number): ImageProps[] => {
 
 const DEFAULT_CANVAS_SIZE = 800
 const DEFAULT_IMAGE_SIZE = DEFAULT_CANVAS_SIZE * 0.1
+
+const useCanvas = (): [RefObject<Konva.Stage>, { save: () => void }] => {
+  const canvasRef = useRef<Konva.Stage>(null)
+
+  const downloadURI = (uri: string, name: string) => {
+    const link = document.createElement("a")
+    link.download = name
+    link.href = uri
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  const save = () => {
+    const uri = canvasRef.current?.toDataURL({ pixelRatio: 2 })
+    if (uri) {
+      const fileName = `matrix-${Date.now().toString(16)}.png`
+      downloadURI(uri, fileName)
+    }
+  }
+
+  return [canvasRef, { save }]
+}
 
 const AxisLayer: VFC<{ rect: number }> = ({ rect }) => {
   const fontSize = rect * 0.03
