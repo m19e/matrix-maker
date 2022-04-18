@@ -238,9 +238,9 @@ const Images = () => {
   const scale = stageRect / DEFAULT_CANVAS_SIZE
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-base-300">
+    <div className="flex justify-center bg-base-300">
       <div
-        className="w-11/12 sm:max-w-3xl bg-base-100 text-base-content"
+        className="flex flex-col justify-center items-center w-11/12 h-screen sm:max-w-3xl bg-base-100 text-base-content"
         ref={containerRef}
       >
         <Stage
@@ -249,6 +249,7 @@ const Images = () => {
           height={stageRect}
           scaleX={scale}
           scaleY={scale}
+          className="my-4"
         >
           <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
           <LabelLayer rect={DEFAULT_CANVAS_SIZE} />
@@ -264,7 +265,7 @@ const Images = () => {
             ))}
           </Layer>
         </Stage>
-        <div className="flex gap-2 justify-end">
+        <div className="flex flex-wrap gap-2">
           <button
             className="btn"
             onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE)}
