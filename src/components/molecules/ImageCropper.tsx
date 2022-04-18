@@ -54,7 +54,7 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
           <div className="flex flex-col items-center">
             <div className="w-96 shadow-xl card bg-base-200">
               {url ? (
-                <figure className="p-8">
+                <figure className="p-8 bg-white">
                   <div className="relative w-80 h-80">
                     <Cropper
                       image={url}
