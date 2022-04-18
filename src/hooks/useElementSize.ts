@@ -2,6 +2,7 @@ import { useCallback, useState } from "react"
 
 import { useEventListener } from "./useEventListener"
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect"
+import { useDebounce } from "./useDebounce"
 
 interface Size {
   width: number
@@ -14,8 +15,9 @@ export const useElementSize = <T extends HTMLElement = HTMLDivElement>(
   // Mutable values like 'ref.current' aren't valid dependencies
   // because mutating them doesn't re-render the component.
   // Instead, we use a state as a ref to be reactive.
-  const [ref, setRef] = useState<T | null>(null)
+  const [rawRef, setRef] = useState<T | null>(null)
   const [size, setSize] = useState<Size>(initialSize)
+  const ref = useDebounce(rawRef, 500)
 
   // Prevent too many rendering using useCallback
   const handleSize = useCallback(() => {
