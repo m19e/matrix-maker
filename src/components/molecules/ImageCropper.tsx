@@ -43,7 +43,7 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
     <>
       <label
         htmlFor="cropper-modal"
-        className="btn modal-button"
+        className="btn modal-button btn-sm sm:btn-md"
         onClick={handleInitialize}
       >
         ADD IMAGE

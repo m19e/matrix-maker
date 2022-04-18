@@ -249,7 +249,7 @@ const Images = () => {
           height={stageRect}
           scaleX={scale}
           scaleY={scale}
-          className="my-4"
+          className=""
         >
           <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
           <LabelLayer rect={DEFAULT_CANVAS_SIZE} />
@@ -265,35 +265,44 @@ const Images = () => {
             ))}
           </Layer>
         </Stage>
-        <div className="flex flex-wrap gap-2">
-          <button
-            className="btn"
-            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE)}
-          >
-            S
-          </button>
-          <button
-            className="btn btn-primary"
-            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.2)}
-          >
-            M
-          </button>
-          <button
-            className="btn btn-secondary"
-            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.4)}
-          >
-            L
-          </button>
-          <button
-            className="btn btn-accent"
-            onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.6)}
-          >
-            LL
-          </button>
-          <ImageCropper onSubmit={handleSubmitCrop} />
-          <button className="btn" onClick={canvasAction.save}>
-            download png
-          </button>
+        <div className="grid grid-cols-1 gap-2 p-4 w-full">
+          <div className="flex flex-wrap gap-2 justify-end">
+            <ImageCropper onSubmit={handleSubmitCrop} />
+          </div>
+          <div className="flex gap-2 justify-end">
+            <button
+              className="btn btn-sm sm:btn-md"
+              onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE)}
+            >
+              S
+            </button>
+            <button
+              className="btn btn-sm btn-primary sm:btn-md"
+              onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.2)}
+            >
+              M
+            </button>
+            <button
+              className="btn btn-sm btn-secondary sm:btn-md"
+              onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.4)}
+            >
+              L
+            </button>
+            <button
+              className="btn btn-sm btn-accent sm:btn-md"
+              onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.6)}
+            >
+              LL
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-2 justify-end">
+            <button
+              className="btn btn-sm sm:btn-md"
+              onClick={canvasAction.save}
+            >
+              download png
+            </button>
+          </div>
         </div>
       </div>
     </div>
