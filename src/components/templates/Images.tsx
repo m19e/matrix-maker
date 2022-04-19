@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from "react"
-import type { VFC, RefObject } from "react"
+import type { VFC, RefObject, ChangeEvent } from "react"
 import { Stage, Layer, Rect, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import type Konva from "konva"
@@ -121,6 +121,7 @@ const LabelLayer: VFC<{ rect: number }> = ({ rect }) => {
 const Images = () => {
   const [images, setImages] = useState<ImageProps[]>([])
   const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE)
+  const [rangeValue, setRangeValue] = useState(1)
 
   const [containerRef, { width, height }] = useElementSize({
     width: DEFAULT_CANVAS_SIZE,
@@ -234,6 +235,11 @@ const Images = () => {
     setImages((prev) => [...prev, croppedImage])
   }
 
+  const handleChangeRangeValue = (e: ChangeEvent<HTMLInputElement>) => {
+    setRangeValue(e.currentTarget.valueAsNumber)
+    handleSelectRect(e.currentTarget.valueAsNumber * DEFAULT_IMAGE_SIZE)
+  }
+
   const stageRect = Math.min(width, height)
   const scale = stageRect / DEFAULT_CANVAS_SIZE
 
@@ -265,11 +271,33 @@ const Images = () => {
             ))}
           </Layer>
         </Stage>
-        <div className="grid grid-cols-1 gap-2 p-4 w-full">
-          <div className="flex flex-wrap gap-2 justify-end">
-            <ImageCropper onSubmit={handleSubmitCrop} />
+        <div className="flex gap-6 items-center p-4 w-full sm:gap-8 sm:items-end">
+          <ImageCropper onSubmit={handleSubmitCrop} />
+          <div className="flex flex-col flex-1 items-center">
+            <input
+              type="range"
+              min="1"
+              max="2"
+              className="range range-xs sm:range-md"
+              step="0.2"
+              value={rangeValue}
+              onChange={handleChangeRangeValue}
+            />
+            <div className="hidden justify-between px-2 w-full text-xs sm:flex">
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+            </div>
           </div>
-          <div className="flex gap-2 justify-end">
+          <button className="btn btn-sm sm:btn-md" onClick={canvasAction.save}>
+            download png
+          </button>
+        </div>
+        {/* <div className="grid grid-cols-1 gap-2 p-4 w-full">
+          <div className="flex gap-2 justify-center">
             <button
               className="btn btn-sm sm:btn-md"
               onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE)}
@@ -295,15 +323,7 @@ const Images = () => {
               LL
             </button>
           </div>
-          <div className="flex flex-wrap gap-2 justify-end">
-            <button
-              className="btn btn-sm sm:btn-md"
-              onClick={canvasAction.save}
-            >
-              download png
-            </button>
-          </div>
-        </div>
+        </div> */}
       </div>
     </div>
   )
