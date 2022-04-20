@@ -296,34 +296,6 @@ const Images = () => {
             download png
           </button>
         </div>
-        {/* <div className="grid grid-cols-1 gap-2 p-4 w-full">
-          <div className="flex gap-2 justify-center">
-            <button
-              className="btn btn-sm sm:btn-md"
-              onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE)}
-            >
-              S
-            </button>
-            <button
-              className="btn btn-sm btn-primary sm:btn-md"
-              onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.2)}
-            >
-              M
-            </button>
-            <button
-              className="btn btn-sm btn-secondary sm:btn-md"
-              onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.4)}
-            >
-              L
-            </button>
-            <button
-              className="btn btn-sm btn-accent sm:btn-md"
-              onClick={() => handleSelectRect(DEFAULT_IMAGE_SIZE * 1.6)}
-            >
-              LL
-            </button>
-          </div>
-        </div> */}
       </div>
     </div>
   )
