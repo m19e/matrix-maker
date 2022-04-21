@@ -68,7 +68,7 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
                 </div>
               </div>
             ) : (
-              <div className="w-96 shadow-xl card bg-base-100">
+              <div className="w-5/6 shadow-xl sm:w-96 card bg-base-100">
                 <div className="flex flex-col items-center px-8 pt-8">
                   <Dropzone onDrop={setUrl} />
                   <div className="divider">OR</div>
@@ -111,20 +111,22 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
             <div className="mt-2 modal-action">
               <label
                 htmlFor="cropper-modal"
-                className="btn btn-primary"
+                className="btn btn-primary btn-sm sm:btn-md"
                 onClick={handleSubmitCrop}
               >
                 crop
               </label>
-              <label htmlFor="cropper-modal" className="btn">
+              <label htmlFor="cropper-modal" className="btn btn-sm sm:btn-md">
                 cancel
               </label>
             </div>
           ) : (
-            <div className="pr-8 mt-2 modal-action">
-              <label htmlFor="cropper-modal" className="btn">
-                cancel
-              </label>
+            <div className="flex justify-center w-full">
+              <div className="mt-2 w-5/6 sm:w-96 modal-action">
+                <label htmlFor="cropper-modal" className="btn btn-sm sm:btn-md">
+                  cancel
+                </label>
+              </div>
             </div>
           )}
         </div>
