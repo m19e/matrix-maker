@@ -52,23 +52,23 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
       <div className="items-center modal">
         <div>
           <div className="flex flex-col items-center">
-            <div className="w-96 shadow-xl card bg-base-200">
-              {url ? (
-                <figure className="p-8 bg-white">
-                  <div className="relative w-80 h-80">
-                    <Cropper
-                      image={url}
-                      crop={crop}
-                      zoom={zoom}
-                      aspect={1 / 1}
-                      onCropChange={setCrop}
-                      onCropComplete={handleCropComplete}
-                      onZoomChange={setZoom}
-                      maxZoom={5}
-                    />
-                  </div>
-                </figure>
-              ) : (
+            {url ? (
+              <div className="p-8 w-full shadow-xl card bg-base-100">
+                <div className="relative w-96 h-96 bg-white">
+                  <Cropper
+                    image={url}
+                    crop={crop}
+                    zoom={zoom}
+                    aspect={1 / 1}
+                    onCropChange={setCrop}
+                    onCropComplete={handleCropComplete}
+                    onZoomChange={setZoom}
+                    maxZoom={5}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="w-96 shadow-xl card bg-base-100">
                 <div className="flex flex-col items-center px-8 pt-8">
                   <Dropzone onDrop={setUrl} />
                   <div className="divider">OR</div>
@@ -105,8 +105,8 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
                     </label>
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
           <div className="mt-2 modal-action">
             {url && (
