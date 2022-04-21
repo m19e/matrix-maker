@@ -50,11 +50,11 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
       </label>
       <input type="checkbox" id="cropper-modal" className="modal-toggle" />
       <div className="items-center modal">
-        <div>
+        <div className="w-11/12 max-w-md">
           <div className="flex flex-col items-center">
             {url ? (
-              <div className="p-8 w-full shadow-xl card bg-base-100">
-                <div className="relative w-96 h-96 bg-white">
+              <div className="p-4 w-full shadow-xl sm:p-8 card bg-base-100">
+                <div className="relative w-full h-96 bg-white sm:w-96">
                   <Cropper
                     image={url}
                     crop={crop}
@@ -83,7 +83,6 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
                           setUrlInput(e.currentTarget.value.trim())
                         }}
                       />
-
                       <button
                         className="btn btn-primary"
                         onClick={handleSubmitUrlInput}
