@@ -107,8 +107,8 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
               </div>
             )}
           </div>
-          <div className="mt-2 modal-action">
-            {url && (
+          {url ? (
+            <div className="mt-2 modal-action">
               <label
                 htmlFor="cropper-modal"
                 className="btn btn-primary"
@@ -116,11 +116,17 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
               >
                 crop
               </label>
-            )}
-            <label htmlFor="cropper-modal" className="btn">
-              cancel
-            </label>
-          </div>
+              <label htmlFor="cropper-modal" className="btn">
+                cancel
+              </label>
+            </div>
+          ) : (
+            <div className="pr-8 mt-2 modal-action">
+              <label htmlFor="cropper-modal" className="btn">
+                cancel
+              </label>
+            </div>
+          )}
         </div>
       </div>
     </>
