@@ -60,11 +60,11 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
                     crop={crop}
                     zoom={zoom}
                     aspect={1 / 1}
-                    onCropChange={setCrop}
-                    onCropComplete={handleCropComplete}
-                    onZoomChange={setZoom}
-                    maxZoom={5}
                     zoomSpeed={1 / 3}
+                    maxZoom={5}
+                    onCropChange={setCrop}
+                    onZoomChange={setZoom}
+                    onCropComplete={handleCropComplete}
                   />
                 </div>
               </div>
