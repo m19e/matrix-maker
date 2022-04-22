@@ -24,20 +24,20 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
   const handleCropComplete = useCallback((_: Area, croppedAreaPixels: Area) => {
     setArea(croppedAreaPixels)
   }, [])
-  const handleInitialize = () => {
+  const handleInitialize = useCallback(() => {
     setUrl("")
     setUrlInput("")
     setCrop({ x: 0, y: 0 })
     setArea({ x: 0, y: 0, width: 0, height: 0 })
     setZoom(1)
-  }
-  const handleSubmitUrlInput = () => {
+  }, [])
+  const handleSubmitUrlInput = useCallback(() => {
     if (!validImage) return
     setUrl(urlInput)
-  }
-  const handleSubmitCrop = () => {
+  }, [validImage, urlInput])
+  const handleSubmitCrop = useCallback(() => {
     onSubmit({ url, crop: area })
-  }
+  }, [onSubmit, url, area])
 
   return (
     <>
