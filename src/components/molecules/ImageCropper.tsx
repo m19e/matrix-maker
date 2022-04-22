@@ -46,7 +46,7 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
         className="btn modal-button btn-sm sm:btn-md"
         onClick={handleInitialize}
       >
-        ADD IMAGE
+        add image
       </label>
       <input type="checkbox" id="cropper-modal" className="modal-toggle" />
       <div className="items-center modal">
@@ -64,6 +64,7 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
                     onCropComplete={handleCropComplete}
                     onZoomChange={setZoom}
                     maxZoom={5}
+                    zoomSpeed={1 / 3}
                   />
                 </div>
               </div>
