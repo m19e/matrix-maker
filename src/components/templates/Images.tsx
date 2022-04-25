@@ -252,7 +252,7 @@ const Images = () => {
           <input
             type="text"
             placeholder="Type here"
-            className="max-w-xs input input-bordered"
+            className="max-w-xs bg-gray-200 input input-bordered"
             value={label.left}
             onChange={(e) => {
               setLabel((prev) => ({
@@ -264,7 +264,7 @@ const Images = () => {
           <input
             type="text"
             placeholder="Type here"
-            className="max-w-xs input input-bordered"
+            className="max-w-xs bg-gray-200 input input-bordered"
             value={label.bottom}
             onChange={(e) => {
               setLabel((prev) => ({
@@ -276,7 +276,7 @@ const Images = () => {
           <input
             type="text"
             placeholder="Type here"
-            className="max-w-xs input input-bordered"
+            className="max-w-xs bg-gray-200 input input-bordered"
             value={label.top}
             onChange={(e) => {
               setLabel((prev) => ({
@@ -288,7 +288,7 @@ const Images = () => {
           <input
             type="text"
             placeholder="Type here"
-            className="max-w-xs input input-bordered"
+            className="max-w-xs bg-gray-200 input input-bordered"
             value={label.right}
             onChange={(e) => {
               setLabel((prev) => ({
