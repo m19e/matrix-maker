@@ -59,7 +59,14 @@ const AxisLayer: VFC<{ rect: number }> = ({ rect }) => {
   )
 }
 
-const LabelLayer: VFC<{ rect: number }> = ({ rect }) => {
+interface Label {
+  left: string
+  bottom: string
+  top: string
+  right: string
+}
+
+const LabelLayer: VFC<{ rect: number; label: Label }> = ({ rect, label }) => {
   const fontSize = rect * 0.03
   const paddingTL = fontSize / 4
   const paddingBR = rect - fontSize - paddingTL
@@ -67,24 +74,8 @@ const LabelLayer: VFC<{ rect: number }> = ({ rect }) => {
   return (
     <Layer>
       <Text
-        text="年上"
-        x={0}
-        y={paddingTL}
-        width={rect}
-        align={"center"}
-        fontSize={fontSize}
-      />
-      <Text
-        text="年下"
-        x={0}
-        y={paddingBR}
-        width={rect}
-        align={"center"}
-        fontSize={fontSize}
-      />
-      <Text
-        text="大きい"
-        x={paddingBR}
+        text={label.left}
+        x={paddingTL}
         y={0}
         height={rect}
         width={fontSize}
@@ -92,8 +83,24 @@ const LabelLayer: VFC<{ rect: number }> = ({ rect }) => {
         fontSize={fontSize}
       />
       <Text
-        text="小さい"
-        x={paddingTL}
+        text={label.bottom}
+        x={0}
+        y={paddingBR}
+        width={rect}
+        align={"center"}
+        fontSize={fontSize}
+      />
+      <Text
+        text={label.top}
+        x={0}
+        y={paddingTL}
+        width={rect}
+        align={"center"}
+        fontSize={fontSize}
+      />
+      <Text
+        text={label.right}
+        x={paddingBR}
         y={0}
         height={rect}
         width={fontSize}
@@ -108,6 +115,12 @@ const Images = () => {
   const [images, setImages] = useState<ImageProps[]>([])
   const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE)
   const [rangeValue, setRangeValue] = useState(1)
+  const [label, setLabel] = useState<Label>({
+    left: "Ｘ軸左",
+    bottom: "Ｙ軸下",
+    top: "Ｙ軸下",
+    right: "Ｘ軸右",
+  })
 
   const [containerRef, { width, height }] = useElementSize({
     width: DEFAULT_CANVAS_SIZE,
@@ -235,6 +248,56 @@ const Images = () => {
         className="flex flex-col justify-center items-center w-11/12 h-screen sm:max-w-3xl bg-base-100 text-base-content"
         ref={containerRef}
       >
+        <div className="grid grid-cols-4 gap-2 p-4 w-full">
+          <input
+            type="text"
+            placeholder="Type here"
+            className="max-w-xs input input-bordered"
+            value={label.left}
+            onChange={(e) => {
+              setLabel((prev) => ({
+                ...prev,
+                left: e.target.value.trim(),
+              }))
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Type here"
+            className="max-w-xs input input-bordered"
+            value={label.bottom}
+            onChange={(e) => {
+              setLabel((prev) => ({
+                ...prev,
+                bottom: e.target.value.trim(),
+              }))
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Type here"
+            className="max-w-xs input input-bordered"
+            value={label.top}
+            onChange={(e) => {
+              setLabel((prev) => ({
+                ...prev,
+                top: e.target.value.trim(),
+              }))
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Type here"
+            className="max-w-xs input input-bordered"
+            value={label.right}
+            onChange={(e) => {
+              setLabel((prev) => ({
+                ...prev,
+                right: e.target.value.trim(),
+              }))
+            }}
+          />
+        </div>
         <Stage
           ref={canvasRef}
           width={stageRect}
@@ -244,7 +307,7 @@ const Images = () => {
           className=""
         >
           <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
-          <LabelLayer rect={DEFAULT_CANVAS_SIZE} />
+          <LabelLayer rect={DEFAULT_CANVAS_SIZE} label={label} />
           <Layer>
             {images.map((image) => (
               <URLImage
