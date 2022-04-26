@@ -251,7 +251,7 @@ const Images = () => {
         <div className="grid grid-cols-4 gap-2 p-4 w-full">
           <input
             type="text"
-            placeholder="Type here"
+            placeholder="X軸左"
             className="max-w-xs bg-gray-200 input input-bordered"
             value={label.left}
             onChange={(e) => {
@@ -263,7 +263,7 @@ const Images = () => {
           />
           <input
             type="text"
-            placeholder="Type here"
+            placeholder="Y軸下"
             className="max-w-xs bg-gray-200 input input-bordered"
             value={label.bottom}
             onChange={(e) => {
@@ -275,7 +275,7 @@ const Images = () => {
           />
           <input
             type="text"
-            placeholder="Type here"
+            placeholder="Y軸上"
             className="max-w-xs bg-gray-200 input input-bordered"
             value={label.top}
             onChange={(e) => {
@@ -287,7 +287,7 @@ const Images = () => {
           />
           <input
             type="text"
-            placeholder="Type here"
+            placeholder="X軸左"
             className="max-w-xs bg-gray-200 input input-bordered"
             value={label.right}
             onChange={(e) => {
