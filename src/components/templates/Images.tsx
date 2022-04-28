@@ -127,6 +127,11 @@ const Images = () => {
     height: DEFAULT_CANVAS_SIZE,
   })
 
+  const [canvasPos, setCanvasPos] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  })
+
   const [canvasRef, canvasAction] = useCanvas()
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
