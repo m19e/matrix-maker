@@ -244,15 +244,15 @@ const Images = () => {
     handleSelectRect(e.currentTarget.valueAsNumber * DEFAULT_IMAGE_SIZE)
   }
 
-  const stageRect = Math.min(width, height)
-  const scale = stageRect / DEFAULT_CANVAS_SIZE
+  const canvasSize = Math.min(width, height)
+  // const canvasStyle = isMobile
+  //   ? { width: height, height }
+  //   : { width: canvasSize, height: canvasSize }
+  const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
 
   return (
     <div className="flex justify-center bg-base-300">
-      <div
-        className="flex flex-col justify-center items-center w-11/12 h-screen sm:max-w-3xl bg-base-100 text-base-content"
-        ref={containerRef}
-      >
+      <div className="flex flex-col justify-center items-center w-11/12 h-screen sm:max-w-3xl bg-base-100 text-base-content">
         <div className="grid grid-cols-4 gap-2 p-4 w-full">
           <input
             type="text"
@@ -303,28 +303,33 @@ const Images = () => {
             }}
           />
         </div>
-        <Stage
-          ref={canvasRef}
-          width={stageRect}
-          height={stageRect}
-          scaleX={scale}
-          scaleY={scale}
-          className=""
+        <div
+          className="flex flex-1 justify-center items-center w-full bg-base-300"
+          ref={containerRef}
         >
-          <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
-          <LabelLayer rect={DEFAULT_CANVAS_SIZE} label={label} />
-          <Layer>
-            {images.map((image) => (
-              <URLImage
-                {...image}
-                key={image.id}
-                onDragStart={handleDragStart}
-                onDragMove={handleDragMove}
-                onDragEnd={handleDragEnd}
-              />
-            ))}
-          </Layer>
-        </Stage>
+          <Stage
+            ref={canvasRef}
+            width={canvasSize}
+            height={canvasSize}
+            scaleX={canvasScale}
+            scaleY={canvasScale}
+            className=""
+          >
+            <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
+            <LabelLayer rect={DEFAULT_CANVAS_SIZE} label={label} />
+            <Layer>
+              {images.map((image) => (
+                <URLImage
+                  {...image}
+                  key={image.id}
+                  onDragStart={handleDragStart}
+                  onDragMove={handleDragMove}
+                  onDragEnd={handleDragEnd}
+                />
+              ))}
+            </Layer>
+          </Stage>
+        </div>
         <div className="flex gap-6 items-center p-4 w-full sm:gap-8 sm:items-end">
           <ImageCropper onSubmit={handleSubmitCrop} />
           <div className="flex flex-col flex-1 items-center">
