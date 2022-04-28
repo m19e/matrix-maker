@@ -34,7 +34,7 @@ const Page: NextPage<Props> = ({ isMobile }) => {
       </Head>
 
       <div className="flex justify-center w-screen h-screen">
-        <div className="flex flex-col justify-center w-full h-full sm:max-w-4xl">
+        <div className="flex flex-col justify-center w-full h-full sm:w-11/12 sm:max-w-4xl">
           <div className="grid grid-cols-4 gap-2 p-2 w-full bg-yellow-300">
             <input
               type="text"
