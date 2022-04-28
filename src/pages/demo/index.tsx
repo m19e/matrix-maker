@@ -1,14 +1,26 @@
 import Head from "next/head"
-import type { NextPage } from "next"
+import type {
+  NextPage,
+  GetServerSidePropsContext,
+  GetServerSidePropsResult,
+} from "next"
+import { parse } from "next-useragent"
 
 import { useElementSize } from "@/hooks/useElementSize"
 
-const Page: NextPage = () => {
+type Props = {
+  isMobile: boolean
+}
+
+const Page: NextPage<Props> = ({ isMobile }) => {
   const [containerRef, { width, height }] = useElementSize({
     width: 0,
     height: 0,
   })
-  const canvasSize = window.innerWidth < 640 ? Math.max(width, height) : height
+  const canvasSize = Math.min(width, height)
+  const canvasStyle = isMobile
+    ? { width: height, height }
+    : { width: canvasSize, height: canvasSize }
 
   return (
     <>
@@ -22,42 +34,41 @@ const Page: NextPage = () => {
       </Head>
 
       <div className="flex justify-center w-screen h-screen">
-        <div className="flex flex-col justify-center w-11/12 h-full sm:max-w-4xl">
+        <div className="flex flex-col justify-center w-full h-full sm:max-w-4xl">
           <div className="grid grid-cols-4 gap-2 p-2 w-full bg-yellow-300">
             <input
               type="text"
               placeholder="X軸左"
-              className="max-w-xs bg-gray-200 input input-sm input-bordered sm:input-md"
+              className="max-w-xs bg-gray-200 input input-sm input-bordered"
             />
             <input
               type="text"
               placeholder="Y軸下"
-              className="max-w-xs bg-gray-200 input input-sm input-bordered sm:input-md"
+              className="max-w-xs bg-gray-200 input input-sm input-bordered"
             />
             <input
               type="text"
               placeholder="Y軸上"
-              className="max-w-xs bg-gray-200 input input-sm input-bordered sm:input-md"
+              className="max-w-xs bg-gray-200 input input-sm input-bordered"
             />
             <input
               type="text"
               placeholder="X軸左"
-              className="max-w-xs bg-gray-200 input input-sm input-bordered sm:input-md"
+              className="max-w-xs bg-gray-200 input input-sm input-bordered"
             />
           </div>
-
           <div
             ref={containerRef}
             className="flex overflow-x-auto overflow-y-hidden flex-1 justify-center items-center w-full bg-teal-600"
           >
             <div
               className="flex justify-center items-center bg-white"
-              style={{ minWidth: height, height: height }}
+              style={canvasStyle}
             >
               <span className="text-2xl font-black">
-                {width > height
-                  ? "canvas is here."
-                  : "canvas is larger than container."}
+                {width < height && isMobile
+                  ? "canvas is larger than container."
+                  : "canvas is here."}
               </span>
             </div>
           </div>
@@ -86,6 +97,18 @@ const Page: NextPage = () => {
       </div>
     </>
   )
+}
+
+export const getServerSideProps = ({
+  req,
+}: GetServerSidePropsContext): GetServerSidePropsResult<Props> => {
+  const { isMobile } = parse(req.headers["user-agent"] ?? "")
+
+  return {
+    props: {
+      isMobile,
+    },
+  }
 }
 
 export default Page
