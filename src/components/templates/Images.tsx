@@ -251,9 +251,9 @@ const Images = () => {
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
 
   return (
-    <div className="flex justify-center bg-base-200">
-      <div className="flex flex-col justify-center items-center py-4 w-11/12 h-screen sm:max-w-3xl text-base-content">
-        <div className="grid grid-cols-4 gap-2 w-full rounded">
+    <div className="flex justify-center bg-base-300">
+      <div className="flex flex-col justify-center items-center w-11/12 h-screen sm:max-w-3xl text-base-content">
+        <div className="grid grid-cols-4 gap-2 p-2 w-full rounded-b-2xl bg-base-100">
           <input
             type="text"
             placeholder="X軸左"
@@ -330,7 +330,7 @@ const Images = () => {
             </Layer>
           </Stage>
         </div>
-        <div className="flex gap-6 items-center w-full sm:gap-8 sm:items-end">
+        <div className="flex gap-6 items-center p-2 w-full sm:gap-8 sm:items-end bg-base-100">
           <ImageCropper onSubmit={handleSubmitCrop} />
           <div className="flex flex-col flex-1 items-center">
             <input
