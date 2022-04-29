@@ -304,7 +304,7 @@ const Images = () => {
           />
         </div>
         <div
-          className="flex flex-1 justify-center items-center w-full"
+          className="flex overflow-hidden flex-1 justify-center items-center w-full"
           ref={containerRef}
         >
           <Stage
