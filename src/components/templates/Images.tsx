@@ -352,7 +352,7 @@ const Images = () => {
             </div>
           </div>
           <button className="btn btn-sm sm:btn-md" onClick={canvasAction.save}>
-            download png
+            download
           </button>
         </div>
       </div>
