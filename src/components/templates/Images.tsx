@@ -257,7 +257,7 @@ const Images = () => {
           <input
             type="text"
             placeholder="X軸左"
-            className="max-w-xs bg-gray-200 input input-bordered"
+            className="max-w-xs bg-gray-200 input input-sm input-bordered"
             value={label.left}
             onChange={(e) => {
               setLabel((prev) => ({
@@ -269,7 +269,7 @@ const Images = () => {
           <input
             type="text"
             placeholder="Y軸下"
-            className="max-w-xs bg-gray-200 input input-bordered"
+            className="max-w-xs bg-gray-200 input input-sm input-bordered"
             value={label.bottom}
             onChange={(e) => {
               setLabel((prev) => ({
@@ -281,7 +281,7 @@ const Images = () => {
           <input
             type="text"
             placeholder="Y軸上"
-            className="max-w-xs bg-gray-200 input input-bordered"
+            className="max-w-xs bg-gray-200 input input-sm input-bordered"
             value={label.top}
             onChange={(e) => {
               setLabel((prev) => ({
@@ -293,7 +293,7 @@ const Images = () => {
           <input
             type="text"
             placeholder="X軸左"
-            className="max-w-xs bg-gray-200 input input-bordered"
+            className="max-w-xs bg-gray-200 input input-sm input-bordered"
             value={label.right}
             onChange={(e) => {
               setLabel((prev) => ({
