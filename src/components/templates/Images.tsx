@@ -251,8 +251,8 @@ const Images = () => {
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
 
   return (
-    <div className="flex justify-center bg-base-300">
-      <div className="flex flex-col justify-center items-center w-11/12 h-screen sm:max-w-3xl text-base-content">
+    <div className="flex justify-center w-screen h-screen bg-base-300">
+      <div className="flex flex-col justify-center w-full h-full sm:w-11/12 sm:max-w-4xl text-base-content">
         <div className="grid grid-cols-4 gap-2 p-2 w-full rounded-b-2xl bg-base-100">
           <input
             type="text"
