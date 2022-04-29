@@ -253,7 +253,7 @@ const Images = () => {
   return (
     <div className="flex justify-center w-screen h-screen bg-base-300">
       <div className="flex flex-col justify-center w-full h-full sm:w-11/12 sm:max-w-4xl text-base-content">
-        <div className="grid grid-cols-4 gap-2 p-2 w-full rounded-b-2xl bg-base-100">
+        <div className="grid grid-cols-4 gap-2 p-2 w-full sm:rounded-b-lg bg-base-100">
           <input
             type="text"
             placeholder="X軸左"
@@ -330,7 +330,7 @@ const Images = () => {
             </Layer>
           </Stage>
         </div>
-        <div className="flex gap-6 items-center p-2 w-full sm:gap-8 sm:items-end bg-base-100">
+        <div className="flex gap-6 items-center p-2 w-full sm:gap-8 sm:items-end sm:rounded-t-lg bg-base-100">
           <ImageCropper onSubmit={handleSubmitCrop} />
           <div className="flex flex-col flex-1 items-center">
             <input
