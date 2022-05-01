@@ -121,18 +121,15 @@ const Images = () => {
     top: "Ｙ軸下",
     right: "Ｘ軸右",
   })
-
   const [containerRef, { width, height }] = useElementSize({
     width: DEFAULT_CANVAS_SIZE,
     height: DEFAULT_CANVAS_SIZE,
   })
-
+  const [canvasRef, canvasAction] = useCanvas()
   const [canvasPos, setCanvasPos] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
   })
-
-  const [canvasRef, canvasAction] = useCanvas()
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
     const id = e.target.id()
@@ -244,10 +241,22 @@ const Images = () => {
     handleSelectRect(e.currentTarget.valueAsNumber * DEFAULT_IMAGE_SIZE)
   }
 
+  const handleDragCanvas: KonvaNodeEvents["onDragMove"] = useCallback(
+    (e) => {
+      // if (isMobile) return
+      const x = e.target.x()
+      const paddingX = width / 10
+      const isSafeLeft = x < paddingX
+      const isSafeRight = x > width - height - paddingX
+      const canMove = isSafeLeft && isSafeRight
+      const newPos = canMove ? { x } : {}
+      setCanvasPos((prev) => ({ ...prev, ...newPos }))
+    },
+    [height, width]
+  )
+
   const canvasSize = Math.min(width, height)
-  // const canvasStyle = isMobile
-  //   ? { width: height, height }
-  //   : { width: canvasSize, height: canvasSize }
+  // const canvasSize = isMobile ? height : Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
 
   return (
@@ -314,6 +323,11 @@ const Images = () => {
             scaleX={canvasScale}
             scaleY={canvasScale}
             className="overflow-hidden sm:rounded-2xl"
+            draggable
+            _useStrictMode
+            x={canvasPos.x}
+            y={canvasPos.y}
+            onDragMove={handleDragCanvas}
           >
             <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
             <LabelLayer rect={DEFAULT_CANVAS_SIZE} label={label} />
