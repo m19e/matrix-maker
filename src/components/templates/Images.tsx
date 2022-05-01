@@ -313,7 +313,7 @@ const Images = () => {
             height={canvasSize}
             scaleX={canvasScale}
             scaleY={canvasScale}
-            className=""
+            className="overflow-hidden sm:rounded-2xl"
           >
             <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
             <LabelLayer rect={DEFAULT_CANVAS_SIZE} label={label} />
