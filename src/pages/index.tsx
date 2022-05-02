@@ -1,9 +1,18 @@
 import Head from "next/head"
-import type { NextPage } from "next"
+import type {
+  NextPage,
+  GetServerSidePropsContext,
+  GetServerSidePropsResult,
+} from "next"
+import { parse } from "next-useragent"
 
 import { MatrixMaker } from "@/components/templates/MatrixMaker"
 
-const Page: NextPage = () => {
+type Props = {
+  isMobile: boolean
+}
+
+const Page: NextPage<Props> = ({ isMobile }) => {
   return (
     <>
       <Head>
@@ -15,9 +24,21 @@ const Page: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <MatrixMaker />
+      <MatrixMaker isMobile={isMobile} />
     </>
   )
+}
+
+export const getServerSideProps = ({
+  req,
+}: GetServerSidePropsContext): GetServerSidePropsResult<Props> => {
+  const { isMobile } = parse(req.headers["user-agent"] ?? "")
+
+  return {
+    props: {
+      isMobile,
+    },
+  }
 }
 
 export default Page

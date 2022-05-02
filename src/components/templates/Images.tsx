@@ -111,7 +111,11 @@ const LabelLayer: VFC<{ rect: number; label: Label }> = ({ rect, label }) => {
   )
 }
 
-const Images = () => {
+type Props = {
+  isMobile: boolean
+}
+
+const Images: VFC<Props> = ({ isMobile }) => {
   const [images, setImages] = useState<ImageProps[]>([])
   const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE)
   const [rangeValue, setRangeValue] = useState(1)
@@ -243,7 +247,7 @@ const Images = () => {
 
   const handleDragCanvas: KonvaNodeEvents["onDragMove"] = useCallback(
     (e) => {
-      // if (isMobile) return
+      if (!isMobile) return
       const x = e.target.x()
       const paddingX = width / 10
       const isSafeLeft = x < paddingX
@@ -252,11 +256,11 @@ const Images = () => {
       const newPos = canMove ? { x } : {}
       setCanvasPos((prev) => ({ ...prev, ...newPos }))
     },
-    [height, width]
+    [isMobile, height, width]
   )
 
-  const canvasSize = Math.min(width, height)
-  // const canvasSize = isMobile ? height : Math.min(width, height)
+  // const canvasSize = Math.min(width, height)
+  const canvasSize = isMobile ? height : Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
 
   return (
@@ -323,7 +327,7 @@ const Images = () => {
             scaleX={canvasScale}
             scaleY={canvasScale}
             className="overflow-hidden sm:rounded-2xl"
-            draggable
+            draggable={isMobile}
             _useStrictMode
             x={canvasPos.x}
             y={canvasPos.y}

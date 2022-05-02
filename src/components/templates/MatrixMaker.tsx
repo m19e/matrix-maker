@@ -5,6 +5,10 @@ const Images = dynamic(import("./Images"), {
   ssr: false,
 })
 
-export const MatrixMaker: VFC = () => {
-  return <Images />
+type Props = {
+  isMobile: boolean
+}
+
+export const MatrixMaker: VFC<Props> = ({ isMobile }) => {
+  return <Images isMobile={isMobile} />
 }
