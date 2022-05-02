@@ -313,7 +313,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
           />
         </div>
         <div
-          className="flex overflow-hidden flex-col flex-1 justify-center items-center w-full"
+          className="flex overflow-hidden flex-1 justify-center items-center w-full sm:flex-col"
           ref={containerRef}
         >
           <Stage
