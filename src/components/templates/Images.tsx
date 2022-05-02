@@ -223,7 +223,6 @@ const Images: VFC<Props> = ({ isMobile }) => {
     setImageSize(r)
     setImages((prev) => prev.map((i) => ({ ...i, width: r, height: r })))
   }
-
   const handleSubmitCrop = (cropped: { url: string; crop: Area }) => {
     const xy = (DEFAULT_CANVAS_SIZE - imageSize) / 2
     const croppedImage: ImageProps = {
@@ -239,12 +238,10 @@ const Images: VFC<Props> = ({ isMobile }) => {
 
     setImages((prev) => [...prev, croppedImage])
   }
-
   const handleChangeRangeValue = (e: ChangeEvent<HTMLInputElement>) => {
     setRangeValue(e.currentTarget.valueAsNumber)
     handleSelectRect(e.currentTarget.valueAsNumber * DEFAULT_IMAGE_SIZE)
   }
-
   const handleDragCanvas: KonvaNodeEvents["onDragMove"] = useCallback(
     (e) => {
       if (!isMobile) return
@@ -259,7 +256,6 @@ const Images: VFC<Props> = ({ isMobile }) => {
     [isMobile, height, width]
   )
 
-  // const canvasSize = Math.min(width, height)
   const canvasSize = isMobile ? height : Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
 
