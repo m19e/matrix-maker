@@ -265,7 +265,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
 
   return (
     <div className="flex justify-center w-screen h-screen bg-base-300">
-      <div className="flex flex-col justify-center w-full h-full sm:w-11/12 sm:max-w-4xl text-base-content">
+      <div className="flex flex-col w-full h-full sm:gap-6 sm:w-11/12 sm:max-w-4xl text-base-content">
         <div className="grid grid-cols-4 gap-2 p-2 w-full sm:rounded-b-lg bg-base-100">
           <input
             type="text"
