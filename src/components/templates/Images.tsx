@@ -120,10 +120,10 @@ const Images: VFC<Props> = ({ isMobile }) => {
   const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE)
   const [rangeValue, setRangeValue] = useState(1)
   const [label, setLabel] = useState<Label>({
-    left: "Ｘ軸左",
-    bottom: "Ｙ軸下",
-    top: "Ｙ軸下",
-    right: "Ｘ軸右",
+    left: "",
+    bottom: "",
+    top: "",
+    right: "",
   })
   const [containerRef, { width, height }] = useElementSize({
     width: DEFAULT_CANVAS_SIZE,
@@ -265,7 +265,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
         <div className="grid grid-cols-4 gap-2 p-2 w-full sm:rounded-b-lg bg-base-100">
           <input
             type="text"
-            placeholder="X軸左"
+            placeholder="LEFT"
             className="max-w-xs bg-gray-200 input input-sm input-bordered"
             value={label.left}
             onChange={(e) => {
@@ -277,7 +277,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
           />
           <input
             type="text"
-            placeholder="Y軸下"
+            placeholder="BOTTOM"
             className="max-w-xs bg-gray-200 input input-sm input-bordered"
             value={label.bottom}
             onChange={(e) => {
@@ -289,7 +289,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
           />
           <input
             type="text"
-            placeholder="Y軸上"
+            placeholder="TOP"
             className="max-w-xs bg-gray-200 input input-sm input-bordered"
             value={label.top}
             onChange={(e) => {
@@ -301,7 +301,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
           />
           <input
             type="text"
-            placeholder="X軸左"
+            placeholder="RIGHT"
             className="max-w-xs bg-gray-200 input input-sm input-bordered"
             value={label.right}
             onChange={(e) => {
