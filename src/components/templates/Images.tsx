@@ -256,7 +256,8 @@ const Images: VFC<Props> = ({ isMobile }) => {
     [isMobile, height, width]
   )
 
-  const canvasSize = isMobile ? height : Math.min(width, height)
+  // const canvasSize = isMobile ? height : Math.min(width, height)
+  const canvasSize = Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
 
   return (
@@ -323,7 +324,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
             scaleX={canvasScale}
             scaleY={canvasScale}
             className="overflow-hidden sm:rounded-2xl"
-            draggable={isMobile}
+            // draggable={isMobile && !isDragImage}
             _useStrictMode
             x={canvasPos.x}
             y={canvasPos.y}
