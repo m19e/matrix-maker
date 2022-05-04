@@ -130,14 +130,8 @@ const Images: VFC<Props> = ({ isMobile }) => {
     height: DEFAULT_CANVAS_SIZE,
   })
   const [canvasRef, canvasAction] = useCanvas()
-  const [canvasPos, setCanvasPos] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  })
-  const [isDragging, setIsDragging] = useState(false)
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
-    setIsDragging(true)
     const id = e.target.id()
     setImages((prev) =>
       prev.map((image) => {
@@ -221,7 +215,6 @@ const Images: VFC<Props> = ({ isMobile }) => {
             }
           })
         )
-        setIsDragging(false)
       },
       [imageSize]
     )
