@@ -148,80 +148,83 @@ const Images: VFC<Props> = ({ isMobile }) => {
       })
     )
   }
-  const handleDragMove: KonvaNodeEvents["onDragMove"] = useCallback(
-    (e) => {
-      const id = e.target.id()
-      const targetX = e.target.x()
-      const targetY = e.target.y()
-      const borderBR = DEFAULT_CANVAS_SIZE - imageSize
-      if (
-        targetX < 0 ||
-        targetX > borderBR ||
-        targetY < 0 ||
-        targetY > borderBR
-      ) {
-        let newPos = { x: targetX, y: targetY }
+  const handleDragMove: Exclude<KonvaNodeEvents["onDragMove"], undefined> =
+    useCallback(
+      (e) => {
+        const id = e.target.id()
+        const targetX = e.target.x()
+        const targetY = e.target.y()
+        console.log("drag move at: ", `[${targetX}, ${targetY}]`)
+        const borderBR = DEFAULT_CANVAS_SIZE - imageSize
+        if (
+          targetX < 0 ||
+          targetX > borderBR ||
+          targetY < 0 ||
+          targetY > borderBR
+        ) {
+          let newPos = { x: targetX, y: targetY }
 
-        if (targetX < 0) {
-          newPos = { ...newPos, x: 0 }
-        } else if (targetX > borderBR) {
-          newPos = { ...newPos, x: borderBR }
-        }
-        if (targetY < 0) {
-          newPos = { ...newPos, y: 0 }
-        } else if (targetY > borderBR) {
-          newPos = { ...newPos, y: borderBR }
-        }
+          if (targetX < 0) {
+            newPos = { ...newPos, x: 0 }
+          } else if (targetX > borderBR) {
+            newPos = { ...newPos, x: borderBR }
+          }
+          if (targetY < 0) {
+            newPos = { ...newPos, y: 0 }
+          } else if (targetY > borderBR) {
+            newPos = { ...newPos, y: borderBR }
+          }
 
+          setImages((prev) =>
+            prev.map((image) => {
+              if (image.id === id) {
+                return {
+                  ...image,
+                  x: newPos.x,
+                  y: newPos.y,
+                }
+              }
+              return image
+            })
+          )
+        }
+      },
+      [imageSize]
+    )
+  const handleDragEnd: Exclude<KonvaNodeEvents["onDragEnd"], undefined> =
+    useCallback(
+      (e) => {
+        const id = e.target.id()
         setImages((prev) =>
           prev.map((image) => {
             if (image.id === id) {
-              return {
-                ...image,
-                x: newPos.x,
-                y: newPos.y,
+              const targetX = e.target.x()
+              const targetY = e.target.y()
+              const borderBR = DEFAULT_CANVAS_SIZE - imageSize
+              if (
+                targetX > 0 &&
+                targetX < borderBR &&
+                targetY > 0 &&
+                targetY < borderBR
+              ) {
+                return {
+                  ...image,
+                  x: targetX,
+                  y: targetY,
+                  isDragged: false,
+                }
               }
             }
-            return image
+            return {
+              ...image,
+              isDragged: false,
+            }
           })
         )
-      }
-    },
-    [imageSize]
-  )
-  const handleDragEnd: KonvaNodeEvents["onDragEnd"] = useCallback(
-    (e) => {
-      const id = e.target.id()
-      setImages((prev) =>
-        prev.map((image) => {
-          if (image.id === id) {
-            const targetX = e.target.x()
-            const targetY = e.target.y()
-            const borderBR = DEFAULT_CANVAS_SIZE - imageSize
-            if (
-              targetX > 0 &&
-              targetX < borderBR &&
-              targetY > 0 &&
-              targetY < borderBR
-            ) {
-              return {
-                ...image,
-                x: targetX,
-                y: targetY,
-                isDragged: false,
-              }
-            }
-          }
-          return {
-            ...image,
-            isDragged: false,
-          }
-        })
-      )
-      setIsDragging(false)
-    },
-    [imageSize]
-  )
+        setIsDragging(false)
+      },
+      [imageSize]
+    )
   const handleSelectRect = (r: number) => {
     setImageSize(r)
     setImages((prev) => prev.map((i) => ({ ...i, width: r, height: r })))
