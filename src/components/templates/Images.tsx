@@ -134,8 +134,10 @@ const Images: VFC<Props> = ({ isMobile }) => {
     x: 0,
     y: 0,
   })
+  const [isDragging, setIsDragging] = useState(false)
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
+    setIsDragging(true)
     const id = e.target.id()
     setImages((prev) =>
       prev.map((image) => {
@@ -216,6 +218,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
           }
         })
       )
+      setIsDragging(false)
     },
     [imageSize]
   )
@@ -256,8 +259,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
     [isMobile, height, width]
   )
 
-  // const canvasSize = isMobile ? height : Math.min(width, height)
-  const canvasSize = Math.min(width, height)
+  const canvasSize = isMobile ? height : Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
 
   return (
@@ -324,7 +326,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
             scaleX={canvasScale}
             scaleY={canvasScale}
             className="overflow-hidden sm:rounded-2xl"
-            // draggable={isMobile && !isDragImage}
+            draggable={isMobile && !isDragging}
             _useStrictMode
             x={canvasPos.x}
             y={canvasPos.y}
