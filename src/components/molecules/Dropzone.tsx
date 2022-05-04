@@ -27,7 +27,7 @@ export const Dropzone: VFC<Props> = ({ onDrop }) => {
   return (
     <div
       {...getRootProps()}
-      className="grid place-items-center p-2 w-full max-w-xs h-32 card bg-base-200 rounded-box"
+      className="grid place-items-center p-2 w-full max-w-sm h-32 card bg-base-200 rounded-box"
     >
       <div className="flex flex-col justify-center items-center w-full h-full text-sm font-black text-center border-2 border-gray-400 border-dashed sm:text-base text-primary-content rounded-box">
         <input {...getInputProps()} />
