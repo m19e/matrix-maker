@@ -330,11 +330,6 @@ const Images: VFC<Props> = ({ isMobile }) => {
             scaleX={canvasScale}
             scaleY={canvasScale}
             className="overflow-hidden sm:rounded-2xl"
-            draggable={isMobile && !isDragging}
-            _useStrictMode
-            x={canvasPos.x}
-            y={canvasPos.y}
-            onDragMove={handleDragCanvas}
           >
             <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
             <LabelLayer rect={DEFAULT_CANVAS_SIZE} label={label} />
