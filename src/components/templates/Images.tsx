@@ -263,7 +263,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
       [isMobile, height, width]
     )
 
-  const canvasSize = isMobile ? height : Math.min(width, height)
+  const canvasSize = Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
 
   return (
@@ -320,7 +320,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
           />
         </div>
         <div
-          className="flex overflow-hidden flex-1 justify-center items-center w-full sm:flex-col"
+          className="flex overflow-hidden flex-col flex-1 justify-center items-center w-full"
           ref={containerRef}
         >
           <Stage
