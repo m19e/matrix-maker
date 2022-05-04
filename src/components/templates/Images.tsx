@@ -248,20 +248,6 @@ const Images: VFC<Props> = ({ isMobile }) => {
     setRangeValue(e.currentTarget.valueAsNumber)
     handleSelectRect(e.currentTarget.valueAsNumber * DEFAULT_IMAGE_SIZE)
   }
-  const handleDragCanvas: Exclude<KonvaNodeEvents["onDragMove"], undefined> =
-    useCallback(
-      (e) => {
-        if (!isMobile) return
-        const x = e.target.x()
-        const paddingX = width
-        const isSafeLeft = x < paddingX
-        const isSafeRight = x > width - height - paddingX
-        const canMove = isSafeLeft && isSafeRight
-        const newPos = canMove ? { x } : {}
-        setCanvasPos((prev) => ({ ...prev, ...newPos }))
-      },
-      [isMobile, height, width]
-    )
 
   const canvasSize = Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
