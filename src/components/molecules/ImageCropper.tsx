@@ -70,7 +70,7 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
               </div>
             ) : (
               <div className="w-5/6 shadow-xl sm:w-96 card bg-base-100">
-                <div className="flex flex-col items-center px-4 pt-8 sm:px-8">
+                <div className="flex flex-col items-center px-4 pt-4 sm:px-8 sm:pt-8">
                   <Dropzone onDrop={setUrl} />
                   <div className="divider">OR</div>
                   <div className="flex flex-col w-full">
