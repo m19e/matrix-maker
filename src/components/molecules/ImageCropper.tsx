@@ -78,7 +78,7 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
                       <input
                         type="text"
                         placeholder="Image URL"
-                        className="flex-1 placeholder:text-gray-600 rounded-r-none input input-bordered input-sm sm:input-md"
+                        className="flex-1 min-w-0 placeholder:text-gray-600 rounded-r-none input input-bordered input-sm sm:input-md"
                         value={urlInput}
                         onChange={(e) => {
                           setUrlInput(e.currentTarget.value.trim())
