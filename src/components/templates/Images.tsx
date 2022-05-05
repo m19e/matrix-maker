@@ -241,6 +241,9 @@ const Images: VFC<Props> = ({ isMobile }) => {
     setRangeValue(e.currentTarget.valueAsNumber)
     handleSelectRect(e.currentTarget.valueAsNumber * DEFAULT_IMAGE_SIZE)
   }
+  const handleDeleteImage = () => {
+    // some process
+  }
 
   const canvasSize = Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
