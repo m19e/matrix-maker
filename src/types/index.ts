@@ -13,6 +13,4 @@ export interface ImagePropsWithHandler extends ImageProps {
   onDragStart: KonvaNodeEvents["onDragStart"]
   onDragMove: KonvaNodeEvents["onDragMove"]
   onDragEnd: KonvaNodeEvents["onDragEnd"]
-  onTouchStart?: KonvaNodeEvents["onTouchStart"]
-  onTouchMove?: KonvaNodeEvents["onTouchMove"]
 }
