@@ -12,22 +12,14 @@ const DeleteButton: VFC<
   const y = imageY + imageSize + buttonSize * 2
   const circlePos = {
     x: x + imageSize,
-    y: y - margin - buttonSize / 2,
+    y: y - buttonSize / 2,
   }
-  const crossTop = y - buttonSize - margin
-  const crossBottom = y - margin
-  const crossLine1 = [
-    x + imageSize - buttonSize / 2,
-    crossTop,
-    x + buttonSize + imageSize - buttonSize / 2,
-    crossBottom,
-  ]
-  const crossLine2 = [
-    x + imageSize - buttonSize / 2,
-    crossBottom,
-    x + buttonSize + imageSize - buttonSize / 2,
-    crossTop,
-  ]
+  const crossLeft = x + imageSize - buttonSize / 2
+  const crossRight = x + buttonSize + imageSize - buttonSize / 2
+  const crossTop = y - buttonSize
+  const crossBottom = y
+  const crossLine1 = [crossLeft, crossTop, crossRight, crossBottom]
+  const crossLine2 = [crossLeft, crossBottom, crossRight, crossTop]
 
   return (
     <>
@@ -53,23 +45,12 @@ export const URLImage: VFC<ImagePropsWithHandler> = ({
 
   return (
     <>
-      <Circle fill="gray" radius={16} x={props.x + 8} y={props.y - 20} />
-      <Line
-        points={[props.x, props.y - 28, props.x + 16, props.y - 12]}
-        stroke={"white"}
-        strokeWidth={2}
-      />
-      <Line
-        points={[props.x, props.y - 12, props.x + 16, props.y - 28]}
-        stroke={"white"}
-        strokeWidth={2}
-      />
-      <Circle
-        opacity={0}
-        radius={16}
-        x={props.x + 8}
-        y={props.y - 20}
-        onClick={() => onDelete(props.id)}
+      <DeleteButton
+        x={props.x}
+        y={props.y}
+        id={props.id}
+        width={props.width}
+        onDelete={onDelete}
       />
       <KImage {...props} image={image} draggable _useStrictMode />
     </>
