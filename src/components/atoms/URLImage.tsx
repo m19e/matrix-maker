@@ -15,7 +15,6 @@ interface DeleteButtonProps {
 
 const DeleteButton: VFC<DeleteButtonProps> = ({ image, onDelete }) => {
   const buttonSize = 16
-  const _margin = 12
   const offsetX = image.x + image.size
   const offsetY = image.y + image.size
   const initY = offsetY + buttonSize * 2
