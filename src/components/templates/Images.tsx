@@ -242,7 +242,6 @@ const Images: VFC<Props> = ({ isMobile }) => {
     handleSelectRect(e.currentTarget.valueAsNumber * DEFAULT_IMAGE_SIZE)
   }
   const handleDeleteImage = (id: string) => {
-    // some process
     setImages((prev) => prev.filter((i) => i.id !== id))
   }
 
