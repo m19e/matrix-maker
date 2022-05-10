@@ -15,16 +15,18 @@ interface DeleteButtonProps {
 
 const DeleteButton: VFC<DeleteButtonProps> = ({ image, onDelete }) => {
   const buttonSize = 16
-  const margin = 12
-  const y = image.y + image.size + buttonSize * 2
+  const _margin = 12
+  const offsetX = image.x + image.size
+  const offsetY = image.y + image.size
+  const initY = offsetY + buttonSize * 2
   const circlePos = {
-    x: image.x + image.size,
-    y: y - buttonSize / 2,
+    x: offsetX,
+    y: initY - buttonSize / 2,
   }
-  const crossLeft = image.x + image.size - buttonSize / 2
-  const crossRight = image.x + buttonSize + image.size - buttonSize / 2
-  const crossTop = y - buttonSize
-  const crossBottom = y
+  const crossLeft = offsetX - buttonSize / 2
+  const crossRight = offsetX + buttonSize - buttonSize / 2
+  const crossTop = initY - buttonSize
+  const crossBottom = initY
   const crossLine1 = [crossLeft, crossTop, crossRight, crossBottom]
   const crossLine2 = [crossLeft, crossBottom, crossRight, crossTop]
 
