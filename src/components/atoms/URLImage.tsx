@@ -46,29 +46,36 @@ const DeleteButton: VFC<DeleteButtonProps> = ({ image, onDelete }) => {
 
 export const URLImage: VFC<ImagePropsWithHandler> = ({
   url,
+  onSelect,
   onDelete,
   isSelected,
   ...props
 }) => {
   const [image] = useImage(url)
 
+  const handleSelect = () => {
+    onSelect(props.id)
+  }
   const handleDelete = () => {
     onDelete(props.id)
   }
 
   return (
     <>
-      <DeleteButton
-        image={{
-          x: props.x,
-          y: props.y,
-          size: props.width,
-        }}
-        onDelete={handleDelete}
-      />
+      {isSelected && (
+        <DeleteButton
+          image={{
+            x: props.x,
+            y: props.y,
+            size: props.width,
+          }}
+          onDelete={handleDelete}
+        />
+      )}
       <KImage
         {...props}
         image={image}
+        onClick={handleSelect}
         stroke="gray"
         dash={[5, 5]}
         dashEnabled={isSelected}

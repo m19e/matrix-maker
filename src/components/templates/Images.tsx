@@ -245,6 +245,11 @@ const Images: VFC<Props> = ({ isMobile }) => {
   const handleDeleteImage = (id: string) => {
     setImages((prev) => prev.filter((i) => i.id !== id))
   }
+  const handleSelectImage = (id: string) => {
+    setImages((prev) =>
+      prev.map((image) => ({ ...image, isSelected: image.id === id }))
+    )
+  }
 
   const canvasSize = Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
@@ -324,6 +329,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
                   onDragStart={handleDragStart}
                   onDragMove={handleDragMove}
                   onDragEnd={handleDragEnd}
+                  onSelect={handleSelectImage}
                   onDelete={handleDeleteImage}
                 />
               ))}
