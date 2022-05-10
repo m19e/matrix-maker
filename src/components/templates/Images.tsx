@@ -251,6 +251,11 @@ const Images: VFC<Props> = ({ isMobile }) => {
       prev.map((image) => ({ ...image, isSelected: image.id === id }))
     )
   }
+  const handleDownload = async () => {
+    setImages((prev) => prev.map((image) => ({ ...image, isSelected: false })))
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    canvasAction.save()
+  }
 
   const canvasSize = Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
@@ -358,7 +363,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
               <span>|</span>
             </div>
           </div>
-          <button className="btn btn-sm sm:btn-md" onClick={canvasAction.save}>
+          <button className="btn btn-sm sm:btn-md" onClick={handleDownload}>
             download
           </button>
         </div>
