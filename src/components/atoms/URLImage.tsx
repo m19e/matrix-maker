@@ -65,7 +65,16 @@ export const URLImage: VFC<ImagePropsWithHandler> = ({
         }}
         onDelete={handleDelete}
       />
-      <KImage {...props} image={image} draggable _useStrictMode />
+      <KImage
+        {...props}
+        image={image}
+        stroke="gray"
+        dash={[5, 5]}
+        dashEnabled={props.isSelected}
+        strokeEnabled={props.isSelected}
+        draggable
+        _useStrictMode
+      />
     </>
   )
 }
