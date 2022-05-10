@@ -7,6 +7,7 @@ export interface ImageProps extends Area {
   alt: string
   crop: Area
   isDragged: boolean
+  isSelected: boolean
 }
 
 export interface ImagePropsWithHandler extends ImageProps {
