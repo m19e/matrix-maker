@@ -138,6 +138,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
         return {
           ...image,
           isDragged: image.id === id,
+          isSelected: false,
         }
       })
     )
