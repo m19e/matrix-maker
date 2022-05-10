@@ -228,6 +228,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
       id: Date.now().toString(16),
       alt: cropped.url,
       isDragged: false,
+      isSelected: false,
       x: xy,
       y: xy,
       width: imageSize,
