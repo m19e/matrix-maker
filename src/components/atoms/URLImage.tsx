@@ -4,18 +4,25 @@ import useImage from "use-image"
 
 import { ImagePropsWithHandler } from "@/types"
 
-const DeleteButton: VFC<
-  Pick<ImagePropsWithHandler, "x" | "y" | "onDelete" | "id" | "width">
-> = ({ x, y: imageY, width: imageSize, onDelete, id }) => {
+interface DeleteButtonProps {
+  image: {
+    x: number
+    y: number
+    size: number
+  }
+  onDelete: () => void
+}
+
+const DeleteButton: VFC<DeleteButtonProps> = ({ image, onDelete }) => {
   const buttonSize = 16
   const margin = 12
-  const y = imageY + imageSize + buttonSize * 2
+  const y = image.y + image.size + buttonSize * 2
   const circlePos = {
-    x: x + imageSize,
+    x: image.x + image.size,
     y: y - buttonSize / 2,
   }
-  const crossLeft = x + imageSize - buttonSize / 2
-  const crossRight = x + buttonSize + imageSize - buttonSize / 2
+  const crossLeft = image.x + image.size - buttonSize / 2
+  const crossRight = image.x + buttonSize + image.size - buttonSize / 2
   const crossTop = y - buttonSize
   const crossBottom = y
   const crossLine1 = [crossLeft, crossTop, crossRight, crossBottom]
@@ -30,7 +37,7 @@ const DeleteButton: VFC<
         opacity={0}
         radius={buttonSize}
         {...circlePos}
-        onClick={() => onDelete(id)}
+        onClick={onDelete}
       />
     </>
   )
@@ -43,14 +50,19 @@ export const URLImage: VFC<ImagePropsWithHandler> = ({
 }) => {
   const [image] = useImage(url)
 
+  const handleDelete = () => {
+    onDelete(props.id)
+  }
+
   return (
     <>
       <DeleteButton
-        x={props.x}
-        y={props.y}
-        id={props.id}
-        width={props.width}
-        onDelete={onDelete}
+        image={{
+          x: props.x,
+          y: props.y,
+          size: props.width,
+        }}
+        onDelete={handleDelete}
       />
       <KImage {...props} image={image} draggable _useStrictMode />
     </>
