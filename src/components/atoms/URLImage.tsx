@@ -47,6 +47,7 @@ const DeleteButton: VFC<DeleteButtonProps> = ({ image, onDelete }) => {
 export const URLImage: VFC<ImagePropsWithHandler> = ({
   url,
   onDelete,
+  isSelected,
   ...props
 }) => {
   const [image] = useImage(url)
@@ -70,8 +71,8 @@ export const URLImage: VFC<ImagePropsWithHandler> = ({
         image={image}
         stroke="gray"
         dash={[5, 5]}
-        dashEnabled={props.isSelected}
-        strokeEnabled={props.isSelected}
+        dashEnabled={isSelected}
+        strokeEnabled={isSelected}
         draggable
         _useStrictMode
       />
