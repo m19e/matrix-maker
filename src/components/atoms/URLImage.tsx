@@ -39,6 +39,7 @@ const DeleteButton: VFC<DeleteButtonProps> = ({ image, onDelete }) => {
         radius={buttonSize}
         {...circlePos}
         onClick={onDelete}
+        onTap={onDelete}
       />
     </>
   )
