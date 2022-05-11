@@ -149,7 +149,6 @@ const Images: VFC<Props> = ({ isMobile }) => {
         const id = e.target.id()
         const targetX = e.target.x()
         const targetY = e.target.y()
-        console.log("drag move at: ", `[${targetX}, ${targetY}]`)
         const borderBR = DEFAULT_CANVAS_SIZE - imageSize
         if (
           targetX < 0 ||
