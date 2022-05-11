@@ -267,7 +267,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
           <input
             type="text"
             placeholder="LEFT"
-            className="max-w-xs text-xs bg-gray-200 input input-sm input-bordered"
+            className="max-w-xs text-xs bg-white input input-sm input-bordered"
             value={label.left}
             onChange={(e) => {
               setLabel((prev) => ({
@@ -279,7 +279,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
           <input
             type="text"
             placeholder="BOTTOM"
-            className="max-w-xs text-xs bg-gray-200 input input-sm input-bordered"
+            className="max-w-xs text-xs bg-white input input-sm input-bordered"
             value={label.bottom}
             onChange={(e) => {
               setLabel((prev) => ({
@@ -291,7 +291,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
           <input
             type="text"
             placeholder="TOP"
-            className="max-w-xs text-xs bg-gray-200 input input-sm input-bordered"
+            className="max-w-xs text-xs bg-white input input-sm input-bordered"
             value={label.top}
             onChange={(e) => {
               setLabel((prev) => ({
@@ -303,7 +303,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
           <input
             type="text"
             placeholder="RIGHT"
-            className="max-w-xs text-xs bg-gray-200 input input-sm input-bordered"
+            className="max-w-xs text-xs bg-white input input-sm input-bordered"
             value={label.right}
             onChange={(e) => {
               setLabel((prev) => ({
