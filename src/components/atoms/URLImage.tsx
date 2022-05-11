@@ -76,6 +76,7 @@ export const URLImage: VFC<ImagePropsWithHandler> = ({
         {...props}
         image={image}
         onClick={handleSelect}
+        onTap={handleSelect}
         stroke="gray"
         strokeWidth={1}
         dash={[5, 5]}
