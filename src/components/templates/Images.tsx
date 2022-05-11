@@ -336,6 +336,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
                   onDragEnd={handleDragEnd}
                   onSelect={handleSelectImage}
                   onDelete={handleDeleteImage}
+                  isMobile={isMobile}
                 />
               ))}
             </Layer>

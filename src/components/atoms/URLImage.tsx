@@ -5,6 +5,7 @@ import useImage from "use-image"
 import { ImagePropsWithHandler } from "@/types"
 
 interface DeleteButtonProps {
+  size: number
   image: {
     x: number
     y: number
@@ -13,8 +14,8 @@ interface DeleteButtonProps {
   onDelete: () => void
 }
 
-const DeleteButton: VFC<DeleteButtonProps> = ({ image, onDelete }) => {
-  const buttonSize = 16
+const DeleteButton: VFC<DeleteButtonProps> = ({ size, image, onDelete }) => {
+  const buttonSize = size
   const offsetX = image.x + image.size
   const offsetY = image.y + image.size
   const initY = offsetY + buttonSize * 2
@@ -45,11 +46,16 @@ const DeleteButton: VFC<DeleteButtonProps> = ({ image, onDelete }) => {
   )
 }
 
-export const URLImage: VFC<ImagePropsWithHandler> = ({
+interface Props extends ImagePropsWithHandler {
+  isMobile: boolean
+}
+
+export const URLImage: VFC<Props> = ({
   url,
   onSelect,
   onDelete,
   isSelected,
+  isMobile,
   ...props
 }) => {
   const [image] = useImage(url)
@@ -65,6 +71,7 @@ export const URLImage: VFC<ImagePropsWithHandler> = ({
     <>
       {isSelected && (
         <DeleteButton
+          size={isMobile ? 32 : 16}
           image={{
             x: props.x,
             y: props.y,
