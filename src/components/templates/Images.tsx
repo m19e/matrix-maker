@@ -21,7 +21,10 @@ const URLS = [
 const DEFAULT_CANVAS_SIZE = 800
 const DEFAULT_IMAGE_SIZE = DEFAULT_CANVAS_SIZE * 0.1
 
-const useCanvas = (): [RefObject<Konva.Stage>, { save: () => void }] => {
+const useCanvas = (): [
+  RefObject<Konva.Stage>,
+  { save: (size: number) => void }
+] => {
   const canvasRef = useRef<Konva.Stage>(null)
 
   const downloadURI = (uri: string, name: string) => {
@@ -33,8 +36,9 @@ const useCanvas = (): [RefObject<Konva.Stage>, { save: () => void }] => {
     document.body.removeChild(link)
   }
 
-  const save = () => {
-    const uri = canvasRef.current?.toDataURL({ pixelRatio: 2 })
+  const save = (size: number) => {
+    const pixelRatio = DEFAULT_CANVAS_SIZE / size
+    const uri = canvasRef.current?.toDataURL({ pixelRatio })
     if (uri) {
       const fileName = `matrix-${Date.now().toString(16)}.png`
       downloadURI(uri, fileName)
@@ -250,11 +254,11 @@ const Images: VFC<Props> = ({ isMobile }) => {
       prev.map((image) => ({ ...image, isSelected: image.id === id }))
     )
   }
-  const handleDownload = async () => {
+  const handleDownload = useCallback(async () => {
     setImages((prev) => prev.map((image) => ({ ...image, isSelected: false })))
     await new Promise((resolve) => setTimeout(resolve, 100))
-    canvasAction.save()
-  }
+    canvasAction.save(Math.min(width, height))
+  }, [canvasAction, width, height])
 
   const canvasSize = Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
