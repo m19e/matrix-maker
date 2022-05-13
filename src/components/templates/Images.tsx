@@ -238,9 +238,12 @@ const Images: VFC<Props> = ({ isMobile }) => {
 
     setImages((prev) => [...prev, croppedImage])
   }
-  const handleChangeRangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setRangeValue(e.currentTarget.valueAsNumber)
-    const r = e.currentTarget.valueAsNumber * DEFAULT_IMAGE_SIZE
+  const handleChangeImageSize = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    const valueAsNumber = +e.currentTarget.value
+    setRangeValue(valueAsNumber)
+    const r = valueAsNumber * DEFAULT_IMAGE_SIZE
     setImageSize(r)
     setImages((prev) => prev.map((i) => ({ ...i, width: r, height: r })))
   }
@@ -344,31 +347,56 @@ const Images: VFC<Props> = ({ isMobile }) => {
             </Layer>
           </Stage>
         </div>
-        <div className="flex gap-6 items-center p-2 w-full sm:gap-8 sm:items-end sm:rounded-t-lg bg-base-100">
-          <ImageCropper onSubmit={handleSubmitCrop} />
-          <div className="flex flex-col flex-1 items-center">
-            <input
-              type="range"
-              min={1}
-              max={2}
-              className="range range-xs sm:range-md"
-              step={0.2}
-              value={rangeValue}
-              onChange={handleChangeRangeValue}
-            />
-            <div className="hidden justify-between px-2 w-full text-xs sm:flex">
-              <span>|</span>
-              <span>|</span>
-              <span>|</span>
-              <span>|</span>
-              <span>|</span>
-              <span>|</span>
-            </div>
+        {isMobile ? (
+          <div className="flex gap-2 items-center p-2 w-full sm:gap-8 sm:items-end sm:rounded-t-lg bg-base-100">
+            <ImageCropper onSubmit={handleSubmitCrop} />
+
+            <select
+              className="flex-1 max-w-xs select-sm select select-bordered"
+              onChange={handleChangeImageSize}
+            >
+              <option disabled selected>
+                IMAGE SIZE
+              </option>
+              {["XS", "S", "M", "L", "LL", "3L"]
+                .map((size, i) => ({ size, value: 1 + i * 0.2 }))
+                .map((v) => (
+                  <option key={v.size} value={v.value}>
+                    SIZE: {v.size}
+                  </option>
+                ))}
+            </select>
+            <button className="btn btn-sm sm:btn-md" onClick={handleDownload}>
+              download
+            </button>
           </div>
-          <button className="btn btn-sm sm:btn-md" onClick={handleDownload}>
-            download
-          </button>
-        </div>
+        ) : (
+          <div className="flex gap-6 items-center p-2 w-full sm:gap-8 sm:items-end sm:rounded-t-lg bg-base-100">
+            <ImageCropper onSubmit={handleSubmitCrop} />
+            <div className="flex flex-col flex-1 items-center">
+              <input
+                type="range"
+                min={1}
+                max={2}
+                className="range range-xs sm:range-md"
+                step={0.2}
+                value={rangeValue}
+                onChange={handleChangeImageSize}
+              />
+              <div className="hidden justify-between px-2 w-full text-xs sm:flex">
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+                <span>|</span>
+              </div>
+            </div>
+            <button className="btn btn-sm sm:btn-md" onClick={handleDownload}>
+              download
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
