@@ -361,7 +361,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
                 .map((size, i) => ({ size, value: 1 + i * 0.2 }))
                 .map((v) => (
                   <option key={v.size} value={v.value}>
-                    SIZE: {v.size}
+                    {v.value * 100}% {v.size}
                   </option>
                 ))}
             </select>
