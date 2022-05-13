@@ -377,12 +377,12 @@ const Images: VFC<Props> = ({ isMobile }) => {
                 type="range"
                 min={1}
                 max={2}
-                className="range range-xs sm:range-md"
+                className="range range-primary range-xs sm:range-sm"
                 step={0.2}
                 value={rangeValue}
                 onChange={handleChangeImageSize}
               />
-              <div className="flex overflow-hidden justify-between px-1.5 w-full h-2.5 text-xs sm:px-2.5 sm:h-4">
+              <div className="flex overflow-hidden justify-between px-1.5 w-full h-2.5 text-xs sm:px-2 sm:h-4">
                 <span>|</span>
                 <span>|</span>
                 <span>|</span>
