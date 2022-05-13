@@ -222,10 +222,6 @@ const Images: VFC<Props> = ({ isMobile }) => {
       },
       [imageSize]
     )
-  const handleSelectRect = (r: number) => {
-    setImageSize(r)
-    setImages((prev) => prev.map((i) => ({ ...i, width: r, height: r })))
-  }
   const handleSubmitCrop = (cropped: { url: string; crop: Area }) => {
     const xy = (DEFAULT_CANVAS_SIZE - imageSize) / 2
     const croppedImage: ImageProps = {
@@ -244,7 +240,9 @@ const Images: VFC<Props> = ({ isMobile }) => {
   }
   const handleChangeRangeValue = (e: ChangeEvent<HTMLInputElement>) => {
     setRangeValue(e.currentTarget.valueAsNumber)
-    handleSelectRect(e.currentTarget.valueAsNumber * DEFAULT_IMAGE_SIZE)
+    const r = e.currentTarget.valueAsNumber * DEFAULT_IMAGE_SIZE
+    setImageSize(r)
+    setImages((prev) => prev.map((i) => ({ ...i, width: r, height: r })))
   }
   const handleDeleteImage = (id: string) => {
     setImages((prev) => prev.filter((i) => i.id !== id))
