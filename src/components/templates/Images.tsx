@@ -349,10 +349,10 @@ const Images: VFC<Props> = ({ isMobile }) => {
           <div className="flex flex-col flex-1 items-center">
             <input
               type="range"
-              min="1"
-              max="2"
+              min={1}
+              max={2}
               className="range range-xs sm:range-md"
-              step="0.2"
+              step={0.2}
               value={rangeValue}
               onChange={handleChangeRangeValue}
             />
