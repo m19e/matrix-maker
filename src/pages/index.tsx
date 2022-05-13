@@ -16,10 +16,10 @@ const Page: NextPage<Props> = ({ isMobile }) => {
   return (
     <>
       <Head>
-        <title>Next & daisyUI</title>
+        <title>Matrix Maker</title>
         <meta
           name="description"
-          content="A template for prototyping with Next.js and daisy UI"
+          content="「Matrix Maker」は手軽に2軸マトリクス画像が作成できるサービスです。"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
