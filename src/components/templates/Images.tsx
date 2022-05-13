@@ -121,8 +121,8 @@ type Props = {
 
 const Images: VFC<Props> = ({ isMobile }) => {
   const [images, setImages] = useState<ImageProps[]>([])
-  const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE)
-  const [rangeValue, setRangeValue] = useState(1)
+  const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE * 2)
+  const [rangeValue, setRangeValue] = useState(2)
   const [label, setLabel] = useState<Label>({
     left: "",
     bottom: "",
