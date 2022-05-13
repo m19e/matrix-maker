@@ -348,7 +348,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
           </Stage>
         </div>
         {isMobile ? (
-          <div className="flex gap-2 items-center p-2 w-full sm:gap-8 sm:items-end sm:rounded-t-lg bg-base-100">
+          <div className="flex gap-2 items-center p-2 w-full bg-base-100">
             <ImageCropper onSubmit={handleSubmitCrop} />
 
             <select
