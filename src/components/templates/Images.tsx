@@ -350,7 +350,6 @@ const Images: VFC<Props> = ({ isMobile }) => {
         {isMobile ? (
           <div className="flex gap-2 items-center p-2 w-full bg-base-100">
             <ImageCropper onSubmit={handleSubmitCrop} />
-
             <select
               className="flex-1 max-w-xs select-sm select select-bordered"
               onChange={handleChangeImageSize}
@@ -373,7 +372,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
         ) : (
           <div className="flex gap-6 items-center p-2 w-full sm:gap-8 sm:items-end sm:rounded-t-lg bg-base-100">
             <ImageCropper onSubmit={handleSubmitCrop} />
-            <div className="flex flex-col flex-1 items-center">
+            <div className="flex flex-col flex-1 justify-end items-center h-full">
               <input
                 type="range"
                 min={1}
@@ -383,7 +382,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
                 value={rangeValue}
                 onChange={handleChangeImageSize}
               />
-              <div className="hidden justify-between px-2 w-full text-xs sm:flex">
+              <div className="flex overflow-hidden justify-between px-1.5 w-full h-2.5 text-xs sm:px-2.5 sm:h-4">
                 <span>|</span>
                 <span>|</span>
                 <span>|</span>
