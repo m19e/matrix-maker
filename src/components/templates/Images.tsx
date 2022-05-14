@@ -1,12 +1,13 @@
 import { useState, useCallback, useRef } from "react"
-import type { VFC, RefObject, ChangeEvent, ChangeEventHandler } from "react"
+import type { VFC, RefObject, ChangeEvent } from "react"
 import { Stage, Layer, Rect, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import type Konva from "konva"
 import type { Area } from "react-easy-crop/types"
 
-import { ImageProps } from "@/types"
+import { LabelInputProps, ImageProps } from "@/types"
 import { useElementSize } from "@/hooks/useElementSize"
+import { AppHeader } from "@/components/molecules/AppHeader"
 import { ImageCropper } from "@/components/molecules/ImageCropper"
 import { URLImage } from "@/components/atoms/URLImage"
 
@@ -46,31 +47,6 @@ const useCanvas = (): [
   }
 
   return [canvasRef, { save }]
-}
-
-interface LabelInputProps {
-  placeholder: string
-  value: string
-  onChange: ChangeEventHandler<HTMLInputElement>
-}
-
-interface HeaderProps {
-  inputs: LabelInputProps[]
-}
-
-const Header: VFC<HeaderProps> = ({ inputs }) => {
-  return (
-    <div className="grid grid-cols-4 gap-2 p-2 w-full sm:rounded-b-lg bg-base-100">
-      {inputs.map((input) => (
-        <input
-          key={input.placeholder}
-          type="text"
-          className="max-w-xs text-xs bg-white input input-sm input-bordered sm:input-md"
-          {...input}
-        />
-      ))}
-    </div>
-  )
 }
 
 const AxisLayer: VFC<{ rect: number }> = ({ rect }) => {
@@ -335,7 +311,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
   return (
     <div className="flex justify-center w-screen h-screen bg-base-300">
       <div className="flex flex-col w-full h-full sm:gap-6 sm:w-11/12 sm:max-w-4xl text-base-content">
-        <Header inputs={inputs} />
+        <AppHeader inputs={inputs} />
         <div
           className="flex overflow-hidden flex-col flex-1 justify-center items-center w-full"
           ref={containerRef}
