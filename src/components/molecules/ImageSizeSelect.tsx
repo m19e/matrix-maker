@@ -16,10 +16,9 @@ export const ImageSizeSelect: VFC<Props> = ({ onChange }) => {
     <select
       className="flex-1 max-w-xs select-sm select select-bordered"
       onChange={onChange}
-      defaultValue={0}
     >
-      <option disabled selected value={0}>
-        IMAGE SIZE
+      <option disabled selected>
+        ITEM SIZE
       </option>
       {OPTIONS.map((option) => (
         <option key={option.label} value={option.value}>
