@@ -10,6 +10,7 @@ import { useElementSize } from "@/hooks/useElementSize"
 import { AppHeader } from "@/components/molecules/AppHeader"
 import { ImageCropper } from "@/components/molecules/ImageCropper"
 import { ImageSizeSelect } from "@/components/molecules/ImageSizeSelect"
+import { RangeSlider } from "@/components/molecules/ImageSize/RangeSlider"
 import { URLImage } from "@/components/atoms/URLImage"
 
 const URLS = [
@@ -354,25 +355,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
         ) : (
           <div className="flex gap-6 items-center p-2 w-full sm:gap-8 sm:items-end sm:rounded-t-lg bg-base-100">
             <ImageCropper onSubmit={handleSubmitCrop} />
-            <div className="flex flex-col flex-1 justify-end items-center h-full">
-              <input
-                type="range"
-                min={1}
-                max={2}
-                className="range range-primary range-xs sm:range-sm"
-                step={0.2}
-                value={rangeValue}
-                onChange={handleChangeImageSize}
-              />
-              <div className="flex overflow-hidden justify-between px-1.5 w-full h-2.5 text-xs sm:px-2 sm:h-4">
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-                <span>|</span>
-              </div>
-            </div>
+            <RangeSlider value={rangeValue} onChange={handleChangeImageSize} />
             <button className="btn btn-sm sm:btn-md" onClick={handleDownload}>
               download
             </button>
