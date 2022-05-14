@@ -9,6 +9,7 @@ import { LabelInputProps, ImageProps } from "@/types"
 import { useElementSize } from "@/hooks/useElementSize"
 import { AppHeader } from "@/components/molecules/AppHeader"
 import { ImageCropper } from "@/components/molecules/ImageCropper"
+import { ImageSizeSelect } from "@/components/molecules/ImageSizeSelect"
 import { URLImage } from "@/components/atoms/URLImage"
 
 const URLS = [
@@ -345,21 +346,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
         {isMobile ? (
           <div className="flex gap-2 items-center p-2 w-full bg-base-100">
             <ImageCropper onSubmit={handleSubmitCrop} />
-            <select
-              className="flex-1 max-w-xs select-sm select select-bordered"
-              onChange={handleChangeImageSize}
-            >
-              <option disabled selected>
-                IMAGE SIZE
-              </option>
-              {["XS", "S", "M", "L", "LL", "3L"]
-                .map((size, i) => ({ size, value: 1 + i * 0.2 }))
-                .map((v) => (
-                  <option key={v.size} value={v.value}>
-                    {v.value * 100}% {v.size}
-                  </option>
-                ))}
-            </select>
+            <ImageSizeSelect onChange={handleChangeImageSize} />
             <button className="btn btn-sm sm:btn-md" onClick={handleDownload}>
               download
             </button>
