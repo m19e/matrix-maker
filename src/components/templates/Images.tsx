@@ -9,7 +9,7 @@ import { LabelInputProps, ImageProps } from "@/types"
 import { useElementSize } from "@/hooks/useElementSize"
 import { AppHeader } from "@/components/molecules/AppHeader"
 import { ImageCropper } from "@/components/molecules/ImageCropper"
-import { ImageSizeSelect } from "@/components/molecules/ImageSizeSelect"
+import { ImageSizeSelect } from "@/components/molecules/ImageSize/Select"
 import { RangeSlider } from "@/components/molecules/ImageSize/RangeSlider"
 import { URLImage } from "@/components/atoms/URLImage"
 
