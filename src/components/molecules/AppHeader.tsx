@@ -1,5 +1,5 @@
 import type { VFC } from "react"
-import { LabelInputProps } from "@/types"
+import type { LabelInputProps } from "@/types"
 
 interface HeaderProps {
   inputs: LabelInputProps[]
