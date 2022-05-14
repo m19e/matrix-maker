@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from "react"
-import type { VFC, RefObject, ChangeEvent } from "react"
+import type { VFC, RefObject, ChangeEvent, ChangeEventHandler } from "react"
 import { Stage, Layer, Rect, Line, Text } from "react-konva"
 import type { KonvaNodeEvents } from "react-konva"
 import type Konva from "konva"
@@ -46,6 +46,31 @@ const useCanvas = (): [
   }
 
   return [canvasRef, { save }]
+}
+
+interface LabelInputProps {
+  placeholder: string
+  value: string
+  onChange: ChangeEventHandler<HTMLInputElement>
+}
+
+interface HeaderProps {
+  inputs: LabelInputProps[]
+}
+
+const Header: VFC<HeaderProps> = ({ inputs }) => {
+  return (
+    <div className="grid grid-cols-4 gap-2 p-2 w-full sm:rounded-b-lg bg-base-100">
+      {inputs.map((input) => (
+        <input
+          key={input.placeholder}
+          type="text"
+          className="max-w-xs text-xs bg-white input input-sm input-bordered sm:input-md"
+          {...input}
+        />
+      ))}
+    </div>
+  )
 }
 
 const AxisLayer: VFC<{ rect: number }> = ({ rect }) => {
@@ -261,62 +286,56 @@ const Images: VFC<Props> = ({ isMobile }) => {
     canvasAction.save(Math.min(width, height))
   }, [canvasAction, width, height])
 
+  const inputs: LabelInputProps[] = [
+    {
+      placeholder: "LEFT",
+      value: label.left,
+      onChange: (e) => {
+        setLabel((prev) => ({
+          ...prev,
+          left: e.target.value.trim(),
+        }))
+      },
+    },
+    {
+      placeholder: "BOTTOM",
+      value: label.bottom,
+      onChange: (e) => {
+        setLabel((prev) => ({
+          ...prev,
+          bottom: e.target.value.trim(),
+        }))
+      },
+    },
+    {
+      placeholder: "TOP",
+      value: label.top,
+      onChange: (e) => {
+        setLabel((prev) => ({
+          ...prev,
+          top: e.target.value.trim(),
+        }))
+      },
+    },
+    {
+      placeholder: "RIGHT",
+      value: label.right,
+      onChange: (e) => {
+        setLabel((prev) => ({
+          ...prev,
+          right: e.target.value.trim(),
+        }))
+      },
+    },
+  ]
+
   const canvasSize = Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
 
   return (
     <div className="flex justify-center w-screen h-screen bg-base-300">
       <div className="flex flex-col w-full h-full sm:gap-6 sm:w-11/12 sm:max-w-4xl text-base-content">
-        <div className="grid grid-cols-4 gap-2 p-2 w-full sm:rounded-b-lg bg-base-100">
-          <input
-            type="text"
-            placeholder="LEFT"
-            className="max-w-xs text-xs bg-white input input-sm input-bordered sm:input-md"
-            value={label.left}
-            onChange={(e) => {
-              setLabel((prev) => ({
-                ...prev,
-                left: e.target.value.trim(),
-              }))
-            }}
-          />
-          <input
-            type="text"
-            placeholder="BOTTOM"
-            className="max-w-xs text-xs bg-white input input-sm input-bordered sm:input-md"
-            value={label.bottom}
-            onChange={(e) => {
-              setLabel((prev) => ({
-                ...prev,
-                bottom: e.target.value.trim(),
-              }))
-            }}
-          />
-          <input
-            type="text"
-            placeholder="TOP"
-            className="max-w-xs text-xs bg-white input input-sm input-bordered sm:input-md"
-            value={label.top}
-            onChange={(e) => {
-              setLabel((prev) => ({
-                ...prev,
-                top: e.target.value.trim(),
-              }))
-            }}
-          />
-          <input
-            type="text"
-            placeholder="RIGHT"
-            className="max-w-xs text-xs bg-white input input-sm input-bordered sm:input-md"
-            value={label.right}
-            onChange={(e) => {
-              setLabel((prev) => ({
-                ...prev,
-                right: e.target.value.trim(),
-              }))
-            }}
-          />
-        </div>
+        <Header inputs={inputs} />
         <div
           className="flex overflow-hidden flex-col flex-1 justify-center items-center w-full"
           ref={containerRef}
