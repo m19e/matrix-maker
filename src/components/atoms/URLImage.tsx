@@ -52,7 +52,6 @@ interface Props extends ImagePropsWithHandler {
 
 export const URLImage: VFC<Props> = ({
   url,
-  onSelect,
   onDelete,
   isSelected,
   isMobile,
@@ -60,9 +59,6 @@ export const URLImage: VFC<Props> = ({
 }) => {
   const [image] = useImage(url)
 
-  const handleSelect = () => {
-    onSelect(props.id)
-  }
   const handleDelete = () => {
     onDelete(props.id)
   }
@@ -83,8 +79,6 @@ export const URLImage: VFC<Props> = ({
       <KImage
         {...props}
         image={image}
-        onClick={handleSelect}
-        onTap={handleSelect}
         stroke="gray"
         strokeWidth={1}
         dash={[5, 5]}
