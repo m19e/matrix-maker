@@ -47,7 +47,10 @@ const Page: NextPage<Props> = ({ isMobile }) => {
           property="twitter:image"
           content="https://twemoji.maxcdn.com/v/14.0.2/72x72/1f4a0.png"
         />
-        <meta property="twitter:url" content="" />
+        <meta
+          property="twitter:url"
+          content="https://matrix-maker.vercel.app"
+        />
         <meta property="twitter:card" content="summary" />
       </Head>
 

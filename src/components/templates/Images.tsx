@@ -51,6 +51,41 @@ const useCanvas = (): [
   return [canvasRef, { save }]
 }
 
+const PoweredLayer = () => {
+  const fontSize = DEFAULT_CANVAS_SIZE * 0.017
+  const paddingTL = fontSize / 2
+  const paddingBR = DEFAULT_CANVAS_SIZE + paddingTL
+
+  return (
+    <Layer>
+      <Rect
+        x={0}
+        y={DEFAULT_CANVAS_SIZE}
+        width={DEFAULT_CANVAS_SIZE}
+        height={fontSize * 2}
+        fill="white"
+      />
+      <Line
+        points={[
+          0,
+          DEFAULT_CANVAS_SIZE + 1,
+          DEFAULT_CANVAS_SIZE,
+          DEFAULT_CANVAS_SIZE + 1,
+        ]}
+        stroke={"gray"}
+      />
+      <Text
+        text="powered by github/m19e"
+        x={0}
+        y={paddingBR}
+        width={DEFAULT_CANVAS_SIZE}
+        align="center"
+        fontSize={fontSize}
+      />
+    </Layer>
+  )
+}
+
 const AxisLayer: VFC<{ rect: number }> = ({ rect }) => {
   const fontSize = rect * 0.03
   const start = fontSize * 1.5
@@ -132,6 +167,7 @@ const Images: VFC<Props> = ({ isMobile }) => {
     top: "",
     right: "",
   })
+  const [isSaveProcess, setIsSaveProcess] = useState(false)
   const [containerRef, { width, height }] = useElementSize({
     width: DEFAULT_CANVAS_SIZE,
     height: DEFAULT_CANVAS_SIZE,
@@ -256,9 +292,11 @@ const Images: VFC<Props> = ({ isMobile }) => {
     setImages((prev) => prev.filter((i) => i.id !== id))
   }
   const handleDownload = useCallback(async () => {
+    setIsSaveProcess(true)
     setImages((prev) => prev.map((image) => ({ ...image, isSelected: false })))
     await new Promise((resolve) => setTimeout(resolve, 100))
     canvasAction.save(Math.min(width, height))
+    setIsSaveProcess(false)
   }, [canvasAction, width, height])
 
   const inputs: LabelInputProps[] = [
@@ -318,11 +356,12 @@ const Images: VFC<Props> = ({ isMobile }) => {
           <Stage
             ref={canvasRef}
             width={canvasSize}
-            height={canvasSize}
+            height={isSaveProcess ? canvasSize * 1.03 : canvasSize}
             scaleX={canvasScale}
             scaleY={canvasScale}
             className="overflow-hidden sm:rounded-2xl"
           >
+            {isSaveProcess && <PoweredLayer />}
             <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
             <LabelLayer rect={DEFAULT_CANVAS_SIZE} label={label} />
             <Layer>
