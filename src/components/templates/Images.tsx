@@ -213,12 +213,14 @@ const Images: VFC<Props> = ({ isMobile }) => {
                   x: targetX,
                   y: targetY,
                   isDragged: false,
+                  isSelected: image.id === id,
                 }
               }
             }
             return {
               ...image,
               isDragged: false,
+              isSelected: image.id === id,
             }
           })
         )
@@ -254,9 +256,9 @@ const Images: VFC<Props> = ({ isMobile }) => {
     setImages((prev) => prev.filter((i) => i.id !== id))
   }
   const handleSelectImage = (id: string) => {
-    setImages((prev) =>
-      prev.map((image) => ({ ...image, isSelected: image.id === id }))
-    )
+    // setImages((prev) =>
+    //   prev.map((image) => ({ ...image, isSelected: image.id === id }))
+    // )
   }
   const handleDownload = useCallback(async () => {
     setImages((prev) => prev.map((image) => ({ ...image, isSelected: false })))
