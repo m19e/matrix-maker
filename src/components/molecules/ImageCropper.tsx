@@ -70,7 +70,7 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
               </div>
             ) : (
               <div className="w-5/6 shadow-xl sm:w-96 card bg-base-100">
-                <div className="flex flex-col items-center px-4 pt-8 sm:px-8">
+                <div className="flex flex-col items-center px-4 pt-4 sm:px-8 sm:pt-8">
                   <Dropzone onDrop={setUrl} />
                   <div className="divider">OR</div>
                   <div className="flex flex-col w-full">
@@ -78,7 +78,7 @@ export const ImageCropper: VFC<Props> = ({ onSubmit }) => {
                       <input
                         type="text"
                         placeholder="Image URL"
-                        className="flex-1 placeholder:text-gray-600 rounded-r-none input input-bordered input-sm sm:input-md"
+                        className="flex-1 min-w-0 bg-white rounded-r-none input input-bordered input-sm sm:input-md"
                         value={urlInput}
                         onChange={(e) => {
                           setUrlInput(e.currentTarget.value.trim())

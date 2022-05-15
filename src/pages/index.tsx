@@ -16,12 +16,39 @@ const Page: NextPage<Props> = ({ isMobile }) => {
   return (
     <>
       <Head>
-        <title>Next & daisyUI</title>
+        {/* <link rel="icon" href="/favicon.ico" /> */}
+        <link
+          rel="icon alternate"
+          type="image/png"
+          href="https://twemoji.maxcdn.com/v/14.0.2/72x72/1f4a0.png"
+        />
+        <title>Matrix Maker</title>
         <meta
           name="description"
-          content="A template for prototyping with Next.js and daisy UI"
+          content="「Matrix Maker」は手軽に2軸マトリクス画像が作成できるサービスです。"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <meta property="og:site_name" content="Matrix Maker" />
+        <meta property="og:title" content="Matrix Maker" />
+        <meta
+          property="og:description"
+          content="「Matrix Maker」は手軽に2軸マトリクス画像が作成できるサービスです。"
+        />
+        <meta
+          property="og:image"
+          content="https://twemoji.maxcdn.com/v/14.0.2/72x72/1f4a0.png"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="twitter:title" content="Matrix Maker" />
+        <meta
+          property="twitter:description"
+          content="「Matrix Maker」は手軽に2軸マトリクス画像が作成できるサービスです。"
+        />
+        <meta
+          property="twitter:image"
+          content="https://twemoji.maxcdn.com/v/14.0.2/72x72/1f4a0.png"
+        />
+        <meta property="twitter:url" content="" />
+        <meta property="twitter:card" content="summary" />
       </Head>
 
       <MatrixMaker isMobile={isMobile} />

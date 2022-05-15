@@ -5,9 +5,12 @@ import type { KonvaNodeEvents } from "react-konva"
 import type Konva from "konva"
 import type { Area } from "react-easy-crop/types"
 
-import { ImageProps } from "@/types"
+import { LabelInputProps, ImageProps } from "@/types"
 import { useElementSize } from "@/hooks/useElementSize"
+import { AppHeader } from "@/components/molecules/AppHeader"
 import { ImageCropper } from "@/components/molecules/ImageCropper"
+import { ImageSizeSelect } from "@/components/molecules/ImageSize/Select"
+import { RangeSlider } from "@/components/molecules/ImageSize/RangeSlider"
 import { URLImage } from "@/components/atoms/URLImage"
 
 const URLS = [
@@ -21,7 +24,10 @@ const URLS = [
 const DEFAULT_CANVAS_SIZE = 800
 const DEFAULT_IMAGE_SIZE = DEFAULT_CANVAS_SIZE * 0.1
 
-const useCanvas = (): [RefObject<Konva.Stage>, { save: () => void }] => {
+const useCanvas = (): [
+  RefObject<Konva.Stage>,
+  { save: (size: number) => void }
+] => {
   const canvasRef = useRef<Konva.Stage>(null)
 
   const downloadURI = (uri: string, name: string) => {
@@ -33,8 +39,9 @@ const useCanvas = (): [RefObject<Konva.Stage>, { save: () => void }] => {
     document.body.removeChild(link)
   }
 
-  const save = () => {
-    const uri = canvasRef.current?.toDataURL({ pixelRatio: 2 })
+  const save = (size: number) => {
+    const pixelRatio = DEFAULT_CANVAS_SIZE / size
+    const uri = canvasRef.current?.toDataURL({ pixelRatio })
     if (uri) {
       const fileName = `matrix-${Date.now().toString(16)}.png`
       downloadURI(uri, fileName)
@@ -117,8 +124,8 @@ type Props = {
 
 const Images: VFC<Props> = ({ isMobile }) => {
   const [images, setImages] = useState<ImageProps[]>([])
-  const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE)
-  const [rangeValue, setRangeValue] = useState(1)
+  const [imageSize, setImageSize] = useState(DEFAULT_IMAGE_SIZE * 2)
+  const [rangeValue, setRangeValue] = useState(2)
   const [label, setLabel] = useState<Label>({
     left: "",
     bottom: "",
@@ -130,10 +137,6 @@ const Images: VFC<Props> = ({ isMobile }) => {
     height: DEFAULT_CANVAS_SIZE,
   })
   const [canvasRef, canvasAction] = useCanvas()
-  const [canvasPos, setCanvasPos] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  })
 
   const handleDragStart: KonvaNodeEvents["onDragStart"] = (e) => {
     const id = e.target.id()
@@ -142,93 +145,95 @@ const Images: VFC<Props> = ({ isMobile }) => {
         return {
           ...image,
           isDragged: image.id === id,
+          isSelected: false,
         }
       })
     )
   }
-  const handleDragMove: KonvaNodeEvents["onDragMove"] = useCallback(
-    (e) => {
-      const id = e.target.id()
-      const targetX = e.target.x()
-      const targetY = e.target.y()
-      const borderBR = DEFAULT_CANVAS_SIZE - imageSize
-      if (
-        targetX < 0 ||
-        targetX > borderBR ||
-        targetY < 0 ||
-        targetY > borderBR
-      ) {
-        let newPos = { x: targetX, y: targetY }
+  const handleDragMove: Exclude<KonvaNodeEvents["onDragMove"], undefined> =
+    useCallback(
+      (e) => {
+        const id = e.target.id()
+        const targetX = e.target.x()
+        const targetY = e.target.y()
+        const borderBR = DEFAULT_CANVAS_SIZE - imageSize
+        if (
+          targetX < 0 ||
+          targetX > borderBR ||
+          targetY < 0 ||
+          targetY > borderBR
+        ) {
+          let newPos = { x: targetX, y: targetY }
 
-        if (targetX < 0) {
-          newPos = { ...newPos, x: 0 }
-        } else if (targetX > borderBR) {
-          newPos = { ...newPos, x: borderBR }
-        }
-        if (targetY < 0) {
-          newPos = { ...newPos, y: 0 }
-        } else if (targetY > borderBR) {
-          newPos = { ...newPos, y: borderBR }
-        }
+          if (targetX < 0) {
+            newPos = { ...newPos, x: 0 }
+          } else if (targetX > borderBR) {
+            newPos = { ...newPos, x: borderBR }
+          }
+          if (targetY < 0) {
+            newPos = { ...newPos, y: 0 }
+          } else if (targetY > borderBR) {
+            newPos = { ...newPos, y: borderBR }
+          }
 
+          setImages((prev) =>
+            prev.map((image) => {
+              if (image.id === id) {
+                return {
+                  ...image,
+                  x: newPos.x,
+                  y: newPos.y,
+                }
+              }
+              return image
+            })
+          )
+        }
+      },
+      [imageSize]
+    )
+  const handleDragEnd: Exclude<KonvaNodeEvents["onDragEnd"], undefined> =
+    useCallback(
+      (e) => {
+        const id = e.target.id()
         setImages((prev) =>
           prev.map((image) => {
             if (image.id === id) {
-              return {
-                ...image,
-                x: newPos.x,
-                y: newPos.y,
+              const targetX = e.target.x()
+              const targetY = e.target.y()
+              const borderBR = DEFAULT_CANVAS_SIZE - imageSize
+              if (
+                targetX > 0 &&
+                targetX < borderBR &&
+                targetY > 0 &&
+                targetY < borderBR
+              ) {
+                return {
+                  ...image,
+                  x: targetX,
+                  y: targetY,
+                  isDragged: false,
+                  isSelected: image.id === id,
+                }
               }
             }
-            return image
+            return {
+              ...image,
+              isDragged: false,
+              isSelected: image.id === id,
+            }
           })
         )
-      }
-    },
-    [imageSize]
-  )
-  const handleDragEnd: KonvaNodeEvents["onDragEnd"] = useCallback(
-    (e) => {
-      const id = e.target.id()
-      setImages((prev) =>
-        prev.map((image) => {
-          if (image.id === id) {
-            const targetX = e.target.x()
-            const targetY = e.target.y()
-            const borderBR = DEFAULT_CANVAS_SIZE - imageSize
-            if (
-              targetX > 0 &&
-              targetX < borderBR &&
-              targetY > 0 &&
-              targetY < borderBR
-            ) {
-              return {
-                ...image,
-                x: targetX,
-                y: targetY,
-                isDragged: false,
-              }
-            }
-          }
-          return {
-            ...image,
-            isDragged: false,
-          }
-        })
-      )
-    },
-    [imageSize]
-  )
-  const handleSelectRect = (r: number) => {
-    setImageSize(r)
-    setImages((prev) => prev.map((i) => ({ ...i, width: r, height: r })))
-  }
+      },
+      [imageSize]
+    )
   const handleSubmitCrop = (cropped: { url: string; crop: Area }) => {
     const xy = (DEFAULT_CANVAS_SIZE - imageSize) / 2
     const croppedImage: ImageProps = {
       id: Date.now().toString(16),
       alt: cropped.url,
       isDragged: false,
+      isSelected: false,
       x: xy,
       y: xy,
       width: imageSize,
@@ -238,82 +243,76 @@ const Images: VFC<Props> = ({ isMobile }) => {
 
     setImages((prev) => [...prev, croppedImage])
   }
-  const handleChangeRangeValue = (e: ChangeEvent<HTMLInputElement>) => {
-    setRangeValue(e.currentTarget.valueAsNumber)
-    handleSelectRect(e.currentTarget.valueAsNumber * DEFAULT_IMAGE_SIZE)
+  const handleChangeImageSize = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
+    const valueAsNumber = +e.currentTarget.value
+    setRangeValue(valueAsNumber)
+    const r = valueAsNumber * DEFAULT_IMAGE_SIZE
+    setImageSize(r)
+    setImages((prev) => prev.map((i) => ({ ...i, width: r, height: r })))
   }
-  const handleDragCanvas: KonvaNodeEvents["onDragMove"] = useCallback(
-    (e) => {
-      if (!isMobile) return
-      const x = e.target.x()
-      const paddingX = width / 10
-      const isSafeLeft = x < paddingX
-      const isSafeRight = x > width - height - paddingX
-      const canMove = isSafeLeft && isSafeRight
-      const newPos = canMove ? { x } : {}
-      setCanvasPos((prev) => ({ ...prev, ...newPos }))
-    },
-    [isMobile, height, width]
-  )
+  const handleDeleteImage = (id: string) => {
+    setImages((prev) => prev.filter((i) => i.id !== id))
+  }
+  const handleDownload = useCallback(async () => {
+    setImages((prev) => prev.map((image) => ({ ...image, isSelected: false })))
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    canvasAction.save(Math.min(width, height))
+  }, [canvasAction, width, height])
 
-  const canvasSize = isMobile ? height : Math.min(width, height)
+  const inputs: LabelInputProps[] = [
+    {
+      placeholder: "LEFT",
+      value: label.left,
+      onChange: (e) => {
+        setLabel((prev) => ({
+          ...prev,
+          left: e.target.value.trim(),
+        }))
+      },
+    },
+    {
+      placeholder: "BOTTOM",
+      value: label.bottom,
+      onChange: (e) => {
+        setLabel((prev) => ({
+          ...prev,
+          bottom: e.target.value.trim(),
+        }))
+      },
+    },
+    {
+      placeholder: "TOP",
+      value: label.top,
+      onChange: (e) => {
+        setLabel((prev) => ({
+          ...prev,
+          top: e.target.value.trim(),
+        }))
+      },
+    },
+    {
+      placeholder: "RIGHT",
+      value: label.right,
+      onChange: (e) => {
+        setLabel((prev) => ({
+          ...prev,
+          right: e.target.value.trim(),
+        }))
+      },
+    },
+  ]
+
+  const canvasSize = Math.min(width, height)
   const canvasScale = canvasSize / DEFAULT_CANVAS_SIZE
 
   return (
     <div className="flex justify-center w-screen h-screen bg-base-300">
       <div className="flex flex-col w-full h-full sm:gap-6 sm:w-11/12 sm:max-w-4xl text-base-content">
-        <div className="grid grid-cols-4 gap-2 p-2 w-full sm:rounded-b-lg bg-base-100">
-          <input
-            type="text"
-            placeholder="LEFT"
-            className="max-w-xs bg-gray-200 input input-sm input-bordered"
-            value={label.left}
-            onChange={(e) => {
-              setLabel((prev) => ({
-                ...prev,
-                left: e.target.value.trim(),
-              }))
-            }}
-          />
-          <input
-            type="text"
-            placeholder="BOTTOM"
-            className="max-w-xs bg-gray-200 input input-sm input-bordered"
-            value={label.bottom}
-            onChange={(e) => {
-              setLabel((prev) => ({
-                ...prev,
-                bottom: e.target.value.trim(),
-              }))
-            }}
-          />
-          <input
-            type="text"
-            placeholder="TOP"
-            className="max-w-xs bg-gray-200 input input-sm input-bordered"
-            value={label.top}
-            onChange={(e) => {
-              setLabel((prev) => ({
-                ...prev,
-                top: e.target.value.trim(),
-              }))
-            }}
-          />
-          <input
-            type="text"
-            placeholder="RIGHT"
-            className="max-w-xs bg-gray-200 input input-sm input-bordered"
-            value={label.right}
-            onChange={(e) => {
-              setLabel((prev) => ({
-                ...prev,
-                right: e.target.value.trim(),
-              }))
-            }}
-          />
-        </div>
+        <AppHeader inputs={inputs} />
         <div
-          className="flex overflow-hidden flex-1 justify-center items-center w-full sm:flex-col"
+          className="flex overflow-hidden flex-col flex-1 justify-center items-center w-full"
           ref={containerRef}
         >
           <Stage
@@ -323,11 +322,6 @@ const Images: VFC<Props> = ({ isMobile }) => {
             scaleX={canvasScale}
             scaleY={canvasScale}
             className="overflow-hidden sm:rounded-2xl"
-            draggable={isMobile}
-            _useStrictMode
-            x={canvasPos.x}
-            y={canvasPos.y}
-            onDragMove={handleDragCanvas}
           >
             <AxisLayer rect={DEFAULT_CANVAS_SIZE} />
             <LabelLayer rect={DEFAULT_CANVAS_SIZE} label={label} />
@@ -339,36 +333,30 @@ const Images: VFC<Props> = ({ isMobile }) => {
                   onDragStart={handleDragStart}
                   onDragMove={handleDragMove}
                   onDragEnd={handleDragEnd}
+                  onDelete={handleDeleteImage}
+                  isMobile={isMobile}
                 />
               ))}
             </Layer>
           </Stage>
         </div>
-        <div className="flex gap-6 items-center p-2 w-full sm:gap-8 sm:items-end sm:rounded-t-lg bg-base-100">
-          <ImageCropper onSubmit={handleSubmitCrop} />
-          <div className="flex flex-col flex-1 items-center">
-            <input
-              type="range"
-              min="1"
-              max="2"
-              className="range range-xs sm:range-md"
-              step="0.2"
-              value={rangeValue}
-              onChange={handleChangeRangeValue}
-            />
-            <div className="hidden justify-between px-2 w-full text-xs sm:flex">
-              <span>|</span>
-              <span>|</span>
-              <span>|</span>
-              <span>|</span>
-              <span>|</span>
-              <span>|</span>
-            </div>
+        {isMobile ? (
+          <div className="flex gap-2 items-center p-2 w-full bg-base-100">
+            <ImageCropper onSubmit={handleSubmitCrop} />
+            <ImageSizeSelect onChange={handleChangeImageSize} />
+            <button className="btn btn-sm sm:btn-md" onClick={handleDownload}>
+              download
+            </button>
           </div>
-          <button className="btn btn-sm sm:btn-md" onClick={canvasAction.save}>
-            download
-          </button>
-        </div>
+        ) : (
+          <div className="flex gap-6 items-center p-2 w-full sm:gap-8 sm:items-end sm:rounded-t-lg bg-base-100">
+            <ImageCropper onSubmit={handleSubmitCrop} />
+            <RangeSlider value={rangeValue} onChange={handleChangeImageSize} />
+            <button className="btn btn-sm sm:btn-md" onClick={handleDownload}>
+              download
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
