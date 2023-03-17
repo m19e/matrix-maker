@@ -13,14 +13,6 @@ import { ImageSizeSelect } from "@/components/molecules/ImageSize/Select"
 import { RangeSlider } from "@/components/molecules/ImageSize/RangeSlider"
 import { URLImage } from "@/components/atoms/URLImage"
 
-const URLS = [
-  "https://poplinks.idolmaster-official.jp/images/idol/y3xf3qyq/img_thumb.png",
-  "https://poplinks.idolmaster-official.jp/images/idol/ahfrudkf/img_thumb.png",
-  "https://poplinks.idolmaster-official.jp/images/idol/qq21osxs/img_thumb.png",
-  "https://poplinks.idolmaster-official.jp/images/idol/fjtgwau6/img_thumb.png",
-  "https://poplinks.idolmaster-official.jp/images/idol/s7mg8tvk/img_thumb.png",
-]
-
 const DEFAULT_CANVAS_SIZE = 800
 const DEFAULT_IMAGE_SIZE = DEFAULT_CANVAS_SIZE * 0.1
 

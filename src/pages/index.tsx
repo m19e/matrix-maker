@@ -16,7 +16,6 @@ const Page: NextPage<Props> = ({ isMobile }) => {
   return (
     <>
       <Head>
-        {/* <link rel="icon" href="/favicon.ico" /> */}
         <link
           rel="icon alternate"
           type="image/png"
