@@ -18,3 +18,7 @@ yarn dev
 # start storybook
 yarn sb
 ```
+
+## License
+
+[MIT](./LICENSE)
