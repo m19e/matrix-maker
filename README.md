@@ -4,21 +4,6 @@
 
 💠簡単な2軸マトリクス画像を作成できるサービス
 
-### Development
-
-You can quickly start development with these commands.
-
-```zsh
-# package install
-yarn
-
-# start localhost
-yarn dev
-
-# start storybook
-yarn sb
-```
-
 ## License
 
 [MIT](./LICENSE)
